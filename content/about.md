@@ -1,8 +1,7 @@
 ---
-title: "About me"
+title: "Hi, I am Anshuman Tripathi"
 date: 2023-01-31T18:25:01+05:30
 draft: false
-type: "page"
 ---
 
 * I am a Platform and DevOps Engineer working at Clover Networks.
