@@ -1,5 +1,47 @@
+# https://github.com/luizdepra/hugo-coder/blob/main/docs/configurations.md#complete-example
 baseURL: 'https://anshumantripathi.com/'
 languageCode: 'en-us'
 title: 'Anshuman Tripathi'
-theme: 'LoveIt'
+theme: 'hugo-coder'
+defaultcontentlanguage: "en"
+paginate: 20
+pygmentsstyle: "bw"
+pygmentscodefences: true
+pygmentscodefencesguesssyntax: true
+
+params:
+  author: "Anshuman Tripathi"
+  info: "Platform and DevOps Engineering"
+  description: "Hi, I am Anshuman Tripathi"
+  keywords: "blog,developer,personal"
+  colorScheme: "auto"
+  avatarurl: "images/avatar.png"
+
+  social:
+    - name: Github
+      icon: "fa fa-github fa-2x"
+      weight: 1
+      url: "https://github.com/AnshumanTripathi/"
+    - name: Twitter
+      icon: "fa fa-twitter fa-2x"
+      weight: 2
+      url: "https://twitter.com/anshumant09/"
+    - name: LinkedIn
+      icon: "fa fa-linkedin fa-2x"
+      weight: 2
+      url: "https://www.linkedin.com/in/anshumantripathi09/"
+
+menu:
+  main:
+    - name: "Blog"
+      weight: 1
+      url: "posts/"
+    - name: "About"
+      weight: 2
+      url: "about/"
+
+taxonomies:
+  category: "categories"
+  tag: "tags"
+
 
