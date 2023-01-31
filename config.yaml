@@ -44,4 +44,48 @@ taxonomies:
   category: "categories"
   tag: "tags"
 
+# Set Goldmark markup
+# https://gohugo.io/getting-started/configuration-markup/#configure-markup
+markup:
+  goldmark:
+    extensions:
+      definitionList: true
+      footnote: true
+      linkify: true
+      linkifyProtocol: https
+      strikethrough: true
+      table: true
+      taskList: true
+      typographer: true
+    parser:
+      attribute:
+        block: false
+        title: true
+      autoHeadingID: true
+      autoHeadingIDType: github
+      wrapStandAloneImageWithinParagraph: true
+    renderer:
+      # By default, Goldmark ignores newlines within a paragraph. Set to true to render newlines as <br> elements.
+      hardWraps: true
+      unsafe: false
+      xhtml: false
 
+  highlight:
+    anchorLineNos: false
+    codeFences: true
+    guessSyntax: true
+    hl_Lines: ""
+    hl_inline: false
+    lineAnchors: ""
+    lineNoStart: 1
+    lineNos: true
+    lineNumbersInTable: true
+    noClasses: true
+    noHl: false
+    style: dracula
+    tabWidth: 4
+
+  tableOfContents:
+    endLevel: 3
+    ordered: false
+    startLevel: 2
