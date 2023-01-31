@@ -1,5 +1,5 @@
 # https://github.com/luizdepra/hugo-coder/blob/main/docs/configurations.md#complete-example
-baseURL: 'https://www.anshumantripathi.com/index.html'
+baseURL: 'https://www.anshumantripathi.com'
 languageCode: 'en-us'
 title: 'Anshuman Tripathi'
 theme: 'hugo-coder'
