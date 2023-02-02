@@ -2,7 +2,8 @@
 title: "How does DNS work?"
 date: 2023-01-30T11:44:59+05:30
 draft: false
-category: ["networking"]
+categories:
+    - networking
 ---
 
 ## What is DNS?
@@ -25,4 +26,53 @@ The address resolution happens in at multiple levels
 8. Response: The recursive resolver returns the IP address to the client device, which can then use it to connect to the desired website or service. 
 9. Caching: The IP address is stored in the local DNS cache for a specified period of time, known as the Time-To-Live (TTL), to speed up subsequent requests for the same domain name.
 
-10. This process happens quickly and transparently to the end user, allowing them to access websites and services using human-readable domain names.
+This process happens quickly and transparently to the end user, allowing them to access websites and services using human-readable domain names.
+
+         ┌────────────────────┐                                
+         │USER ENTERS THE HOST│                                
+         │NAME IN THE BROWSER.│                                
+         └──────────┬─────────┘                                
+          __________▽__________         ┌─────────────────────┐
+         ╱                     ╲        │RETURN THE IP ADDRESS│
+        ╱ ADDRESS MAPPING FOUND ╲_______│TO THE CLIENT DEVICE.│
+        ╲ IN LOCAL CACHE.       ╱yes    └─────────────────────┘
+         ╲_____________________╱                               
+                    │no                                        
+      ┌─────────────▽────────────┐                             
+      │TRY TO RECURSIVELY RESOLVE│                             
+      │USING A DNS RESOLVER      │                             
+      │PROVIDED BY THE ISP.      │                             
+      └─────────────┬────────────┘                             
+    ┌───────────────▽───────────────┐                          
+    │QUERY THE ROOT DNS SERVERS FOR │                          
+    │THE ADDRESS OF THE TOP LEVEL   │                          
+    │DOMAIN (.com, .org, .net, etc).│                          
+    └───────────────┬───────────────┘                          
+    ┌───────────────▽───────────────┐                          
+    │THE REQUEST IS FORWARDED TO THE│                          
+    │TOP LEVEL DOMAIN (TLD) SERVER. │                          
+    └───────────────┬───────────────┘                          
+    ┌───────────────▽──────────────┐                           
+    │THE TLD SERVER RESPONDS WITH  │                           
+    │THE ADDRESS OF THE AUTHORITY  │                           
+    │SERVER FOR THE DESIRED DOMAIN.│                           
+    └───────────────┬──────────────┘                           
+       ┌────────────▽───────────┐                              
+       │THE REQUEST IS FORWARDED│                              
+       │TO THE AUTHORITY SERVER │                              
+       │FOR IP ADDRESS LOOOKUP. │                              
+       └────────────┬───────────┘                              
+   ┌────────────────▽────────────────┐                         
+   │THE AUTHORITY SERVER RESPONDS    │                         
+   │WITH THE IP ADDRESS OF THE DOMAIN│                         
+   │FOR THE PROVIDED IP ADDRESS.     │                         
+   └────────────────┬────────────────┘                         
+┌───────────────────▽──────────────────┐                       
+│THE IP ADDRESS IS SENT BACK TO        │                       
+│RECURSIVE RESOLVER FOR THE ADDRESS TO │                       
+│BE RETURNED BACK TO THE CLIENT DEVICE.│                       
+└───────────────────┬──────────────────┘                       
+    ┌───────────────▽───────────────┐                          
+    │THE IP ADDRESS IS CACHED IN THE│                          
+    │LOCAL CACHES FOR FUTURE LOOKUPS│                          
+    └───────────────────────────────┘                          
