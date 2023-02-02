@@ -79,7 +79,8 @@ This process happens quickly and transparently to the end user, allowing them to
     │LOCAL CACHES FOR FUTURE LOOKUPS│                          
     └───────────────────────────────┘                          
 ```
-Some important terms associated with DNS
+
+### Some important terms associated with DNS
 
 #### CNAME
 CNAME or a Canonical Name is used to set an alias to a different domain while keeping the same IP address allowing multiple domains to share the same IP address and web content while still having separate domain names.
@@ -88,7 +89,7 @@ For example, if you have a website with the domain name `example.com`, you can c
 
 When a user uses an alias domain name, DNS will use the CNAME record associated with the alias domain to look up the correct canonical domain name. For example, when a user enters `blog.example.com` in their browser, DNS will check the CNAME record, which would point to `example.com` and then use the `example.com` domain name to find the IP address.
 
-A Record
+#### A Record
 An A record or an Address record is a type of DNS record used to map a canonical domain name to an IP address. When a user types in a domain name, The browser uses the DNS system to look up the corresponding IP address for that domain name.
 
 It is important to note that each domain name can have multiple A records, each with a different IP address to support highly available load-balanced systems having redundant servers to handle failovers.
@@ -97,7 +98,7 @@ It is important to note that each domain name can have multiple A records, each 
 #### AAAA Record
 An AAAA (Quad A) record is similar to [A record](#a-record). An A record is used for IP v4 addresses, while a Quad A record is used for IP v6 addresses. If a domain has both A and AAAA records, then DNS will first try to resolve the domain using the AAAA record, and if that fails, it will fall back to using an A record.
 
-SOA
+#### SOA
 SOA or Start of Authority is a record in the DNS system that specifies the authoritative information about a domain, including the domain's primary name server, the domain administrator's email address, and various other parameters that determine the behavior of the domain's DNS server.
 The SOA record is the first record in a DNS zone file and is used by other DNS servers to determine the authoritative source of information for a particular domain. It also defines the refresh interval, which is the time a secondary [name server](#name-servers) waits before checking for updates from the primary name server, and the retry interval, which is the time a secondary server waits before trying to contact the primary server again if it fails to respond.
 
