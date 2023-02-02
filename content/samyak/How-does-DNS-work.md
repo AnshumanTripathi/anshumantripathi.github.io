@@ -1,7 +1,7 @@
 ---
 title: "How does DNS work?"
 date: 2023-01-30T11:44:59+05:30
-draft: false
+draft: true
 categories:
     - networking
 ---
@@ -28,6 +28,7 @@ The address resolution happens in at multiple levels
 
 This process happens quickly and transparently to the end user, allowing them to access websites and services using human-readable domain names.
 
+```diagon
          ┌────────────────────┐                                
          │USER ENTERS THE HOST│                                
          │NAME IN THE BROWSER.│                                
@@ -76,3 +77,4 @@ This process happens quickly and transparently to the end user, allowing them to
     │THE IP ADDRESS IS CACHED IN THE│                          
     │LOCAL CACHES FOR FUTURE LOOKUPS│                          
     └───────────────────────────────┘                          
+```
