@@ -78,12 +78,12 @@ markup:
     hl_inline: false
     lineAnchors: ""
     lineNoStart: 1
-    lineNos: true
+    lineNos: false
     lineNumbersInTable: true
     noClasses: true
     noHl: false
     style: dracula
-    tabWidth: 4
+    tabWidth: 2
 
   tableOfContents:
     endLevel: 3
