@@ -30,9 +30,13 @@ params:
       icon: "fa fa-linkedin fa-2x"
       weight: 3
       url: "https://www.linkedin.com/in/anshumantripathi09/"
-    - name: "Medium"
+    - name: Medium
       icon: "fa fa-2x fa-medium"
       weight: 4
+      url: "https://medium.com/@anshumantripathi"
+    - name: "Mastadon"
+      icon: "\f4f6"
+      weight: 5
       url: "https://medium.com/@anshumantripathi"
 
   goatCounter:
@@ -43,8 +47,11 @@ menu:
     - name: "Samyak"
       weight: 1
       url: "samyak/"
-    - name: "About"
+    - name: "Categories"
       weight: 2
+      url: "categories/"
+    - name: "About"
+      weight: 3
       url: "about/"
 
 taxonomies:
@@ -74,7 +81,7 @@ markup:
     renderer:
       # By default, Goldmark ignores newlines within a paragraph. Set to true to render newlines as <br> elements.
       hardWraps: true
-      unsafe: false
+      unsafe: true
       xhtml: false
 
   highlight:

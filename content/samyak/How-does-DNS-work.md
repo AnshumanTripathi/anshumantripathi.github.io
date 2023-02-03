@@ -3,12 +3,11 @@ title: "How does DNS work?"
 date: 2023-01-30T11:44:59+05:30
 draft: false
 categories:
-    - networking
-    - concepts
+- Networking
+- Concepts
 ---
 
 ## What is DNS?
-
 The internet is a vast interconnection of systems across the world. Each host connected to the internet is assigned an IP (Internet Protocol) address, uniquely identifying each connected host.
 Imagine a world where you go to your browser and put in `207.241.224.2` to see the internet archives or `20.207.73.82` to code collaboratively. Soon everybody would require a phone book to use the internet.
 
