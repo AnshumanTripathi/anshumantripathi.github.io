@@ -8,6 +8,7 @@ paginate: 20
 pygmentsstyle: "bw"
 pygmentscodefences: true
 pygmentscodefencesguesssyntax: true
+enableEmoji: true
 
 params:
   author: "Anshuman Tripathi"
@@ -16,6 +17,7 @@ params:
   keywords: "blog,developer,personal"
   colorScheme: "auto"
   avatarurl: "images/avatar.png"
+  since: 2023
 
   social:
     - name: Github
@@ -42,6 +44,37 @@ params:
   goatCounter:
     code: "anshumantripathi"
 
+  csp:
+    childsrc:
+      - 'self'
+    fontsrc:
+      - 'self'
+      - "https://fonts.gstatic.com"
+      - "https://cdn.jsdelivr.net/"
+    formaction:
+      - 'self'
+    framesrc:
+      - 'self'
+      - "https://www.youtube.com"
+    imgsrc:
+      - 'self'
+    objectsrc:
+      - 'none'
+    stylesrc:
+      - 'self'
+      - 'unsafe-inline'
+      - 'https://fonts.googleapis.com/'
+      - 'https://cdn.jsdelivr.net/'
+    scriptsrc:
+      - 'self'
+      - 'unsafe-inline'
+      - 'https://fonts.googleapis.com/'
+      - 'https://cdn.jsdelivr.net/'
+    prefetchsrc:
+      - 'self'
+    connectsrc:
+      - 'self'
+      - 'https://www.google-analytics.com'
 menu:
   main:
     - name: "Samyak"
