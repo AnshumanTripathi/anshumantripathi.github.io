@@ -39,9 +39,9 @@ params:
       weight: 4
       url: "https://medium.com/@anshumantripathi"
     - name: "Mastadon"
-      icon: "\f4f6"
+      icon: "fa fa-2x fa-mastodon"
       weight: 5
-      url: "https://medium.com/@anshumantripathi"
+      url: "https://hachyderm.io/@anshuman"
 
   goatCounter:
     code: "anshumantripathi"
