@@ -9,13 +9,20 @@
         </header>
 
         {{ .Content }}
-        <script id="diffblog-plugin-script" async="false" src="https://diff.blog/static/js/diffblog_plugin_v1.js"></script>
-        <script>
+    </article>
+    <script src="https://utteranc.es/client.js"
+            repo="AnshumanTripathi/anshumantripathi.github.io"
+            issue-term="pathname"
+            theme="preferred-color-scheme"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <script id="diffblog-plugin-script" async="false" src="https://diff.blog/static/js/diffblog_plugin_v1.js"></script>
+    <script>
         document.getElementById("diffblog-plugin-script").addEventListener("load", function () {
             DiffBlog(
                 "iqi7ibm1mq47amorflt12wb2l2wb4zps8jcicu377ntpq0bvcj"
             );
         });
-    </script>
-    </article>
+        </script>
 </section>
