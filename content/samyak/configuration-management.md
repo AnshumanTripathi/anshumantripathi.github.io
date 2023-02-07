@@ -25,4 +25,8 @@ The core of this problem is the ability to have multiple configurations which ar
 
 Hiera natively supports JSON and YAML formats which also a benefit as these formats are most used with configurations. My personal preference is **YAML over JSON** because of YAML’s conciseness with the lack of angular braces `{}` and commas `,`.
 
-See Alfred for implementation.
+### Strategy
+
+
+
+See [Alfred implementation](/samyak/alfred) for implementation details
