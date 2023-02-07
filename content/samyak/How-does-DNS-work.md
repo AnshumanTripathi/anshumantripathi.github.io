@@ -7,29 +7,30 @@ categories:
 - Concepts
 ---
 
-# Contents
-1. [What is DNS?](#what-is-dns)
-2. [How does DNS actually work?](#how-does-dns-actually-work)
-3. [Some important terms associated with DNS](#some-important-terms-associated-with-dns)
-   1. [CNAME](#cname)
-   2. [A Record](#a-record)
-   3. [AAAA Record](#aaaa-record)
-   4. [PTR Record](#ptr-record)
-   5. [SOA](#soa)
-   6. [Name servers](#name-servers)
-   7. [DNSSEC](#dnssec)
-   8. [NSEC](#nsec)
-4. [Troubleshooting DNS](#troubleshooting-dns)
-   1. [nslookup](#nslookup)
-   2. [dig](#dig)
+<!-- TOC -->
+* [What is DNS?](#what-is-dns)
+* [How does DNS actually work?](#how-does-dns-actually-work)
+* [Some important terms associated with DNS](#some-important-terms-associated-with-dns)
+  * [CNAME](#cname)
+  * [A Record](#a-record)
+  * [AAAA Record](#aaaa-record)
+  * [PTR record](#ptr-record)
+  * [SOA](#soa)
+  * [Name servers](#name-servers)
+  * [DNSSEC](#dnssec)
+  * [NSEC](#nsec)
+* [Troubleshooting DNS](#troubleshooting-dns)
+  * [nslookup](#nslookup)
+  * [dig](#dig)
+<!-- TOC -->
 
-## What is DNS?
+# What is DNS?
 The internet is a vast interconnection of systems across the world. Each host connected to the internet is assigned an IP (Internet Protocol) address, uniquely identifying each connected host.
 Imagine a world where you go to your browser and put in `207.241.224.2` to see the internet archives or `20.207.73.82` to code collaboratively. Soon everybody would require a phone book to use the internet.
 
 Domain Name System or DNS is a lookup functionality for the internet. DNS translates human-readable internet addresses like `github.com` or `archive.org` to their respective IP address like `20.207.73.82` and `207.241.224.2`.
 
-## How does DNS actually work?
+# How does DNS actually work?
 The address resolution happens through the following steps:
 
 1. Request: A client device, such as a computer or smartphone, sends a request to resolve a domain name to an IP address.
@@ -97,35 +98,35 @@ This process happens quickly and transparently to the end user, allowing them to
                     
 ```
 
-### Some important terms associated with DNS
+# Some important terms associated with DNS
 
-#### CNAME
+## CNAME
 CNAME or a Canonical Name is used to set an alias to a different domain while keeping the same IP address allowing multiple domains to share the same IP address and web content while still having separate domain names.
 
 For example, if you have a website with the domain name `example.com`, you can create a CNAME record for blog.example.com that points to example.com, allowing users to access the same website with two different domains, `example.com` and `blog.example.com`.
 
 When a user uses an alias domain name, DNS will use the CNAME record associated with the alias domain to look up the correct canonical domain name. For example, when a user enters `blog.example.com` in their browser, DNS will check the CNAME record, which would point to `example.com` and then use the `example.com` domain name to find the IP address.
 
-#### A Record
+## A Record
 An A record or an Address record is a type of DNS record used to map a canonical domain name to an IP address. When a user types in a domain name, The browser uses the DNS system to look up the corresponding IP address for that domain name.
 
 It is important to note that each domain name can have multiple A records, each with a different IP address to support highly available load-balanced systems having redundant servers to handle failovers.
 
 
-#### AAAA Record
+## AAAA Record
 A Quad A (AAAA) record is similar to [A record](#a-record). An A record is used for IP v4 addresses, while a Quad A record is used for IP v6 addresses. If a domain has both A and AAAA records, then DNS will first try to resolve the domain using the AAAA record, and if that fails, it will fall back to using an A record.
 
 
-#### PTR record
+## PTR record
 PTR record is the inverse of A record i.e. a PTR record is used to query a domain name from an IP address.  
 
-#### SOA
+## SOA
 SOA or Start of Authority is a record in the DNS system that specifies the authoritative information about a domain, including the domain's primary name server, the domain administrator's email address, and various other parameters that determine the behavior of the domain's DNS server.
 The SOA record is the first record in a DNS zone file and is used by other DNS servers to determine the authoritative source of information for a particular domain. It also defines the refresh interval, which is the time a secondary [name server](#name-servers) waits before checking for updates from the primary name server, and the retry interval, which is the time a secondary server waits before trying to contact the primary server again if it fails to respond.
 
 The information in the SOA record is crucial for the proper functioning of the DNS system and for ensuring that the correct information is for a given domain.
 
-#### Name servers
+## Name servers
 Name servers in DNS are the servers that store information about a specific domain and respond to queries about the domain's DNS records. They act as a central repository for information about a domain, including its IP address, mail servers, and other information required to route and deliver requests to the correct destination.
 
 There are two types of name servers in the DNS system: authoritative and recursive.
@@ -135,7 +136,7 @@ There are two types of name servers in the DNS system: authoritative and recursi
 
 The domain owner can configure the name servers for a domain specified in the domain's SOA (Start of Authority) record. Other parts of the DNS system use the information provided by the name servers to route and deliver requests to the correct destination.
 
-#### DNSSEC
+## DNSSEC
 DNSSEC (Domain Name System Security Extensions) records are a set of security extensions to the DNS (Domain Name System) that provide authentication and data integrity for DNS information.
 
 DNSSEC uses public-key cryptography and digital signatures to secure the DNS information and prevent tamperings and malicious attacks, such as cache poisoning and DNS spoofing.
@@ -148,7 +149,7 @@ There are several types of DNSSEC records, including:
 4. NSEC (Next Secure) record: Provides proof of the non-existence of a DNS record.
    Together, these DNSSEC records ensure the authenticity and integrity of the DNS information and provide a secure chain of trust for DNS queries. By using DNSSEC, organizations, and users can be confident that the information returned by the DNS system is accurate and has not been tampered with.
 
-#### NSEC
+## NSEC
 NSEC (Next Secure) is a type of DNS record used in Domain Name System Security Extensions (DNSSEC) to prove the non-existence of a DNS record.
 
 DNSSEC is a security extension to the DNS that provides authentication and data integrity for DNS records. It uses public-key cryptography and digital signatures to provide a secure chain of trust from the domain name system's root down to individual records.
@@ -157,14 +158,14 @@ The NSEC record provides proof that a specific record does not exist in the doma
 
 NSEC records are used in conjunction with other DNSSEC records, such as the DS (Delegation Signer) record and the RRSIG (DNSSEC Signature) record, to provide a secure chain of trust for DNS information.
 
-## Troubleshooting DNS
+# Troubleshooting DNS
 
-#### nslookup
+## nslookup
 `nslookup` is useful command to for quick lookups of dns records. Following is the description of `nslookup` from its man page.
 
 > Nslookup is a program to query Internet domain name servers.  Nslookup has two modes: interactive and non-interactive. Interactive mode allows the user to query name servers for information about various hosts and domains or to print a list of hosts in a domain. Non-interactive mode is used to print just the name and requested information for a host or domain.
 
-Lets see an example
+Let's see an example
 
 ```shell
 $ nslookup github.com
@@ -263,7 +264,7 @@ github.com	rdata_257 = 0 issuewild "digicert.com"
 Authoritative answers can be found from
 ```
 
-#### dig
+## dig
 Like `nslookup` dig also provides information on DNS records, however, `dig` much more information than `nslookup`. Following is the description from dig's man page
 
 > dig (domain information groper) is a flexible tool for interrogating DNS name servers. It performs DNS lookups and displays the answers that are returned from the name server(s) that were queried. Most DNS administrators use dig to troubleshoot DNS problems because of its flexibility, ease of use and clarity of output. Other lookup tools tend to have less functionality than dig.
