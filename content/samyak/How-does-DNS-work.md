@@ -7,6 +7,22 @@ categories:
 - Concepts
 ---
 
+# Contents
+1. [What is DNS?](#what-is-dns)
+2. [How does DNS actually work?](#how-does-dns-actually-work)
+3. [Some important terms associated with DNS](#some-important-terms-associated-with-dns)
+   1. [CNAME](#cname)
+   2. [A Record](#a-record)
+   3. [AAAA Record](#aaaa-record)
+   4. [PTR Record](#ptr-record)
+   5. [SOA](#soa)
+   6. [Name servers](#name-servers)
+   7. [DNSSEC](#dnssec)
+   8. [NSEC](#nsec)
+4. [Troubleshooting DNS](#troubleshooting-dns)
+   1. [nslookup](#nslookup)
+   2. [dig](#dig)
+
 ## What is DNS?
 The internet is a vast interconnection of systems across the world. Each host connected to the internet is assigned an IP (Internet Protocol) address, uniquely identifying each connected host.
 Imagine a world where you go to your browser and put in `207.241.224.2` to see the internet archives or `20.207.73.82` to code collaboratively. Soon everybody would require a phone book to use the internet.
@@ -141,7 +157,7 @@ The NSEC record provides proof that a specific record does not exist in the doma
 
 NSEC records are used in conjunction with other DNSSEC records, such as the DS (Delegation Signer) record and the RRSIG (DNSSEC Signature) record, to provide a secure chain of trust for DNS information.
 
-## Troubleshooting DNS with dig
+## Troubleshooting DNS
 
 #### nslookup
 `nslookup` is useful command to for quick lookups of dns records. Following is the description of `nslookup` from its man page.
