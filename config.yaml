@@ -9,6 +9,8 @@ pygmentsstyle: "bw"
 pygmentscodefences: true
 pygmentscodefencesguesssyntax: true
 enableEmoji: true
+author:
+  name: Anshuman Tripathi
 
 params:
   author: "Anshuman Tripathi"
