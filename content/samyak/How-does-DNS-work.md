@@ -20,63 +20,65 @@ The address resolution happens through the following steps:
 2. Caching: The local DNS cache receives the request. The local cache stores previous DNS lookups to speed up subsequent requests.
 3. Recursive query: If the local cache doesn't have the IP address, the request is sent to a recursive DNS resolver, typically provided by the user's Internet Service Provider (ISP).
 4. Root server: The recursive resolver queries the root DNS servers for the address of the top-level domain (e.g., .com, .org, .net).
-5. Top-level domain server: The root server responds with the IP address of a top-level domain (TLD) server responsible for the desired TLD (e.g., .com).
-6. Authority server: The TLD server responds with the IP address of the authoritative name server for the desired domain (e.g., example.com).
-7. Record lookup: The authoritative name server returns the IP address associated with the domain name requested.
-8. Response: The recursive resolver returns the IP address to the client device, which can then use to connect to the desired website or service.
-9. Caching: The IP address is stored in the local DNS cache for a specified time, known as the Time-To-Live (TTL), to speed up subsequent requests for the same domain name.
+5. Top-level domain server: After the root server responds with the IP address of a top-level domain (TLD), the request is sent to a TLD which has records for all the domains under the required TLD. 
+6. Top-level domain server: The root server responds with the IP address of a top-level domain (TLD) server responsible for the desired TLD (e.g., .com).
+7. Authority server: The TLD server responds with the IP address of the authoritative name server for the desired domain (e.g., example.com).
+8. Record lookup: The authoritative name server returns the IP address associated with the domain name requested.
+9. Response: The recursive resolver returns the IP address to the client device, which can then use to connect to the desired website or service.
+10. Caching: The IP address is stored in the local DNS cache for a specified time, known as the Time-To-Live (TTL), to speed up subsequent requests for the same domain name.
 
 This process happens quickly and transparently to the end user, allowing them to access websites and services using human-readable domain names.
 
 ```diagon
-         ┌────────────────────┐                                
-         │USER ENTERS THE HOST│                                
-         │NAME IN THE BROWSER.│                                
-         └──────────┬─────────┘                                
-          __________▽__________         ┌─────────────────────┐
-         ╱                     ╲        │RETURN THE IP ADDRESS│
-        ╱ ADDRESS MAPPING FOUND ╲_______│TO THE CLIENT DEVICE.│
-        ╲ IN LOCAL CACHE.       ╱yes    └─────────────────────┘
-         ╲_____________________╱                               
-                    │no                                        
-      ┌─────────────▽────────────┐                             
-      │TRY TO RECURSIVELY RESOLVE│                             
-      │USING A DNS RESOLVER      │                             
-      │PROVIDED BY THE ISP.      │                             
-      └─────────────┬────────────┘                             
-    ┌───────────────▽───────────────┐                          
-    │QUERY THE ROOT DNS SERVERS FOR │                          
-    │THE ADDRESS OF THE TOP LEVEL   │                          
-    │DOMAIN (.com, .org, .net, etc).│                          
-    └───────────────┬───────────────┘                          
-    ┌───────────────▽───────────────┐                          
-    │THE REQUEST IS FORWARDED TO THE│                          
-    │TOP LEVEL DOMAIN (TLD) SERVER. │                          
-    └───────────────┬───────────────┘                          
-    ┌───────────────▽──────────────┐                           
-    │THE TLD SERVER RESPONDS WITH  │                           
-    │THE ADDRESS OF THE AUTHORITY  │                           
-    │SERVER FOR THE DESIRED DOMAIN.│                           
-    └───────────────┬──────────────┘                           
-       ┌────────────▽───────────┐                              
-       │THE REQUEST IS FORWARDED│                              
-       │TO THE AUTHORITY SERVER │                              
-       │FOR IP ADDRESS LOOOKUP. │                              
-       └────────────┬───────────┘                              
-   ┌────────────────▽────────────────┐                         
-   │THE AUTHORITY SERVER RESPONDS    │                         
-   │WITH THE IP ADDRESS OF THE DOMAIN│                         
-   │FOR THE PROVIDED IP ADDRESS.     │                         
-   └────────────────┬────────────────┘                         
-┌───────────────────▽──────────────────┐                       
-│THE IP ADDRESS IS SENT BACK TO        │                       
-│RECURSIVE RESOLVER FOR THE ADDRESS TO │                       
-│BE RETURNED BACK TO THE CLIENT DEVICE.│                       
-└───────────────────┬──────────────────┘                       
-    ┌───────────────▽───────────────┐                          
-    │THE IP ADDRESS IS CACHED IN THE│                          
-    │LOCAL CACHES FOR FUTURE LOOKUPS│                          
-    └───────────────────────────────┘                          
+          ┌────────────────────┐                                  
+          │USER ENTERS THE HOST│                                  
+          │NAME IN THE BROWSER.│                                  
+          └──────────┬─────────┘                                  
+           __________▽__________           ┌─────────────────────┐
+          ╱                     ╲          │RETURN THE IP ADDRESS│
+         ╱ ADDRESS MAPPING FOUND ╲_________│TO THE CLIENT.       │
+         ╲ IN LOCAL CACHE.       ╱  yes    └─────────────────────┘
+          ╲_____________________╱                                 
+                     │no                                          
+       ┌─────────────▽────────────┐                               
+       │TRY TO RECURSIVELY RESOLVE│                               
+       │USING A DNS RESOLVER      │                               
+       │PROVIDED BY THE ISP.      │                               
+       └─────────────┬────────────┘                               
+    ┌────────────────▽───────────────┐                            
+    │THE DNS PROVIDER QUERIES THE    │                            
+    │ADDRESS FOR THE TOP LEVEL DOMAIN│                            
+    │(TLD) SERVER EXTENSION OF THE   │                            
+    │DOMAIN (.com, .org, .net, etc). │                            
+    └────────────────┬───────────────┘                            
+┌────────────────────▽────────────────────┐                       
+│THE TLD SERVER WILL HAVE DOMAIN ADDRESSES│                       
+│OF THE AUTHORITY SERVERS FOR THE DOMAINS │                       
+│UNDER THE TOP LEVEL DOMAIN (EXTENSION).  │                       
+└────────────────────┬────────────────────┘                       
+         ┌───────────▽───────────┐                                
+         │THE TLD SERVER RESPONDS│                                
+         │WITH THE ADDRESS OF THE│                                
+         │AUTHORITY SERVER.      │                                
+         └───────────┬───────────┘                                
+ ┌───────────────────▽───────────────────┐                        
+ │THE AUTHORITY SERVER DOES THE IP       │                        
+ │ADDRESS LOOKUP FOR THE GIVEN DOMAIN AND│                        
+ │RESPONDS WITH THE REQUIRED IP ADDRESS. │                        
+ └───────────────────┬───────────────────┘                        
+     ┌───────────────▽──────────────┐                             
+     │THE IP ADDRESS IS SENT BACK TO│                             
+     │THE IPS's RECURSIVE RESOLVER. │                             
+     └───────────────┬──────────────┘                             
+       ┌─────────────▽────────────┐                               
+       │THE IP ADDRESS IS RETURNED│                               
+       │TO THE CLIENT DEVICE.     │                               
+       └─────────────┬────────────┘                               
+       ┌─────────────▽────────────┐                               
+       │LOCAL CACHE IS UPDATED THE│                               
+       │IP ADDRESS FOR THE DOMAIN │                               
+       └──────────────────────────┘                               
+                    
 ```
 
 ### Some important terms associated with DNS
@@ -95,7 +97,11 @@ It is important to note that each domain name can have multiple A records, each 
 
 
 #### AAAA Record
-An AAAA (Quad A) record is similar to [A record](#a-record). An A record is used for IP v4 addresses, while a Quad A record is used for IP v6 addresses. If a domain has both A and AAAA records, then DNS will first try to resolve the domain using the AAAA record, and if that fails, it will fall back to using an A record.
+A Quad A (AAAA) record is similar to [A record](#a-record). An A record is used for IP v4 addresses, while a Quad A record is used for IP v6 addresses. If a domain has both A and AAAA records, then DNS will first try to resolve the domain using the AAAA record, and if that fails, it will fall back to using an A record.
+
+
+#### PTR record
+PTR record is the inverse of A record i.e. a PTR record is used to query a domain name from an IP address.  
 
 #### SOA
 SOA or Start of Authority is a record in the DNS system that specifies the authoritative information about a domain, including the domain's primary name server, the domain administrator's email address, and various other parameters that determine the behavior of the domain's DNS server.
@@ -135,12 +141,118 @@ The NSEC record provides proof that a specific record does not exist in the doma
 
 NSEC records are used in conjunction with other DNSSEC records, such as the DS (Delegation Signer) record and the RRSIG (DNSSEC Signature) record, to provide a secure chain of trust for DNS information.
 
-### Troubleshooting DNS with dig
-`dig` is an extremely useful command (available in linux and unix systems) to troubleshoot DNS issues. Following is the description from dig's man page
+## Troubleshooting DNS with dig
+
+#### nslookup
+`nslookup` is useful command to for quick lookups of dns records. Following is the description of `nslookup` from its man page.
+
+> Nslookup is a program to query Internet domain name servers.  Nslookup has two modes: interactive and non-interactive. Interactive mode allows the user to query name servers for information about various hosts and domains or to print a list of hosts in a domain. Non-interactive mode is used to print just the name and requested information for a host or domain.
+
+Lets see an example
+
+```shell
+$ nslookup github.com
+Server:		8.8.8.8
+Address:	8.8.8.8#53
+
+Non-authoritative answer:
+Name:	github.com
+Address: 20.207.73.82
+```
+
+`nslookup` also supports params to see [PTR records](#ptr-record) and Mail Exchange (MX) information.
+
+```shell
+$ nslookup -type=PTR github.com
+Server:		8.8.8.8
+Address:	8.8.8.8#53
+
+Non-authoritative answer:
+*** Can't find github.com: No answer
+
+Authoritative answers can be found from:
+github.com
+	origin = ns-1707.awsdns-21.co.uk
+	mail addr = awsdns-hostmaster.amazon.com
+	serial = 1
+	refresh = 7200
+	retry = 900
+	expire = 1209600
+	minimum = 86400
+```
+
+```shell
+$ nslookup -type=mx github.com
+Server:		8.8.8.8
+Address:	8.8.8.8#53
+
+Non-authoritative answer:
+github.com	mail exchanger = 1 aspmx.l.google.com.
+github.com	mail exchanger = 10 alt3.aspmx.l.google.com.
+github.com	mail exchanger = 10 alt4.aspmx.l.google.com.
+github.com	mail exchanger = 5 alt1.aspmx.l.google.com.
+github.com	mail exchanger = 5 alt2.aspmx.l.google.com.
+
+Authoritative answers can be found from:
+```
+To get all the relevant information there is also an `any` option
+
+```shell
+$ nslookup -type=any github.com
+;; Truncated, retrying in TCP mode.
+Server:		8.8.8.8
+Address:	8.8.8.8#53
+
+Non-authoritative answer:
+Name:	github.com
+Address: 20.207.73.82
+github.com	nameserver = dns1.p08.nsone.net.
+github.com	nameserver = dns2.p08.nsone.net.
+github.com	nameserver = dns3.p08.nsone.net.
+github.com	nameserver = dns4.p08.nsone.net.
+github.com	nameserver = ns-1283.awsdns-32.org.
+github.com	nameserver = ns-1707.awsdns-21.co.uk.
+github.com	nameserver = ns-421.awsdns-52.com.
+github.com	nameserver = ns-520.awsdns-01.net.
+github.com
+	origin = ns-1707.awsdns-21.co.uk
+	mail addr = awsdns-hostmaster.amazon.com
+	serial = 1
+	refresh = 7200
+	retry = 900
+	expire = 1209600
+	minimum = 86400
+github.com	mail exchanger = 1 aspmx.l.google.com.
+github.com	mail exchanger = 10 alt3.aspmx.l.google.com.
+github.com	mail exchanger = 10 alt4.aspmx.l.google.com.
+github.com	mail exchanger = 5 alt1.aspmx.l.google.com.
+github.com	mail exchanger = 5 alt2.aspmx.l.google.com.
+github.com	text = "MS=6BF03E6AF5CB689E315FB6199603BABF2C88D805"
+github.com	text = "MS=ms44452932"
+github.com	text = "MS=ms58704441"
+github.com	text = "adobe-idp-site-verification=b92c9e999aef825edc36e0a3d847d2dbad5b2fc0e05c79ddd7a16139b48ecf4b"
+github.com	text = "apple-domain-verification=RyQhdzTl6Z6x8ZP4"
+github.com	text = "atlassian-domain-verification=jjgw98AKv2aeoYFxiL/VFaoyPkn3undEssTRuMg6C/3Fp/iqhkV4HVV7WjYlVeF8"
+github.com	text = "docusign=087098e3-3d46-47b7-9b4e-8a23028154cd"
+github.com	text = "facebook-domain-verification=39xu4jzl7roi7x0n93ldkxjiaarx50"
+github.com	text = "google-site-verification=UTM-3akMgubp6tQtgEuAkYNYLyYAvpTnnSrDMWoDR3o"
+github.com	text = "krisp-domain-verification=ZlyiK7XLhnaoUQb2hpak1PLY7dFkl1WE"
+github.com	text = "loom-site-verification=f3787154f1154b7880e720a511ea664d"
+github.com	text = "stripe-verification=f88ef17321660a01bab1660454192e014defa29ba7b8de9633c69d6b4912217f"
+github.com	text = "v=spf1 ip4:192.30.252.0/22 include:_netblocks.google.com include:_netblocks2.google.com include:_netblocks3.google.com include:spf.protection.outlook.com include:mail.zendesk.com include:_spf.salesforce.com include:servers.mcsv.net ip4:166.78.69.169 ip4:1" "66.78.69.170 ip4:166.78.71.131 ip4:167.89.101.2 ip4:167.89.101.192/28 ip4:192.254.112.60 ip4:192.254.112.98/31 ip4:192.254.113.10 ip4:192.254.113.101 ip4:192.254.114.176 ip4:62.253.227.114 ~all"
+github.com	rdata_257 = 0 issue "digicert.com"
+github.com	rdata_257 = 0 issue "globalsign.com"
+github.com	rdata_257 = 0 issuewild "digicert.com"
+
+Authoritative answers can be found from
+```
+
+#### dig
+Like `nslookup` dig also provides information on DNS records, however, `dig` much more information than `nslookup`. Following is the description from dig's man page
 
 > dig (domain information groper) is a flexible tool for interrogating DNS name servers. It performs DNS lookups and displays the answers that are returned from the name server(s) that were queried. Most DNS administrators use dig to troubleshoot DNS problems because of its flexibility, ease of use and clarity of output. Other lookup tools tend to have less functionality than dig.
 
-Let's see an example
+Let's see an example using dig's trace option which performs iterative queries and display the entire trace path to resolve a domain name
 
 ```shell
 dig +trace github.com
