@@ -1,0 +1,31 @@
+author: "Anshuman Tripathi"
+info: "Platform and DevOps Engineering"
+description: "Hi, I am Anshuman Tripathi"
+keywords: "blog,developer,personal"
+colorScheme: "auto"
+avatarurl: "images/avatar.png"
+favicon_16: "images/avatar.png"
+favicon_32: "images/avatar.png"
+since: 2023
+
+social:
+  - name: Github
+    icon: "fa fa-github fa-2x"
+    weight: 1
+    url: "https://github.com/AnshumanTripathi/"
+  - name: Twitter
+    icon: "fa fa-twitter fa-2x"
+    weight: 2
+    url: "https://twitter.com/anshumant09/"
+  - name: LinkedIn
+    icon: "fa fa-linkedin fa-2x"
+    weight: 3
+    url: "https://www.linkedin.com/in/anshumantripathi09/"
+  - name: Medium
+    icon: "fa fa-2x fa-medium"
+    weight: 4
+    url: "https://medium.com/@anshumantripathi"
+  - name: "Mastadon"
+    icon: "fa fa-2x fa-mastodon"
+    weight: 5
+    url: "https://hachyderm.io/@anshuman"

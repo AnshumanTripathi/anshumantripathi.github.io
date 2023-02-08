@@ -2,8 +2,12 @@
 title: Configuration Management
 date: 2023-02-04T23:20:02+05:30
 draft: false
+description: An article explaining how to handle configuration management for applications from scratch
 categories:
 - concepts
+aliases:
+- config-management
+featuredImage: "images/config-management.jpeg"
 ---
 
 <!-- TOC -->

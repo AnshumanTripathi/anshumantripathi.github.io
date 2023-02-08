@@ -48,6 +48,11 @@ params:
   goatCounter:
     code: "anshumantripathi"
 
+  utterances:
+    repo: "AnshumanTripathi/anshumantripathi.github.io" # https://utteranc.es/#heading-repository
+    issueTerm: "pathname" # https://utteranc.es/#heading-mapping
+    label: "blog-comments" # https://utteranc.es/#heading-issue-label
+    theme: "preferred-color-scheme" # https://utteranc.es/#heading-theme
 menu:
   main:
     - name: "Samyak"

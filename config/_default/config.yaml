@@ -1,0 +1,75 @@
+# https://github.com/luizdepra/hugo-coder/blob/main/docs/configurations.md#complete-example
+baseURL: 'https://anshumantripathi.com/'
+languageCode: 'en-us'
+title: 'Anshuman Tripathi'
+theme: 'hugo-coder'
+defaultcontentlanguage: "en"
+paginate: 20
+pygmentsstyle: "bw"
+pygmentscodefences: true
+pygmentscodefencesguesssyntax: true
+enableEmoji: true
+author:
+  name: Anshuman Tripathi
+
+menu:
+  main:
+    - name: "Samyak"
+      weight: 1
+      url: "samyak/"
+    - name: "Categories"
+      weight: 2
+      url: "categories/"
+    - name: "About"
+      weight: 3
+      url: "about/"
+
+taxonomies:
+  category: "categories"
+  tag: "tags"
+
+# Set Goldmark markup
+# https://gohugo.io/getting-started/configuration-markup/#configure-markup
+markup:
+  goldmark:
+    extensions:
+      definitionList: true
+      footnote: true
+      linkify: true
+      linkifyProtocol: https
+      strikethrough: true
+      table: true
+      taskList: true
+      typographer: true
+    parser:
+      attribute:
+        block: false
+        title: true
+      autoHeadingID: true
+      autoHeadingIDType: github
+      wrapStandAloneImageWithinParagraph: true
+    renderer:
+      # By default, Goldmark ignores newlines within a paragraph. Set to true to render newlines as <br> elements.
+      hardWraps: true
+      unsafe: true
+      xhtml: false
+
+  highlight:
+    anchorLineNos: false
+    codeFences: true
+    guessSyntax: true
+    hl_Lines: ""
+    hl_inline: false
+    lineAnchors: ""
+    lineNoStart: 1
+    lineNos: false
+    lineNumbersInTable: true
+    noClasses: true
+    noHl: false
+    style: dracula
+    tabWidth: 2
+
+  tableOfContents:
+    endLevel: 3
+    ordered: false
+    startLevel: 2
