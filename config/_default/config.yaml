@@ -9,6 +9,8 @@ pygmentsstyle: "bw"
 pygmentscodefences: true
 pygmentscodefencesguesssyntax: true
 enableEmoji: true
+enableGitInfo: true
+customSCSS: ["scss/_footer.scss"]
 author:
   name: Anshuman Tripathi
 

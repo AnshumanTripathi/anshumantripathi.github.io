@@ -7,6 +7,7 @@ avatarurl: "images/avatar.png"
 favicon_16: "images/avatar.png"
 favicon_32: "images/avatar.png"
 since: 2023
+commit: "https://github.com/AnshumanTripathi/anshumantripathi.github.io"
 
 social:
   - name: Github
@@ -29,3 +30,7 @@ social:
     icon: "fa fa-2x fa-mastodon"
     weight: 5
     url: "https://hachyderm.io/@anshuman"
+  - name: "buymeacoffee"
+    icon: "fa fa-buymeacoffee fa-2x"
+    weight: 6
+    url: "https://www.buymeacoffee.com/atripathi"
