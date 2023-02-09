@@ -1,7 +1,7 @@
 ---
 title: "Choosing the road less taken for my career"
 date: 2023-02-08T11:15:15+05:30
-draft: true
+draft: false
 categories:
 - career
 - my story
@@ -59,3 +59,5 @@ I made peace with the decision of not giving the SATs right after my High School
 The idea was to not give the SATs now but to give GRE after I complete my undergraduate and go to the United States for my Masters. This gave me enough time to explore and learn the skills that I was missing. In my undergraduate classes, I took trainings in programming, robotics and core of computer engineering like algorithms and operating systems. I participated in inter-college programming competitions and even travelled to places like Mumbai, Jaipur, Pilani and Bhopal myself to participate in robotics completions in different college fests.
 The lessons I learned here and the friends I made in this time have helped through thick and thin in my life. Once I was nearing the completion of my bachelors degree, I started preparing for GRE.
 
+
+[How I pursued masters in the United states](/samyak/masters-in-the-united-states)
