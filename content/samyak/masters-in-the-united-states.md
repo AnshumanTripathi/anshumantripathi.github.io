@@ -9,7 +9,17 @@ categories:
 
 > [How I came to decision of doing masters in the United States 🇺🇸](/samyak/study-abroad)
 
-
+<!-- TOC -->
+* [Going to the United States for a Master's Degree](#going-to-the-united-states-for-a-masters-degree)
+* [Challenges faced by an Indian Student pursuing Master's Degree in the United States](#challenges-faced-by-an-indian-student-pursuing-masters-degree-in-the-united-states)
+  * [Difference in Education systems](#difference-in-education-systems)
+  * [Cultural differences](#cultural-differences)
+  * [Personal Finances](#personal-finances)
+  * [Sudden increase of paperwork](#sudden-increase-of-paperwork)
+  * [Medical assistance](#medical-assistance)
+  * [Returning home whenever you want is not possible anymore](#returning-home-whenever-you-want-is-not-possible-anymore)
+* [What does this all mean?](#what-does-this-all-mean)
+<!-- TOC -->
 
 # Going to the United States for a Master's Degree
 1. A valid Passport. Based on where you are, getting a passport might take sometime so its better to start on the process as soon as possible.  
