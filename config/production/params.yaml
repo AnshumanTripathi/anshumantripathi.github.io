@@ -44,3 +44,39 @@ utterances:
   issueTerm: "pathname" # https://utteranc.es/#heading-mapping
   label: "blog-comments" # https://utteranc.es/#heading-issue-label
   theme: "preferred-color-scheme" # https://utteranc.es/#heading-theme
+
+csp:
+  childsrc:
+    - 'self'
+  fontsrc:
+    - 'self'
+    - 'https://fonts.gstatic.com'
+    - 'https://cdn.jsdelivr.net/'
+  formaction:
+    - 'self'
+  framesrc:
+    - 'self'
+  imgsrc:
+    - 'self'
+    - "https://anshumantripathi.goatcounter.com/count"
+  objectsrc:
+    - 'none'
+  stylesrc:
+    - 'self'
+    - 'unsafe-inline'
+    - 'https://fonts.googleapis.com/'
+    - 'https://fonts.gstatic.com'
+    - 'https://cdn.jsdelivr.net/'
+  scriptsrc:
+    - 'self'
+    - 'unsafe-inline'
+    - 'https://www.google-analytics.com'
+    - 'https://gc.zgo.at'
+    - 'https://diff.blog'
+    - 'https://utteranc.es/'
+  prefetchsrc:
+    - 'self'
+  connectsrc:
+    - 'self'
+    - 'https://www.google-analytics.com'
+    - 'ws://local'

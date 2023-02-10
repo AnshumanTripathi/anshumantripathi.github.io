@@ -35,3 +35,26 @@ social:
     icon: "fa fa-buymeacoffee fa-2x"
     weight: 6
     url: "https://www.buymeacoffee.com/atripathi"
+
+csp:
+  childsrc:
+  - 'self'
+  fontsrc:
+  - '*'
+  formaction:
+  - 'self'
+  framesrc:
+  - 'self'
+  imgsrc:
+  - 'self'
+  - '*'
+  objectsrc:
+  - 'none'
+  stylesrc:
+  - '*'
+  scriptsrc:
+  - '*'
+  prefetchsrc:
+  - 'self'
+  connectsrc:
+  - '*'
