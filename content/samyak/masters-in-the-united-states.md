@@ -5,18 +5,19 @@ draft: false
 categories:
 - my story
 - career
+featuredImage: "images/united-states.jpeg"
 ---
 
 > [How I came to decision of doing masters in the United States 🇺🇸](/samyak/shaping-career/)
 
 <!-- TOC -->
 * [Going to the United States for a Master's Degree](#going-to-the-united-states-for-a-masters-degree)
-* [Challenges faced by an Indian Student pursuing Master's Degree in the United States](#challenges-faced-by-an-indian-student-pursuing-masters-degree-in-the-united-states)
+* [Challenges faced by an Indian Student pursuing a Master's Degree in the United States](#challenges-faced-by-an-indian-student-pursuing-a-masters-degree-in-the-united-states)
   * [Difference in Education systems](#difference-in-education-systems)
   * [Cultural differences](#cultural-differences)
   * [Personal Finances](#personal-finances)
-  * [Sudden increase of paperwork](#sudden-increase-of-paperwork)
-  * [Medical assistance](#medical-assistance)
+  * [Sudden increase in paperwork](#sudden-increase-in-paperwork)
+  * [Medical Assistance](#medical-assistance)
   * [Returning home whenever you want is not possible anymore](#returning-home-whenever-you-want-is-not-possible-anymore)
 * [What does this all mean?](#what-does-this-all-mean)
 <!-- TOC -->
