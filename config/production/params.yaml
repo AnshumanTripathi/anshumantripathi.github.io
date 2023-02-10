@@ -65,8 +65,7 @@ csp:
     - 'none'
   stylesrc:
     - 'self'
-    - 'unsafe-inline'
-    - 'unsafe-eval'
+    - 'default-src'
     - 'https://fonts.googleapis.com/'
     - 'https://fonts.gstatic.com'
     - 'https://cdn.jsdelivr.net/'
@@ -74,8 +73,7 @@ csp:
     - 'https://cdnjs.buymeacoffee.com/'
   scriptsrc:
     - 'self'
-    - 'unsafe-inline'
-    - 'unsafe-eval'
+    - 'default-src'
     - 'https://www.google-analytics.com'
     - 'https://gc.zgo.at'
     - 'https://diff.blog'
