@@ -22,8 +22,11 @@ menu:
     - name: "Categories"
       weight: 2
       url: "categories/"
-    - name: "About"
+    - name: "Projects"
       weight: 3
+      url: "projects/"
+    - name: "About"
+      weight: 4
       url: "about/"
 
 taxonomies:
