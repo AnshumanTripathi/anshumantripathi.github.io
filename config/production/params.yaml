@@ -52,13 +52,15 @@ csp:
     - 'self'
     - 'https://fonts.gstatic.com'
     - 'https://cdn.jsdelivr.net/'
+    - 'https://anshumantripathi.com/'
   formaction:
     - 'self'
   framesrc:
     - 'self'
   imgsrc:
     - 'self'
-    - "https://anshumantripathi.goatcounter.com/count"
+    - 'https://anshumantripathi.goatcounter.com/count'
+    - 'https://anshumantripathi.com/'
   objectsrc:
     - 'none'
   stylesrc:
@@ -67,6 +69,7 @@ csp:
     - 'https://fonts.googleapis.com/'
     - 'https://fonts.gstatic.com'
     - 'https://cdn.jsdelivr.net/'
+    - 'https://anshumantripathi.com/'
   scriptsrc:
     - 'self'
     - 'unsafe-inline'
@@ -74,6 +77,7 @@ csp:
     - 'https://gc.zgo.at'
     - 'https://diff.blog'
     - 'https://utteranc.es/'
+    - 'https://anshumantripathi.com/'
   prefetchsrc:
     - 'self'
   connectsrc:
