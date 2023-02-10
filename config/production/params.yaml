@@ -70,14 +70,17 @@ csp:
     - 'https://fonts.gstatic.com'
     - 'https://cdn.jsdelivr.net/'
     - 'https://www.anshumantripathi.com/'
+    - 'https://cdnjs.buymeacoffee.com/'
   scriptsrc:
     - 'self'
     - 'unsafe-inline'
+    - 'unsafe-eval'
     - 'https://www.google-analytics.com'
     - 'https://gc.zgo.at'
     - 'https://diff.blog'
     - 'https://utteranc.es/'
     - 'https://www.anshumantripathi.com/'
+    - 'https://cdnjs.buymeacoffee.com/'
   prefetchsrc:
     - 'self'
   connectsrc:
