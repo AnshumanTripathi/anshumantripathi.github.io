@@ -65,7 +65,6 @@ csp:
     - 'none'
   stylesrc:
     - 'self'
-    - 'default-src'
     - 'https://fonts.googleapis.com/'
     - 'https://fonts.gstatic.com'
     - 'https://cdn.jsdelivr.net/'
@@ -73,7 +72,6 @@ csp:
     - 'https://cdnjs.buymeacoffee.com/'
   scriptsrc:
     - 'self'
-    - 'default-src'
     - 'https://www.google-analytics.com'
     - 'https://gc.zgo.at'
     - 'https://diff.blog'
@@ -82,6 +80,7 @@ csp:
     - 'https://cdnjs.buymeacoffee.com/'
   prefetchsrc:
     - 'self'
+    - 'https://www.anshumantripathi.com/'
   connectsrc:
     - 'self'
     - 'https://www.google-analytics.com'
