@@ -72,6 +72,7 @@ csp:
     - 'https://cdnjs.buymeacoffee.com/'
   scriptsrc:
     - 'self'
+    - 'unsafe-hashes'
     - 'https://www.google-analytics.com'
     - 'https://gc.zgo.at'
     - 'https://diff.blog'
