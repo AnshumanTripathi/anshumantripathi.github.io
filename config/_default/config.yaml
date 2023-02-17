@@ -32,6 +32,7 @@ menu:
 taxonomies:
   category: "categories"
   tag: "tags"
+  series: "series"
 
 # Set Goldmark markup
 # https://gohugo.io/getting-started/configuration-markup/#configure-markup
