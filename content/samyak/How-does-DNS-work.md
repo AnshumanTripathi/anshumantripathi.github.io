@@ -5,6 +5,8 @@ draft: false
 categories:
 - Networking
 - Concepts
+series:
+- devops
 ---
 
 <!-- TOC -->
