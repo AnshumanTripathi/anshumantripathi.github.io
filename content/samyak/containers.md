@@ -137,8 +137,81 @@ nobody         2       1  0 08:02 pts/0    00:00:00 ps -ef
 As it can be seen here the users running the `bash` and `ps -ef` processes is `nobody` i.e. the user in the newly created namespace. 
 In this way, any processes running within th new namespace will be isolated form the host or other namespaces created in the system. 
 
-# How do containers come into picture?
+# Linux Cgroup
+Linux control groups or cgroups are mechanisms used to provide resource quotas so that the amount of resources like cpu, memory, etc. of the processes can be controlled
 
+# CGroups in action
+Let's create a cgroup. 
+
+```shell
+mkdir -p /sys/fs/cgroup/memory/myapp
+```
+
+On checking the directory of the cgroup with `ls /sys/fs/cgroup/memory/myapp` we can see the following
+
+```shell
+root@instance-2:~# ls /sys/fs/cgroup/memory/myapp
+cgroup.controllers  cgroup.freeze     cgroup.max.descendants  cgroup.stat	      cgroup.threads  cpu.pressure  io.pressure
+cgroup.events	    cgroup.max.depth  cgroup.procs	      cgroup.subtree_control  cgroup.type     cpu.stat	    memory.pressure
+```
+
+The contents of the files in the cgroup directory have information of the process being used in the cgroup.
+The following script just prints 'Testing cgroups' and sleeps for 50000 seconds.
+
+```shell
+#! /bin/bash
+
+while :
+do
+	echo "CGroup testing tool" > /dev/tty
+	sleep 50000
+done
+```
+
+Let's add this process to the newly created cgroup
+```shell
+echo $(pidof -x test.sh) > /sys/fs/cgroup/memory/myapp/cgroup.procs
+```
+
+Once the PID of the script is registered to the cgroup we can check the execution as follows:
+
+```shell
+root@instance-2:/sys/fs/cgroup/memory/myapp# ps -o cgroup | grep myapp
+0::/memory/myapp
+```
+
+Now if we see the contents some files in the cgroup
+
+```shell
+root@instance-2:/sys/fs/cgroup/memory/myapp# cat cgroup.events
+populated 1
+frozen 0
+
+root@instance-2:/sys/fs/cgroup/memory/myapp# cat cpu.pressure
+some avg10=0.00 avg60=0.00 avg300=0.00 total=0
+
+root@instance-2:/sys/fs/cgroup/memory/myapp# cat io.pressure
+some avg10=0.00 avg60=0.00 avg300=0.00 total=0
+full avg10=0.00 avg60=0.00 avg300=0.00 total=0
+
+root@instance-2:/sys/fs/cgroup/memory/myapp# cat memory.pressure
+some avg10=0.00 avg60=0.00 avg300=0.00 total=0
+full avg10=0.00 avg60=0.00 avg300=0.00 total=0
+```
+
+We can see the resource quotas in the parent memory cgroup
+
+```shell
+root@instance-2:/sys/fs/cgroup/memory# ls /sys/fs/cgroup/memory
+cgroup.controllers  cgroup.max.descendants  cgroup.threads  io.pressure		 memory.high  memory.numa_stat	memory.swap.current  myapp
+cgroup.events	    cgroup.procs	    cgroup.type     memory.current	 memory.low   memory.oom.group	memory.swap.events   pids.current
+cgroup.freeze	    cgroup.stat		    cpu.pressure    memory.events	 memory.max   memory.pressure	memory.swap.high     pids.events
+cgroup.max.depth    cgroup.subtree_control  cpu.stat	    memory.events.local  memory.min   memory.stat	memory.swap.max      pids.max
+```
+These can be used to set the quotas of the cgroup.
+
+
+[//]: # (TODO: Need to look into an actual implementation of this.)
 
 # References
 [1] https://en.wikipedia.org/wiki/Linux_namespaces#Namespace_kinds 
