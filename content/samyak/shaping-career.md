@@ -2,11 +2,11 @@
 title: "Choosing the road less taken for my career"
 date: 2023-02-08T11:15:15+05:30
 draft: false
-categories:
-- my story
 featuredImage: "images/career.jpeg"
 series:
 - career-advise
+categories:
+- My story
 ---
 
 > How I shaped my career through High School and Undergraduate studies

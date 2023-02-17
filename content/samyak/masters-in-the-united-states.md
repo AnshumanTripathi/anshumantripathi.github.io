@@ -2,9 +2,9 @@
 title: "Master's degree in the United States 🇺🇸"
 date: 2023-02-09T20:17:24+05:30
 draft: false
-categories:
-- my story
 featuredImage: "images/united-states.jpeg"
+categories:
+- My story
 series:
 - career advise
 ---
