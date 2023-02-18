@@ -8,6 +8,9 @@ categories:
 aliases:
 - config-management
 featuredImage: "images/config-management.jpeg"
+series:
+- samyak
+- devops
 ---
 
 <!-- TOC -->

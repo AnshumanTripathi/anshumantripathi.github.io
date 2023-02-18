@@ -6,6 +6,7 @@ categories:
 - concepts
 featuredImage: "images/containers.jpeg"
 series:
+- samyak
 - devops
 ---
 

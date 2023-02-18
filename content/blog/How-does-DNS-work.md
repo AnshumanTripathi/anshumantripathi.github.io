@@ -6,7 +6,7 @@ categories:
 - Networking
 - Concepts
 series:
-- devops
+- samyak
 ---
 
 <!-- TOC -->

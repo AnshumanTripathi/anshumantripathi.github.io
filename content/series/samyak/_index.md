@@ -1,7 +1,7 @@
 ---
-draft: false
-date: 2023-02-01T09:44:56+05:30
 title: "Samyak"
+date: 2023-02-18T10:35:29+05:30
+draft: false
 ---
 
 Samyak or `सम्यक` in Hindi means a "complete understanding." As software engineers, we learn something new every day, but we rarely get the time to understand those topics thoroughly.
