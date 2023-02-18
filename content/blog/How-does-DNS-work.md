@@ -7,6 +7,7 @@ categories:
 - Concepts
 series:
 - samyak
+- devops
 ---
 
 <!-- TOC -->
