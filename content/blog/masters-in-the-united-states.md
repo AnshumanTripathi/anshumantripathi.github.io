@@ -29,7 +29,7 @@ series:
 3. Prepare for examinations
     1. **GRE:** The Graduate Record Examination or GRE is a requirement for most colleges in the United States. This examination tests language and Mathematical Aptitude. [Registration for this examination can be done online.](https://www.ets.org/gre/test-takers/general-test/register.html)
     2. **TOEFL/IELTS:** TOEFL and IELTS examinations tests for basic proficiency in English. Most United States Universities also require these tests to ensure the students understand all the lectures and materials in the Master's courses.
-4. Start GRE giving practice tests regularly.
+4. Start taking GRE practice tests regularly.
 5. Based on the scores of practice tests, start shortlisting possible universities.
 6. Give your GRE.
 7. Give your TOEFL exam.
