@@ -4,7 +4,7 @@ date: 2023-02-08T11:15:15+05:30
 draft: false
 featuredImage: "images/career.jpeg"
 series:
-- career-advise
+- career-advice
 categories:
 - My story
 ---

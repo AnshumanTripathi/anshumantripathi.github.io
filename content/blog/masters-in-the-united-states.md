@@ -6,7 +6,7 @@ featuredImage: "images/united-states.jpeg"
 categories:
 - My story
 series:
-- career advise
+- career advice
 ---
 
 > [How I came to decision of doing masters in the United States 🇺🇸](/samyak/shaping-career/)

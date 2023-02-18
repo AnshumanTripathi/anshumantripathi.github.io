@@ -11,5 +11,5 @@ With this blog, I want to discuss topics comprehensively and dig deeper into nua
 # [DevOps](/series/devops)
 This series covers different topics related to DevOps engineering.
 
-# [Career Advise](/series/career-advise)
+# [Career Advice](/series/career-advice)
 Career advise that I can give from my personal experiences.
