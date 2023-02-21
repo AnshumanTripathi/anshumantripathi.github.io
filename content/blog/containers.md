@@ -43,19 +43,19 @@ Namespaces have been part of the Linux operating system since 2002. Namespaces w
 
 ## Types of Namespaces
 
-There are 8 kinds of namespaces in Linux [1]
+There are 8 kinds of namespaces in Linux [^1]
 
 ### User ID namespace
 A user ID namespace has its own set of user IDs and group IDs for assignment to processes. These users can have root privileges to process running within the namespace while not having any elevated access in other namespaces.
 
 ### Control Group namespace
-A control group in Linux controls the access of the user accounts and can isolate the resource usage CPU, memory, disk I/O, network, etc.) of a collection of processes [2]. A cgroup namespace hides the identity of the cgroups in the namespace. A cgroup in the namespace would only see the relative path of the cgroup and the creation time, and the actual control group identity is hidden.
+A control group in Linux controls the access of the user accounts and can isolate the resource usage CPU, memory, disk I/O, network, etc.) of a collection of processes [^2]. A cgroup namespace hides the identity of the cgroups in the namespace. A cgroup in the namespace would only see the relative path of the cgroup and the creation time, and the actual control group identity is hidden.
 
 ### Network namespaces
 A network namespace isolates the network stack (IP tables, socket connections, firewalls, etc.) in the namespace
 
 ### Mount namespaces
-A mount namespace has an independent list of mount points that can be seen by a process within the namespace. This means you can mount and unmount filesystems in a mount namespace without affecting the host filesystem. [3]
+A mount namespace has an independent list of mount points that can be seen by a process within the namespace. This means you can mount and unmount filesystems in a mount namespace without affecting the host filesystem. [^3]
 
 ### Process ID (PID) namespace
 A PID namespace isolates the process IDs of the process running within this namespace. The PIDs in a PID namespace are independent of the process in the host or other namespaces. If a child process is created with its own PID namespace, it has PID 1 and its PID in the parent process' namespace.
@@ -71,7 +71,7 @@ A process can use different mechanisms to talk to other processes in the namespa
 An IPC namespace isolates processes in such a way that their IPC mechanisms can only see the process mechanism in their own IPC namespace.
 
 ### Unix Time Sharing (UTS) namespace
-A UNIX Time‑Sharing (UTS) namespace allows a single system to appear to have different host and domain names for other processes [3].
+A UNIX Time‑Sharing (UTS) namespace allows a single system to appear to have different host and domain names for other processes [^3].
 
 ### Listing all Linux Namespaces
 
@@ -216,6 +216,6 @@ These can be used to set the quotas of the cgroup.
 [//]: # (TODO: Need to look into an actual implementation of this.)
 
 # References
-[1] https://en.wikipedia.org/wiki/Linux_namespaces#Namespace_kinds 
-[2] https://en.wikipedia.org/wiki/Cgroups
-[3] https://www.nginx.com/blog/what-are-namespaces-cgroups-how-do-they-work/
+[^1]: https://en.wikipedia.org/wiki/Linux_namespaces#Namespace_kinds 
+[^2]: https://en.wikipedia.org/wiki/Cgroups
+[^3]: https://www.nginx.com/blog/what-are-namespaces-cgroups-how-do-they-work/
