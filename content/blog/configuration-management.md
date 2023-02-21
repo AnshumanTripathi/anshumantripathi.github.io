@@ -1,5 +1,5 @@
 ---
-title: Configuration Management
+title: Configuration Management from scratch
 date: 2023-02-04T23:20:02+05:30
 draft: false
 description: An article explaining how to handle configuration management for applications from scratch
