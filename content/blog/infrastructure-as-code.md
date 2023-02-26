@@ -59,8 +59,7 @@ Managing platforms and applications through IaC removes the consistency and repe
 Abstracting your IaC configurations in modules helps spin up new infrastructure on demand. Modules also help to roll out recent changes to all infrastructure workspaces in a controlled manner.
 
 ## Documentation is key
-Inline documentation for references to the providers' documentation and explanations for why the resources are configured the way they are, improves readability exponentially.
-Furthermore, having documentation of the scope of the created workspaces and modules can also help developers understand on a high level how the overall infrastructure is set up.
+Inline documentation for references to the providers' documentation and explanations for why the resources are configured the way they are, improves readability exponentially. Furthermore, having documentation of the scope of the created workspaces and modules can also help developers understand on a high level how the overall infrastructure is set up.
 
 ## CI/CD
 A good IaC setup is always accompanied by a CI pipeline validating and testing. It ensures the Code is well formatted and a CD pipeline that applies the changes to the workspace's main branch after each merge.  
