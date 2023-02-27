@@ -9,7 +9,7 @@ series:
 - career advice
 ---
 
-> [How I came to decision of doing masters in the United States 🇺🇸](/samyak/shaping-career/)
+> [How I came to decision of doing masters in the United States 🇺🇸](/blog/shaping-career/)
 
 <!-- TOC -->
 * [Going to the United States for a Master's Degree](#going-to-the-united-states-for-a-masters-degree)

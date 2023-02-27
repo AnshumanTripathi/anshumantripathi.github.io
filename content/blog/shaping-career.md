@@ -64,4 +64,4 @@ The idea was not to give the SATs now but to give GRE after I complete my underg
 The lessons I learned here and the friends I made during this time have helped me through thick and thin in my life. Once I was nearing the completion of my bachelor's degree, I started preparing for GRE.
 
 
-[How I pursued masters in the United States](/samyak/masters-in-the-united-states)
+[How I pursued masters in the United States](/blog/masters-in-the-united-states)

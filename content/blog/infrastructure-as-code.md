@@ -4,6 +4,7 @@ date: 2023-02-26T09:46:59-08:00
 draft: false
 series:
 - devops
+- samyak
 categories:
 - concepts
 featuredImage: "images/iac.png"
