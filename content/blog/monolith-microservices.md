@@ -23,6 +23,7 @@ Photo by <a href="https://unsplash.com/ko/@diesektion?utm_source=unsplash&utm_me
   * [Microservices](#microservices-1)
     * [Pros](#pros-1)
     * [Cons](#cons-1)
+* [So, who wins?](#so-who-wins)
 <!-- TOC -->
 
 
@@ -49,7 +50,7 @@ For the longest time, we have been using Monoliths to develop software. The mono
 3. Monolith requires a lot of dedicated tooling like:
     1. Modularized CI pipeline. Suppose there is a slight change in a specific module. In that case, the whole monolith must be built and run to test changes, which causes the CI feedback loop to be longer and makes development more complicated. The CI pipeline needs to be intelligent enough to detect modules with code changes and build only the specific modules.
     2. Bugs can be introduced quickly because of cross-cutting changes.
-    3. Monitoring and alerting solutions for a monolith are complicated since the monolith is an entire system owned by the organization as a whole.
+    3. Monitoring and alerting solutions for a monolith are complicated since the monolith is an entire system owned by the organization.
 4. Monoliths can make it difficult for new engineers to get onboarded, as it takes time to understand the system.
 
 ## Microservices
@@ -65,3 +66,11 @@ For the longest time, we have been using Monoliths to develop software. The mono
 4. Since microservices are independently deployable services, they can DoS one another.
 5. The organization needs to define when it is reasonable to create a new microservice or when to add a functionality to an existing microservice.
 6. Microservices can be expensive as each microservice can have its tech stack with its infrastructure.
+
+# So, who wins?
+Short answer; it depends.
+
+Long answer; there is no right or wrong solution here. There's a case to make for each solution like recently, and there have been a lot of discussions regarding [how monoliths are making a return](https://changelog.com/posts/monoliths-are-the-future). Although they are known to be challenging to scale, there are solutions like [Google's Service Weaver](https://opensource.googleblog.com/2023/03/introducing-service-weaver-framework-for-writing-distributed-applications.html) that are heading towards make scaling monoliths easier.
+On the other hand, design patterns like [service templates](https://microservices.io/patterns/service-template.html), [app of apps deployment patterns](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/), [service mesh](https://istio.io/latest/about/service-mesh/) make handling a fleet of microservices a lot easier.
+
+Although there is a middle ground, [_macro-services_](http://highscalability.com/blog/2020/4/8/one-team-at-uber-is-moving-from-microservices-to-macroservic.html), macro-service modules can be tightly coupled with the whole macro-service package (modules and service) and deployed as a single package which reduces the complexity that comes with the increased number of microservices since a macro-service can be big enough to handle complex features within itself and is small enough that the issues of a monolith do not creep in. 
