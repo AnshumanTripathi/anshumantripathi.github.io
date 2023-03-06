@@ -11,6 +11,9 @@
               {{ .Title }}
             </a>
           </h1>
+          {{ if .Page.Params.subtitle }}
+          <h4><blockquote>{{ .Page.Params.subtitle }}</blockquote></h4>
+          {{ end }}
         </div>
         <div class="post-meta">
           <div class="date">
