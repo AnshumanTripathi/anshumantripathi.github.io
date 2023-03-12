@@ -10,6 +10,12 @@ tags:
 - tools
 ---
 
+<!-- TOC -->
+* [Pre-requisites](#pre-requisites)
+* [Terraform Cloud](#terraform-cloud)
+* [Setting up a Terraform workspace for Google Cloud](#setting-up-a-terraform-workspace-for-google-cloud)
+<!-- TOC -->
+
 This tutorial walks you through the complete steps of setting up a Terraform workspace in Github for provisioning infrastructure in Google Cloud using Terraform cloud.
 
 # Pre-requisites
@@ -30,7 +36,7 @@ Terraform needs to manage and persist the state of the infrastructure. With each
 
 Terraform Cloud solves all of these problems by providing a managed solution for state management which helps in collaboration. [Terraform cloud is free for upto an organization with 5 users with full API access](https://www.hashicorp.com/products/terraform/pricing) and unlimited organization which makes it perfect to use as a playground to learn Terraform without going into the complexity of setting up buckets for remote state management.
 
-# Setting up a Terraform workspace
+# Setting up a Terraform workspace for Google Cloud
 
 * Create a GCP project.
     ```shell
