@@ -88,7 +88,7 @@ This process happens quickly and transparently to the end user, allowing them to
  └───────────────────┬───────────────────┘                        
      ┌───────────────▽──────────────┐                             
      │THE IP ADDRESS IS SENT BACK TO│                             
-     │THE IPS's RECURSIVE RESOLVER. │                             
+     │THE ISP's RECURSIVE RESOLVER. │                             
      └───────────────┬──────────────┘                             
        ┌─────────────▽────────────┐                               
        │THE IP ADDRESS IS RETURNED│                               
