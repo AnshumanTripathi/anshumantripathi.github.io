@@ -36,7 +36,12 @@
 
       <div class="post-content">
         {{ if .Params.featuredImage }}
-          <img src="{{ .Params.featuredImage | relURL }}" alt="Featured image"/>
+          <figure>
+            <img src="{{ .Params.featuredImage | relURL }}" alt="Featured image"/>
+            {{ if .Params.featuredImageCaption }}
+            <figcaption>{{ .Params.featuredImageCaption | safeHTML }}</figcaption>
+            {{ end }}
+          </figure>
         {{ end }}
         {{ .Content }}
       </div>
