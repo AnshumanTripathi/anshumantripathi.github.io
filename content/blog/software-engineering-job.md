@@ -11,8 +11,8 @@ featuredImageCaption: Photo by <a href="https://unsplash.com/@wocintechchat?utm_
 ---
 
 <!-- TOC -->
-* [Yet another post for programming career](#yet-another-post-for-programming-career)
-    * [Software engineering interviews are broken](#software-engineering-interviews-are-broken)
+* [Yet another post for programming career.](#yet-another-post-for-programming-career)
+    * [Software engineering interviews are broken.](#software-engineering-interviews-are-broken)
     * [Cracking the interview does not mean you are a good engineer](#cracking-the-interview-does-not-mean-you-are-a-good-engineer)
 * [How to start](#how-to-start)
   * [Generalize and not specialize!](#generalize-and-not-specialize-)
