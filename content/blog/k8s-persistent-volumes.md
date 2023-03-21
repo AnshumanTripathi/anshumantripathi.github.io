@@ -1,6 +1,6 @@
 ---
 title: "Persistent Volumes in Kubernetes"
-subtitle: "How to create persistent volumes in Kubernetes"
+subtitle: "Understanding the basics of persistent volumes in Kubernetes"
 date: 2023-03-19T23:05:41-07:00
 draft: false
 series:
@@ -11,7 +11,7 @@ tags:
 
 <!-- TOC -->
 * [Persistent Volumes (PV)](#persistent-volumes--pv-)
-* [Persistent Volume Claims (PVCs)](#persistent-volume-claims--pvcs-)
+* [Persistent Volume Claims (PVCs)](#persistent-volume-claims-pvcs)
 * [Access Modes](#access-modes)
   * [ReadWriteOnce](#readwriteonce)
   * [ReadWriteOncePod](#readwriteoncepod)
@@ -22,11 +22,11 @@ tags:
   * [Dynamic](#dynamic)
 * [Storage Classes](#storage-classes)
   * [Volume Binding Mode](#volume-binding-mode)
-    * [Immidiate (default)](#immidiate--default-)
-    * [Wait For First Consumer (Recommended)](#wait-for-first-consumer--recommended-)
+    * [Immediate (default)](#immediate-default)
+    * [Wait For First Consumer (Recommended)](#wait-for-first-consumer-recommended)
   * [ReclaimPolicy](#reclaimpolicy)
     * [Retain](#retain)
-    * [Delete (Default)](#delete--default-)
+    * [Delete (Default)](#delete-default)
   * [Provisioners](#provisioners)
     * [Internal provisioners](#internal-provisioners)
     * [External Provisoiners](#external-provisoiners)
@@ -88,7 +88,7 @@ A storage class is a way for Kubernetes administrators to define the types of st
 ## Volume Binding Mode
 The `volumeBindingMode` defines what kind of volume binding the PV supports. There are two types of supported volume binding modes:
 
-### Immidiate (default)
+### Immediate (default)
 - Immediate volume binding mode indicates volume binding, and dynamic provisioning of the PV happens when the PVC is created.
 - For storage backends that are topology-constrained and not globally accessible from all Nodes in the cluster, PersistentVolumes will be bound or provisioned without knowledge of the pod's scheduling requirements, resulting in unschedulable Pods. [^2]
 
