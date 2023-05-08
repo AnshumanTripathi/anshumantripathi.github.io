@@ -8,6 +8,8 @@ categories:
 - tutorials
 tags:
 - tools
+type: blog
+disableDiffblog: true
 ---
 
 <!-- TOC -->
