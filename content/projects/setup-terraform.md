@@ -57,11 +57,14 @@ Terraform Cloud solves all of these problems by providing a managed solution for
   ```shell
   gcloud iam service-accounts keys create key.json --iam-account=terraform-former@$GCP_PROJECT.iam.gserviceaccount.com
   ```
-* Enable required services
+* Enable required services on your GCP project.
   ```shell
   gcloud services enable cloudresourcemanager.googleapis.com --project $GCP_PROJECT
   gcloud services enable iam.googleapis.com --project $GCP_PROJECT
   ```
+  - `cloudresourcemanager.googleapis.com` is required to allow Terraform to manage resources in the GCP project.
+  - `iam.googleapis.com` is required to allow Terraform to manage IAM.
+
 * Create a [new Github repository for your workspace](https://github.com/new)
 * Clone the repository in your local environment and create the following files. [See this example for reference](https://github.com/AnshumanTripathi/gcp-terraform-workspace)
     1. `variables.tf`
@@ -147,6 +150,7 @@ Terraform Cloud solves all of these problems by providing a managed solution for
           members = ["serviceAccount:${google_service_account.terraform_former.email}"]
       }
       ```
+    > **Note:** [It should be kept in mind that `google_project_iam_binding` is authoritative!](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/google_project_iam#google_project_iam_binding). Consider using [`google_project_iam_member`](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/google_project_iam#google_project_iam_member) 
 * Setup workspace locally
   ```shell
   terraform init -upgrade
@@ -161,3 +165,7 @@ Terraform Cloud solves all of these problems by providing a managed solution for
   terraform import 'google_project_iam_binding.terraform_former_project_iam_binding["roles/owner"]' "$GCP_PROJECT roles/owner $(gcloud iam service-accounts describe terraform-former@$GCP_PROJECT.iam.gserviceaccount.com --project $GCP_PROJECT --format='value(email)')"
   ```
 * Commit and push your changes to your repository. The Terraform cloud Github app will submit a Terraform in your Terraform cloud workspace to provision the required resources.
+
+Now all your resources are tracked with Terraform. Sometimes it can be desirable to not manage the resources used by Terraform itself, like the `terraform-former` service account, through Terraform. That might be true, but, I would recommend managing _all_ resources through Terraform because:
+1. If you make a mistake with Terraform's own resources, they can be fixed and corrected manually and the state can be reverted. On the other hand, if you mess up a manually created resource, there is a possibility you might not be able to revert it (assuming you realize what went wrong).
+2. Terraform allows IaC which gives version control. This way even your mistakes are documented which helps you avoid them and take active measures to not run into them.
