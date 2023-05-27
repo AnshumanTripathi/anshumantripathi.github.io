@@ -2,7 +2,7 @@
 title: "Commit Signing"
 date: 2023-05-05T22:35:45-07:00
 draft: false
-description: "Secure your code repositories by signing your commits"
+subtitle: "Secure your code repositories by signing your commits"
 categories:
 - concepts
 series:
