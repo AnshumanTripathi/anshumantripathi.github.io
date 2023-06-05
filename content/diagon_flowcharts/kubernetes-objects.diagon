@@ -1,0 +1,25 @@
+Kubernetes Cluster -> Namespace
+Kubernetes Cluster -> ClusterRole
+Kubernetes Cluster -> ClusterRoleBinding
+
+Namespace -> Statefulset
+Namespace -> Daemonset
+Namespace -> Deployment
+Namespace -> Configmap
+Namespace -> CronJobs -> Jobs
+Namespace -> Secret
+Namespace -> Role
+Namespace -> RoleBinding
+
+
+Deployment -> Replicaset
+Jobs -> Pods
+Daemonset -> Pods
+Statefulset -> Pods
+Replicaset -> Pods
+
+
+Pods -> Containers
+Pods -> Init Containers
+Pods -> Volumes
+Pods -> Probes
