@@ -13,7 +13,6 @@ tags:
 
 <!-- TOC -->
 * [Introduction](#introduction)
-* [Understanding Kubernetes](#understanding-kubernetes)
 * [Glossary](#glossary)
   * [Pods](#pods)
   * [Control Plane](#control-plane)
@@ -21,6 +20,8 @@ tags:
   * [Kubelet](#kubelet)
   * [Deployment](#deployment)
   * [Replicasets](#replicasets)
+  * [Persistent Volumes](#persistent-volumes)
+* [Understanding Kubernetes](#understanding-kubernetes)
 * [References](#references)
 <!-- TOC -->
 
@@ -35,46 +36,6 @@ Now that you have a container for you application you can use this image to depl
 5. How do you manage configurations and secrets used by your application?
 
 Creating containers is easy and to an extent reproducible, but there is still a lot to figure out on how to handle issues like the ones mentioned above. All of these issues falls into _orchestration_. Kubernetes can help you manage all of these problems in a scalable manner.
-
-# Understanding Kubernetes
-
-{{<mermaid>}}
-flowchart TD
-  namespace["Namespace"]
-  deployment["Deployment"]
-  statefulset["StatefulSet"]
-  daemonset["Daemonset"]
-  cronjob["CronJob"]
-  job["Job"]
-  replicaset["ReplicaSet"]
-  pods["Pods"]
-  configmap["ConfigMap"]
-  secrets["Secrets"]
-  containers["Containers"]
-  initContainers["Init Containers"]
-  probes["Probes"]
-
-  namespace --> deployment
-  namespace --> daemonset
-  namespace --> statefulset
-  deployment --> replicaset
-
-  namespace --> cronjob
-  namespace --> secrets
-  namespace --> configmap
-  
-  configmap -.-> pods
-  secrets -.-> pods
-  cronjob --> job
-  replicaset --> pods
-  daemonset --> pods
-  statefulset --> pods
-  job --> pods
-  
-  pods --> containers
-  pods --> initContainers
-  pods --> probes
-{{</mermaid>}}
 
 # Glossary
 Before we delve any further let me describe some terminologies used by Kubernetes. This is not an all-encompassing glossary, and it's okay if this does not make sense right away. I will explain everything as I go.
@@ -102,6 +63,15 @@ A kubernetes deployment defines the desired state of a stateless application [^4
 ## Replicasets
 A ReplicaSet's purpose is to maintain a stable set of replica Pods running at any given time. As such, it is often used to guarantee the availability of a specified number of identical Pods. A ReplicaSet is defined with fields, including a selector that specifies how to identify Pods it can acquire, a number of replicas indicating how many Pods it should be maintaining, and a pod template specifying the data of new Pods it should create to meet the number of replicas criteria. A ReplicaSet then fulfills its purpose by creating and deleting Pods as needed to reach the desired number. When a ReplicaSet needs to create new Pods, it uses its Pod template [^5].
 It is recommended to use deployments to manage pods through replicasets.
+
+## Persistent Volumes
+[Read more about Persistent Volumes on my other post](/blog/k8s-persistent-volumes)
+
+# Understanding Kubernetes
+
+{{<figure src="static/images/kubernetes.png" title="Elements in Kubernetes">}}
+
+The above figure shows the different functional components of Kubernetes. This might make Kubernetes look complicated but, it's actually not because not all components are used all at once. The main idea is that 
 
 # References
 [^1]: https://kubernetes.io/docs/concepts/workloads/pods/
