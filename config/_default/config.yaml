@@ -84,5 +84,4 @@ defaultContentLanguage: en
 languages:
   en:
     disabled: false
-    params:
-      link_to_heading: ""
+    link_to_heading: ""
