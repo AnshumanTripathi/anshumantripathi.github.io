@@ -1,5 +1,5 @@
 ---
-title: "Understanding Kubernetes (Part 1)"
+title: "Understanding Kubernetes"
 subtitle: "Demystifying Kubernetes and unveiling its secrets"
 date: 2023-06-04T18:28:43-07:00
 draft: false
@@ -25,18 +25,36 @@ tags:
     * [Kubelet](#kubelet)
     * [Nodes](#nodes)
   * [Worker Plane](#worker-plane)
+    * [Namespaces](#namespaces)
     * [Controllers](#controllers)
       * [Deployment](#deployment)
         * [Replicasets](#replicasets)
       * [DaemonSets](#daemonsets)
       * [StatefulSets](#statefulsets)
       * [CronJobs](#cronjobs)
+        * [Jobs](#jobs)
+    * [Configurations](#configurations)
+      * [ConfigMap](#configmap)
+      * [Secrets](#secrets)
+    * [Authorization](#authorization)
+      * [Roles](#roles)
+      * [RoleBindings](#rolebindings)
+      * [ClusterRoles](#clusterroles)
+      * [ClusterRoleBindings](#clusterrolebindings)
     * [Storage](#storage)
-      * [Persistent Volumes](#persistent-volumes)
+      * [Persistent Volumes and Persistent Volume Claims](#persistent-volumes-and-persistent-volume-claims)
+    * [Fault Tolerance](#fault-tolerance)
+      * [PodDisruptionBudget](#poddisruptionbudget)
     * [Autoscaling components](#autoscaling-components)
       * [Cluster Autoscaler](#cluster-autoscaler)
       * [Horizontal Pod Autoscaler](#horizontal-pod-autoscaler)
       * [Vertical Pod Autoscaler](#vertical-pod-autoscaler)
+    * [Networking](#networking)
+      * [Services](#services)
+        * [Headless services](#headless-services)
+      * [Endpoints and EndpointSlices](#endpoints-and-endpointslices)
+      * [NetworkPolicies](#networkpolicies)
+      * [Ingress](#ingress)
 * [References](#references)
 <!-- TOC -->
 
@@ -101,6 +119,10 @@ The kubelet is the primary "node agent" that runs on each node. It can register 
 Nodes are instances which physically (or virtually) support the execution of instances. All nodes are managed by the control plane manage pod scheduling. Each node have a kubelet process running on it which connects to the control plane and registers itself. Nodes can be managed individually or through a node-pool. [^3]
 
 ## Worker Plane
+
+### Namespaces
+Namespaces in Kubernetes provide a mechanism for isolating groups of resources within the cluster. Names of resources have to be unique within the namespace but not across namespaces. These are similar to [namespaces within Linux](/blog/containers/#linux-namespaces) 
+
 ### Controllers
 #### Deployment
 A kubernetes deployment defines the desired state of a stateless application [^5]. A deployment manages replicasets which in turn control pods. Deployments can allow you to:
@@ -121,12 +143,40 @@ Daemonsets are used to make sure a set of pods gets scheduled on all the availab
 StatefulSet manages the deployment and scaling of a set of [pods](#pods) and provides guarantees about the ordering nad uniqueness of these pods.
 Like a Deployment, a StatefulSet manages Pods that are based on an identical container spec. Unlike a Deployment, a StatefulSet maintains a sticky identity for each of its Pods. These pods are created from the same spec, but are not interchangeable: each has a persistent identifier that it maintains across any rescheduling.
 If you want to use storage volumes to provide persistence for your workload, you can use a StatefulSet as part of the solution. Although individual Pods in a StatefulSet are susceptible to failure, the persistent Pod identifiers make it easier to match existing volumes to the new Pods that replace any that have failed. [^10]
+StatefulSets currently require a [Headless Service](#headless-services) to be responsible for the network identity of the Pods. You are responsible for creating this Service.
 
 #### CronJobs
-CronJobs are used to create jobs at regular intervals. CronJobs are helpful when creating jobs like scheduled backups, cleanups, report generation etc. One CronJob object is like one line of a crontab (cron table) file on a Unix system. It runs a job periodically on a given schedule, written in Cron format. CronJobs have limitations and idiosyncrasies. For example, in certain circumstances, a single CronJob can create multiple concurrent Jobs. [Before using a CronJob always be sure to check for CronJob limitations in the official Kubernetes documentation.](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#cron-job-limitations)  
+CronJobs are used to create jobs at regular intervals. CronJobs are helpful when creating jobs like scheduled backups, cleanups, report generation etc. One CronJob object is like one line of a crontab (cron table) file on a Unix system. It runs a job periodically on a given schedule, written in Cron format. CronJobs have limitations and idiosyncrasies. For example, in certain circumstances, a single CronJob can create multiple concurrent Jobs. [Before using a CronJob always be sure to check for CronJob limitations in the official Kubernetes documentation.](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#cron-job-limitations)
+
+##### Jobs
+A Job creates one or more pods that retries execution until a specified number of them successfully terminate based on a cron schedule. As the pods successfully terminate the Job keeps track of status of execution and termination of the respective pods. 
+
+### Configurations
+#### ConfigMap
+ConfigMap is a way to decouple non-sensitive configurations from your application containers. A ConfigMap provides a way to mount the configurations of the configmap as a volume to the container. It should be remembered that a ConfigMap is not supposed to hold a large amount of data. A ConfigMap is limited to using 1 MiB of data. If you need more data, it is better to different volume to the container. It should also be remembered that changes to configmap do not automatically get reflected to the pod. To allow the pod to use a different  
+
+#### Secrets
+Secrets are way to store small amount of sensitive data and decouple them from you application container. This way an application don't can reference secrets which are decoupled from the container. 
+A Kubernetes holds data in base64 encoded format and _are not encrypted_ and stored in plain text in the etcd in the kubernetes control plane. Anyone with API access can access all the secrets. To make sure the secrets are secure consider using:
+1. Encryption at rest in the cluster.
+2. Restrict API access and external etcd reads from the control plane.
+3. [Consider using external secret providers like Vault.](https://secrets-store-csi-driver.sigs.k8s.io/concepts.html#provider-for-the-secrets-store-csi-driver)
+
+### Authorization
+#### Roles
+Roles are _namespace bound_ objects in Kubernetes that defines rules for a set of kubernetes APIs. These permissions are purely additive, i.e., there is are no `deny` rules. Together with RoleBindings, a set of permissions can be defined for users to access resources within a namespace. 
+
+#### RoleBindings
+RoleBindings are _namespace bound_ objects which are used to assign a role to subject which can be users, groups or service accounts. 
+
+#### ClusterRoles
+ClusterRoles are _cluster bound_ objects that like Roles defines rules for a set of kubernetes APIs. Although ClusterRoles are cluster bound, cluster roles can be used to bind permissions to specific namespace with RoleBindings.  
+
+#### ClusterRoleBindings
+ClusterRoleBindings are _cluster bound_ objects that tie ClusterRoles to subjects (users, groups or service accounts). These permissions are used to set the permissions of the subject across the cluster i.e. across all namespaces. 
 
 ### Storage
-#### Persistent Volumes
+#### Persistent Volumes and Persistent Volume Claims
 [Read more about Persistent Volumes on my other post](/blog/k8s-persistent-volumes)
 
 ### Fault Tolerance
@@ -144,6 +194,24 @@ Horizontal Pod Autoscaler (HPA) is used to scale up the number of pods based on 
 #### Vertical Pod Autoscaler
 Vertical Pod Autoscaler (VPA) is the component which scales the available cpu and memory of kubernetes nodes based on consumption of cpu and memory of the existing pods.
 
+### Networking
+#### Services
+Kubernetes services allow a way to expose your application that is running in one or more pods. Using a service allows a set of pods to accept any incoming traffic. As each pod gets its own IP address defining a route to a service running in multiple pods can be difficult since a controller like deployment can restart and replace pods often which is where a Service comes into picture. Using a Service developers do not need to worry about the changing IP address of the pods.
+A service can provides mechanisms for traffic management and load balancing across the different application pods.
+
+##### Headless services
+Sometimes you don't need load-balancing and a single Service IP. In this case, you can create what are termed headless Services, by explicitly specifying "None" for the cluster IP address (.spec.clusterIP).[^11]
+
+#### Endpoints and EndpointSlices
+In the Kubernetes API, an Endpoints (the resource kind is plural) defines a list of network endpoints, typically referenced by a Service to define which Pods the traffic can be sent to. [^12]
+Kubernetes' EndpointSlice API provides a way to track network endpoints within a Kubernetes cluster. EndpointSlices offer a more scalable and extensible alternative to Endpoints.
+
+#### NetworkPolicies
+NetworkPolicies provide a way for traffic management and routing at the L3 and L4 (Network and Transport layer of the OSI network model). NetworkPolicies are an application-centric construct which allow you to specify how a pod is allowed to communicate with various network "entities".
+
+#### Ingress
+Ingress defines how external traffic is accepted and routed in the cluster. Ingress may provide load balancing, SSL termination and name-based virtual hosting. There are more sophisticated ingress solutions available which extend the feature of the Kubernetes ingress like [Istio](https://istio.io/latest/docs/tasks/traffic-management/ingress/), [Ambassador](https://www.getambassador.io/docs/edge-stack/latest/topics/running/ingress-controller) and [Traefik](https://doc.traefik.io/traefik/providers/kubernetes-ingress/).   
+
 
 # References
 [^1]: https://kubernetes.io/docs/concepts/workloads/pods/
@@ -156,5 +224,5 @@ Vertical Pod Autoscaler (VPA) is the component which scales the available cpu an
 [^8]: https://kubernetes.io/docs/concepts/overview/components/#kube-scheduler
 [^9]: https://kubernetes.io/docs/concepts/overview/components/#kube-proxy
 [^10]: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/
-
-
+[^11]: https://kubernetes.io/docs/concepts/services-networking/service/#headless-services
+[^12]: https://kubernetes.io/docs/concepts/services-networking/service/#endpointslices
