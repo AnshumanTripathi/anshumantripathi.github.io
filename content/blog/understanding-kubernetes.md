@@ -9,6 +9,8 @@ categories:
 - concepts
 tags:
 - kubernetes
+featuredImage: images/kubernetes-1.28.png
+featuredImageCaption: <a href="https://kubernetes.io/blog/2023/08/15/kubernetes-v1-28-release/">Official Logo of Kubernetes 1.28 (Planternetes)</a>
 ---
 
 <!-- TOC -->
