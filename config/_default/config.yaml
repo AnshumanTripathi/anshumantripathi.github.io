@@ -79,3 +79,10 @@ markup:
     endLevel: 3
     ordered: false
     startLevel: 2
+
+defaultContentLanguage: en
+languages:
+  en:
+    disabled: false
+    params:
+      link_to_heading: ""
