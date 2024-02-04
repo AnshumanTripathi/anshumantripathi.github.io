@@ -11,11 +11,11 @@ math: True
 ---
 
 <!-- TOC -->
-* [What is a Bloom Filter](#what-is-a-bloom-filter)
-* [How to use effectively use Bloom filters](#how-to-use-effectively-use-bloom-filters)
-* [Other considerations for using a bloom filter](#other-considerations-for-using-a-bloom-filter)
-* [Implementing a bloom filter](#implementing-a-bloom-filter)
-* [References](#references)
+- [What is a Bloom Filter](#what-is-a-bloom-filter)
+- [How to use effectively use Bloom filters](#how-to-use-effectively-use-bloom-filters)
+- [Other considerations for using a bloom filter](#other-considerations-for-using-a-bloom-filter)
+- [Implementing a bloom filter](#implementing-a-bloom-filter)
+- [References](#references)
 <!-- TOC -->
 
 # What is a Bloom Filter
