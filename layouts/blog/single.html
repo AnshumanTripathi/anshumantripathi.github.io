@@ -1,72 +1,77 @@
 {{ define "title" }}
-  {{ .Title }} · {{ .Site.Title }}
+{{ .Title }} · {{ .Site.Title }}
 {{ end }}
 {{ define "content" }}
-  <section class="container post">
-    <article>
-      <header>
-        <div class="post-title">
-          <h1 class="title">
-            <a class="title-link" href="{{ .Permalink | safeURL }}">
-              {{ .Title }}
-            </a>
-          </h1>
-          {{ if .Page.Params.subtitle }}
-          <h4><blockquote>{{ .Page.Params.subtitle }}</blockquote></h4>
-          {{ end }}
-        </div>
-        <div class="post-meta">
-          <div class="date">
-            <span class="posted-on">
-              <i class="fa fa-calendar" aria-hidden="true"></i>
-              <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
-                {{ .Date | time.Format (.Site.Params.dateFormat | default "January 2, 2006" ) }}
-              </time>
-            </span>
-            <span class="reading-time">
-              <i class="fa fa-clock-o" aria-hidden="true"></i>
-              {{ i18n "reading_time" .ReadingTime }}
-            </span>
-          </div>
-          {{ with .GetTerms "authors" }}{{ partial "taxonomy/authors.html" . }}{{ end }}
-          {{ with .GetTerms "categories" }}{{ partial "taxonomy/categories.html" . }}{{ end }}
-          {{ with .GetTerms "tags" }}{{ partial "taxonomy/tags.html" . }}{{ end }}
-        </div>
-      </header>
-
-      <div class="post-content">
-        {{ if .Params.featuredImage }}
-          <figure>
-            <img src="{{ .Params.featuredImage | relURL }}" alt="Featured image"/>
-            {{ if .Params.featuredImageCaption }}
-            <figcaption>{{ .Params.featuredImageCaption | safeHTML }}</figcaption>
-            {{ end }}
-          </figure>
+<section class="container post">
+  <article>
+    <header>
+      <div class="post-title">
+        <h1 class="title">
+          <a class="title-link" href="{{ .Permalink | safeURL }}">
+            {{ .Title }}
+          </a>
+        </h1>
+        {{ if .Page.Params.subtitle }}
+        <h4>
+          <blockquote>{{ .Page.Params.subtitle }}</blockquote>
+        </h4>
         {{ end }}
-        {{ .Content }}
       </div>
+      <div class="post-meta">
+        <div class="date">
+          <span class="posted-on">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            <time datetime="{{ .Date.Format " 2006-01-02T15:04:05Z07:00" }}">
+              {{ .Date | time.Format (.Site.Params.dateFormat | default "January 2, 2006" ) }}
+            </time>
+          </span>
+          <span class="reading-time">
+            <i class="fa fa-clock-o" aria-hidden="true"></i>
+            {{ i18n "reading_time" .ReadingTime }}
+          </span>
+        </div>
+        {{ with .GetTerms "authors" }}{{ partial "taxonomy/authors.html" . }}{{ end }}
+        {{ with .GetTerms "categories" }}{{ partial "taxonomy/categories.html" . }}{{ end }}
+        {{ with .GetTerms "tags" }}{{ partial "taxonomy/tags.html" . }}{{ end }}
+      </div>
+    </header>
+
+    <div class="post-content">
+      {{ if .Params.featuredImage }}
+      <div style="text-align: center;">
+        <figure>
+          <img src="{{ .Params.featuredImage | relURL }}" alt="Featured image" />
+          {{ if .Params.featuredImageCaption }}
+          <figcaption><small>{{ .Params.featuredImageCaption | safeHTML }}</small></figcaption>
+          {{ end }}
+        </figure>
+      </div>
+      {{ end }}
+      {{ .Content }}
+    </div>
 
 
-      <footer>
-        {{ partial "posts/series.html" . }}
-        {{ partial "posts/disqus.html" . }}
-        {{ partial "posts/commento.html" . }}
-        {{ partial "posts/utterances.html" . }}
-        {{ partial "posts/giscus.html" . }}
-        <!--  Diffblog integration. Can be moved to posts/partials later  -->
-        {{ if and (hugo.IsProduction) (not .Params.disableDiffblog) }}
-        <script id="diffblog-plugin-script" async="false" src="https://diff.blog/static/js/diffblog_plugin_v1.js"></script>
-        <script>
+    <footer>
+      {{ partial "posts/series.html" . }}
+      {{ partial "posts/disqus.html" . }}
+      {{ partial "posts/commento.html" . }}
+      {{ partial "posts/utterances.html" . }}
+      {{ partial "posts/giscus.html" . }}
+      <!--  Diffblog integration. Can be moved to posts/partials later  -->
+      {{ if and (hugo.IsProduction) (not .Params.disableDiffblog) }}
+      <script id="diffblog-plugin-script" async="false"
+        src="https://diff.blog/static/js/diffblog_plugin_v1.js"></script>
+      <script>
         document.getElementById("diffblog-plugin-script").addEventListener("load", function () {
-            DiffBlog(
-                "iqi7ibm1mq47amorflt12wb2l2wb4zps8jcicu377ntpq0bvcj"
-            );
+          DiffBlog(
+            "iqi7ibm1mq47amorflt12wb2l2wb4zps8jcicu377ntpq0bvcj"
+          );
         });
-        </script>
-        {{ end }}
-      </footer>
-    </article>
+      </script>
+      {{ end }}
+    </footer>
+  </article>
 
-    {{ partial "posts/math.html" . }}
-  </section>
+  {{ partial "posts/math.html" . }}
+</section>
 {{ end }}
