@@ -11,21 +11,21 @@ featuredImageCaption: Photo by <a href="https://unsplash.com/@wocintechchat?utm_
 ---
 
 <!-- TOC -->
-* [Yet another post for programming career.](#yet-another-post-for-programming-career)
-    * [Software engineering interviews are broken.](#software-engineering-interviews-are-broken)
-    * [Cracking the interview does not mean you are a good engineer](#cracking-the-interview-does-not-mean-you-are-a-good-engineer)
-* [How to start](#how-to-start)
-  * [Generalize and not specialize!](#generalize-and-not-specialize-)
-    * [Networking](#networking)
-    * [Lower level Systems](#lower-level-systems)
-    * [System design](#system-design)
-    * [Databases](#databases)
-* [Deciding on a programming language](#deciding-on-a-programming-language)
-  * [Programming paradigm](#programming-paradigm)
-  * [Object-oriented programming](#object-oriented-programming)
-  * [Functional programming](#functional-programming)
-  * [Verdict](#verdict)
-* [Practice](#practice)
+- [Yet another post for programming career.](#yet-another-post-for-programming-career)
+    - [Software engineering interviews are broken.](#software-engineering-interviews-are-broken)
+    - [Cracking the interview does not mean you are a good engineer](#cracking-the-interview-does-not-mean-you-are-a-good-engineer)
+- [How to start](#how-to-start)
+  - [Generalize and not specialize!](#generalize-and-not-specialize)
+    - [Networking](#networking)
+    - [Lower level Systems](#lower-level-systems)
+    - [System design](#system-design)
+    - [Databases](#databases)
+- [Deciding on a programming language](#deciding-on-a-programming-language)
+  - [Programming paradigm](#programming-paradigm)
+  - [Object-oriented programming](#object-oriented-programming)
+  - [Functional programming](#functional-programming)
+  - [Verdict](#verdict)
+- [Practice](#practice)
 <!-- TOC -->
 
 Learning to build software is something that anyone can pick up at any point in their career. This is one of the fields that can be easy to understand, i.e., you don't need to start learning and honing your skills from childhood. Programming and building software can be learned in months and is a career path people choose from all walks of life. But taking that first step can be challenging, especially now because of the recent turmoil in the world economy and job market. Let's look at what it takes for someone new to programming to get a job as a software engineer.
@@ -91,10 +91,8 @@ Learn more about Object-oriented programming here -  https://developer.mozilla.o
 
 ## Functional programming
 - A functional programming language is based on functions which are blocks of code that take in some data, perform processing of the input and return an output based on processing.
-- An essential aspect of functional programming is that input data in the function arguments is not changed, i.e., the input is immutable.
 - Functional programming functions are considered individual entities and can be regarded as data.
 - Some examples of functional-oriented programming languages are Python, Ruby, Javascript, Golang, etc.
-- As seen, languages like Python and Ruby are flexible and mature enough to support both object-oriented and functional programming paradigms.
 
 As it can be seen languages like Python and Ruby are flexible and mature enough that they can support both object-oriented and functional programming paradigms.
 
