@@ -36,11 +36,11 @@ math: True
 
 # Introduction
 
-I've been reading about [Zanzibar - Google’s Consistent, Global Authorization System](https://research.google/pubs/zanzibar-googles-consistent-global-authorization-system/), which is a Globally distrubuted authorization system capable of processing 10 million client queries per second with a latency of less than 10 milliseconds while having 99.99% availability[^1]. The following is a summarization of my understanding of Zanzibar. Most of the content in this article includes verbatim text taken from the research paper for simplicity and easy of understanding. 
+I have been reading about [Zanzibar - Google’s Consistent, Global Authorization System](https://research.google/pubs/zanzibar-googles-consistent-global-authorization-system/), which is a Globally distributed authorization system capable of processing 10 million client queries per second with a latency of less than 10 milliseconds while having 99.99% availability[^1]. The following is a summarization of my understanding of Zanzibar. While some parts have been rephrased and reorganized to improve understanding, others have been taken verbatim from the paper.
 
 ## What is the need of a system like Zanzibar
 
-Creating a permissions system within an application can be complex. When a user is creating permissions permissions within an application to manage their contents, this becomes even more challenging since these permissions become a core part of each request. As the system scales so does the complexity of such a system, which creates security holes within the application compromising the user content in your application. [^2]
+Creating a permissions system within an application can be complex. When a user creates permissions within an application to manage their content, this becomes even more challenging since these permissions become a core part of each request. As the system scales, so does the complexity of such a system, which creates security holes within the application, compromising the user content in your application. [^2]
 For example, web-based photo storage services typically allow photo owners to share some photos with friends while keeping other photos private. Such a service must check whether a photo has been shared with a user before allowing that user to view the photo. Robust authorization checks are central to preserving online privacy. [^1]
 
 
@@ -48,38 +48,38 @@ For example, web-based photo storage services typically allow photo owners to sh
 The Zanzibar authorization system works on the following principles [^1]
 
 ### Correctness
-It must ensure consistency of access control decisions to respect user intentions.
-Zanzibar supports global consistency of access control decisions through two interrelated features.
-One, it respects the order in which ACL changes are committed to the underlying data store.
-Two, it can ensure that authorization checks are based on ACL data no older than a client-specified change. Thus, for example, a client can remove a user from a group and be assured that subsequent membership checks reflect that removal.
-Zanzibar provides these ordering properties by storing ACLs in a globally distributed database system with external consistency guarantees[^1].
+- It must ensure consistency of access control decisions to respect user intentions.
+- Zanzibar supports global consistency of access control decisions through two interrelated features.
+- First, it respects the order in which ACL changes are committed to the underlying data store.
+- Second, it can ensure that authorization checks are based on ACL data no older than a client-specified change. Thus, for example, a client can remove a user from a group and be assured that subsequent membership checks reflect that removal.
+- Zanzibar provides these ordering properties by storing ACLs in a globally distributed database system with external consistency guarantees[^1].
 
 ### Flexibility
-It must support a rich set of access control policies as required by both consumer and enterprise applications.
+It must support a rich set of access control policies as consumer and enterprise applications require.
 
-> Groups can contain other groups, which illustrates one of the challenges facing Zanzibar
+> Groups can contain other groups, which illustrates one of the challenges facing Zanzibar.
 
-Group memberships are an important class of ACL where
-the object is a group and the relation is semantically equivalent to member. Groups can contain other groups, which illustrates one of the challenges facing Zanzibar, namely that evaluating whether a user belongs to a group can entail following a long chain of nested group memberships[^1].
+Group memberships are an essential class of ACL, where
+the object is a group, and the relation is semantically equivalent to a member. Groups can contain other groups, which illustrates one of the challenges facing Zanzibar: evaluating whether a user belongs to a group can entail following a long chain of nested group memberships[^1].
 
 ### Low Latency
-It must respond quickly because authorization checks are often in the critical path of user interactions. Low latency at the tail is particularly important for serving search results, which often require tens to hundreds of checks.
+It must respond quickly because authorization checks are often in the critical path of user interactions. Low tail latency is significant for serving search results, often requiring tens to hundreds of checks.
 
-Zanzibar employs an array of techniques to achieve low latency and high availability in this globally distributed environment. Its consistency protocol allows the vast majority of requests to be served with locally replicated data, without requiring cross-region round trips. Zanzibar stores its data in normalized forms for consistency. It handles hot spots on normalized data by caching final and intermediate results, and by deduplicating simultaneous requests. It also applies techniques such as hedging requests and optimizing computations on deeply nested sets with limited denormalization[^1].
+Zanzibar employs various techniques to achieve low latency and high availability in this globally distributed environment. Its consistency protocol allows most requests to be served with locally replicated data without requiring cross-region round trips. Zanzibar stores its data in normalized forms for consistency. It handles hot spots on normalized data by caching final and intermediate results and deduplicating simultaneous requests. It also applies techniques such as hedging requests and optimizing computations on deeply nested sets with limited denormalization[^1].
 
 ### High Availability
-It must reliably respond to requests because, in the absence of explicit authorizations, client services would be forced to deny their users access.
+It must reliably respond to requests because client services would be forced to deny users access without explicit authorizations.
 
 ### Large Scale
 It needs to protect billions of objects shared by billions of users. It must be deployed around the globe to be near its clients and their end users.
-Zanzibar responds to more than 95% of authorization checks within 10 milliseconds and has maintained more than 99.999% availability for the last 3 years.
+Zanzibar responds to over 95% of authorization checks within 10 milliseconds and has maintained more than 99.999% availability for the last 3 years.
 
 
 # Zanzibar Data modeling
-Zanzibar uses a simple but powerful data-modelling language which allows clients to define arbitrary relations between users and objects, such as owner, editor, commenter, and viewer. It includes set-algebraic operators such as intersection and union for specifying potentially complex access control policies in terms of those user-object relations. For example, an application can specify that users granted editing rights on a document are also allowed to comment on the document, but not all commenters are given editing rights.
+Zanzibar uses a simple but powerful data-modeling language that allows clients to define arbitrary relations between users and objects, such as owner, editor, commenter, and viewer. It includes set-algebraic operators such as intersection and union for specifying potentially complex access control policies regarding user-object relations. For example, an application can specify that users granted editing rights on a document are also allowed to comment on the document, but not all commenters are given editing rights.
 
 ## Relational Tuple
-Zanzibar uses *relational tuples*, which is the semantic respresentation of its ACL policies.
+Zanzibar uses *relational tuples*, the semantic representation of its ACL policies.
 It can represented as follows:
 
 $$\\{tuple\\} := \\{object\\} '\\#' \\{relation\\} '@' \\{user\\}$$
@@ -101,33 +101,32 @@ These then parsed as:
 
 
 ## Consistency Model
-To maintain the consistency of changes to ACLs, Zanzibar must respect the order in which users modify the ACLs and object contents to avoid unexpected sharing of the data. The task here is to prevent the "new enemy" problem which can arise when the order in the permissions are read are is not aligned with in the order of chanegs in the permission. [Read more about the new enemy problem in the [Authzed Blog](https://authzed.com/blog/new-enemies)]
+To maintain the consistency of changes to ACLs, Zanzibar must respect the order in which users modify the ACLs and object contents to avoid unexpected sharing of the data. The task here is to prevent the “new enemy” problem that can arise when the order in the permissions are read is not aligned with the order of changes in the permission. [Read more about the new enemy problem in the [Authzed Blog](https://authzed.com/blog/new-enemies)]
 
-Preventing the “new enemy” problem requires Zanzibar to understand and respect the causal ordering between ACL or content updates, including updates on different ACLs or objects and those coordinated via channels invisible to Zanzibar. Hence Zanzibar must provide two key consistency properties: external consistency and snapshot reads with bounded staleness.
+Preventing the “new enemy” problem requires Zanzibar to understand and respect the causal ordering between ACL or content updates, including updates on different ACLs or objects and those coordinated via channels invisible to Zanzibar. Hence, Zanzibar must provide two fundamental consistency properties: external consistency, and snapshot reads with bounded staleness.
 
-To maintain its constiency acorss mutliple transactions Zanzibar adds a timestamp to causally related changes i.e., changes that happen one after the other. With causally meaningful timestamps, any two changes x, y which happen one after the other such that their respective timestamps are T{{< sub "x">}} < T{{< sub "y">}}, then any reads at or after T{{< sub "y">}} will include the changes done at T{{< sub  "x">}}
+To maintain consistency across multiple transactions, Zanzibar adds a timestamp to causally related changes, i.e., changes that happen one after the other. With causally meaningful timestamps, any two changes x, y which occur one after the other such that their respective timestamps are T{{< sub "x">}} < T{{< sub "y">}}, then any reads at or after T{{< sub "y">}} will include the changes done at T{{< sub "x">}}
 
-Any reads happnening in the Zanzibar system are done from a read snapshot and to avoid applying old ACLs to new contents, the ACL check evaluation snapshot must not be staler than the causal timestamp assigned ot the content update, which means any content update done at timestmp T{{< sub "c" >}}, snapshot read one at any time ≥ T{{< sub "c" >}} will include the changes done in T{{< sub "c" >}}.
+Any reads happening in the Zanzibar system are done from a read snapshot, and to avoid applying old ACLs to new contents, the ACL check evaluation snapshot must not be staler than the causal timestamp assigned to the content update, which means any content update done at timestamp T{{< sub "c">}}, snapshot read one at any time ≥ T{{< sub "c">}} will include the changes done in T{{< sub "c">}}.
 
-To avoid evaluating checks for new contents using stale ACLs, one could try to always evaluate at the latest snapshot such that the check result reflects all ACL writes up to the check call. However, such evaluation would require global data synchronization with highlatency round trips and limited availability [^1].
+To avoid evaluating checks for new contents using stale ACLs, one could try to continually evaluate at the latest snapshot such that the check result reflects all ACL writes up to the check call. However, such evaluation would require global data synchronization with high latency round trips and limited availability [^1].
 
-To achieve this Zanzibar setup in Google uses Spanner to store ACLs. [Google Cloud Spanner](https://cloud.google.com/spanner?hl=en) is a globally available database which provides a TrueTime mechanism. Spanner assigns each version change with a microsecond resolvable timestamp to reflect the causal ordering of the changes. ACL check is done at a signle snapshot timestamp across multiple database reads so that all writes with timestamp increment the check snapshot and only those writes are visbile to the ACL check.
+The Zanzibar setup in Google uses Spanner to store ACLs to achieve this. [Google Cloud Spanner](https://cloud.google.com/spanner?hl=en) is a globally available database with a TrueTime mechanism. Spanner assigns each version change with a microsecond resolvable timestamp to reflect the causal ordering of the changes. ACL check is done at a single snapshot timestamp across multiple database reads so that all writes with timestamp increment the check snapshot, and only those writes are visible to the ACL check.
 
-Zanzibar follows the following protocol to allow checks to be evaluated on already relicated data:
+Zanzibar follows the following protocol to allow checks to be evaluated on already replicated data:
 
-1. A Zanzibar client requests an opaque consistency token called a *zookie* for each content version when a content modification is about to be saved. Zanzibar encodes the current *global timestamp* and does an atomic write on the client machine to store the zookie. It should be obeserved that content change check is only done when the content is changed. It needs to only happen once in the update transaction.
-2. The client sends the zookie in subsequent ACL check requests to ensure that the check snapshot as latest as the timestamp in the content version.
-
+1. A Zanzibar client requests an opaque consistency token called a *zookie* for each content version when a content modification is about to be saved. Zanzibar encodes the current *global timestamp* and does an atomic write on the client machine to store the zookie. It should be observed that a content change check is only done when the content is changed. It needs to only happen once in the update transaction.
+2. The client sends the zookie in subsequent ACL check requests to ensure the check snapshot is as latest as the content version’s timestamp.
 
 ## Namespace Configuration
 
-Namespace configurations define relations of the ACL objects in Zanzibar. According to the Zanzibar's research paper [^1]
+Namespace configurations define relations of the ACL objects in Zanzibar. According to the Zanzibar’s research paper [^1]
 
-> A namespace configura- tion specifies its relations as well as its storage parameters. Each relation has a name, which is a client-defined string such as viewer or editor, and a relation config. Storage pa- rameters include sharding settings and an encoding for object IDs that helps Zanzibar optimize storage of integer, string, and other object ID formats.
+> A namespace configuration specifies its relations as well as its storage parameters. Each relation has a name, a client-defined string such as viewer or editor, and a relation config. Storage parameters include sharding settings and an encoding for object IDs that helps Zanzibar optimize the storage of integer, string, and other object ID formats.
 
-This means a namespace defines how ACL objects relations are defined and stored in Zanzibar.
+This means a namespace defines how ACL object relations are defined and stored in Zanzibar.
 
-For example if a system has roles "Viewer", "Editor" and "Owner". If a user is defined as an owner then adding a relation tuple for all three roles is redundant and wasteful. To improve this, namespaces can rewrite the ACL policies based on these roles. Here is an example taken from the paper
+For example, if a system has roles “Viewer,” “Editor,” and “Owner,.” If a user is defined as an owner, adding a relation tuple for all three roles is redundant and wasteful. Namespaces can rewrite the ACL policies based on these roles to improve this. Here is an example taken from the paper
 
 ```
 name: "doc"
@@ -152,7 +151,7 @@ relation {
 relation: "viewer" }}}
 }}}
 ```
-{{< caption "An example of namespace where viewer contains editor and editor contains owner" >}}
+{{< caption "An example of namespace where viewer contains editor and editor contains owner">}}
 
 
 - `_this` returns all the policies of the current role.
@@ -160,33 +159,33 @@ relation: "viewer" }}}
 - `tupe_to_userset` computes a tupleset from the input object, fetches relation tuples matching the tupleset (a set of tuples with a given object_id which can be used to look up ACLs for a given object), and computes a userset from every fetched relation tuple.
 
 ## API
-Zanzibar provides APIs for clients for reade, write, modify, watch, check and expand operations. 
-All these API methods use zookie in their request. A zookie is an *opaque* cookie that contains a globally meaningful timestamp and/or a client content version and/or a read snapshot. A zookie is designed to be opaque so that clients cannot misuse a cookie by sending arbitrary timestamps.
-Lets take a closer look at each of these APIs
+Zanzibar provides APIs for clients to read, write, modify, watch, check, and expand operations. 
+All these API methods use zookie in their request. A zookie is an *opaque* cookie that contains a globally meaningful timestamp and/or a client content version, and/or a read snapshot. A zookie is designed to be opaque so that clients cannot misuse a cookie by sending arbitrary timestamps.
+Let’s take a closer look at each of these APIs
 
 ### Read
-For a read API, the client sends one or mulitple tuplesets and an optional zookie containing a timestamp and a snapshot version.
-With the zookie clients can request a read snapshot no earlier than the pervious write operation. If the request does not contain the zookie then Zanzibar will choose a reasonably recent snapshot which generally offers a lower latency response than if a zookie was provided.
+For a read API, the client sends one or more tuplesets and an optional zookie containing a timestamp and a snapshot version.
+With the zookie clients can request a read snapshot no earlier than the pervious write operation. If the request does not contain the zookie, Zanzibar will choose a reasonably recent snapshot, which generally offers a lower latency response than if a zookie was provided.
 
-It should be noted that Read requests only depend on the content of the relation tuples and do not reflect userset rewrite rules. For example, even if the viewer userset always includes the owner userset, reading tuples with the viewer relation will not return tuples with the owner relation. Clients that need to understand the effective userset can use the [Expand API](#expand)
+It should be noted that read requests only depend on the content of the relation tuples and do not reflect userset rewrite rules. For example, even if the viewer userset always includes the owner userset, reading tuples with the viewer relation will not return tuples with the owner relation. Clients that need to understand the effective userset can use the [Expand API.](#expand)
 
 ### Write
 Zanzibar clients can use the write API to modify a relation tuple to add or remove an ACL. Clients can also modify all tuples related to an object using a read-modify-write process that uses a read RPC followed by a write RPC. This process works as follows:
-1.  Read all relation tuples of an object, including a per-object “lock” tuple.
-2.  Generate the tuples to write or delete. Send the writes, along with a touch on the lock tuple, to Zanzibar, with the condition that the *writes will be committed only if the lock tuple has not been modified since the read*. A touch is being used on the lock tuple to make sure the access time on the lock tuple is updated.
-3.  If the write condition is not met, go back to step 1.
+1. Read all relation tuples of an object, including a per-object “lock” tuple.
+2. Generate the tuples to write or delete. Send the writes, along with a touch on the lock tuple, to Zanzibar, with the condition that the *writes will be committed only if the lock tuple has not been modified since the read*. A touch is being used on the lock tuple to make sure the access time on the lock tuple is updated.
+3. If the write condition is not met, go back to step 1.
 
 ### Watch
-A watch request specifies one or more namespaces and zookie representing the time to start watching. A watch response contains all the tuple modification events in acending timestamp order from the requested start timestamp to a timestamp encoded in a heartbeat zookie included in the watch response. The client can use the heartbeat zookie to call on the watch API again to resume watching where the previous watch response was left off.
+A watch request specifies one or more namespaces and zookie representing the time to start watching. A watch response contains all the tuple modification events in ascending timestamp order from the requested start timestamp to a timestamp encoded in a heartbeat zookie included in the watch response. The client can use the heartbeat zookie to repeatedly call on the watch API to resume watching where the previous watch response was left off.
 
 ### Check
-Like reads, a check is always evaluated at a consistent snapshot no earlier than the given zookie. 
-To authorize application content modifications, our clients send a special type of check request, a content-change check. A content-change check request does not carry a zookie and is evaluated at the latest snapshot. If a content change is authorized, the check response includes a zookie for clients to store along with object contents and use for subsequent checks of the content version. The zookie encodes the evaluation snapshot and captures any possible causality from ACL changes to content changes, because the zookie’s timestamp will be greater than that of the ACL updates that protect the new content 
+Like reads, a check is evaluated at a consistent snapshot no earlier than the given zookie. 
+To authorize application content modifications, our clients send a special check request, a content-change check. A content-change check request does not carry a zookie and is evaluated at the latest snapshot. If a content change is authorized, the check response includes a zookie for clients to store along with object contents and use for subsequent checks of the content version. The zookie encodes the evaluation snapshot and captures any possible causality from ACL changes to content changes because the zookie’s timestamp will be greater than that of the ACL updates that protect the new content. 
 
 ### Expand
-Unlike the Read API, Expand follows indirect references expressed through userset rewrite rules. The result is represented by a userset tree whose leaf nodes are user IDs or usersets pointing to other object relation pairs, and intermediate nodes represent union, intersection, or exclusion operators. Expand is crucial for our clients to reason about the complete set of users and groups that have access to their objects, which allows them to build efficient search indices for access-controlled content.
+Unlike the Read API, Expand follows indirect references expressed through userset rewrite rules. The result is represented by a userset tree whose leaf nodes are user IDs or usersets pointing to other object relation pairs, and intermediate nodes represent union, intersection, or exclusion operators. Expand is crucial for our clients to reason about the complete set of users and groups with access to their objects, allowing them to build efficient search indices for access-controlled content.
 
-Continue reading about Zanzibar Architecture and Implementation in next Part [Zanzibar - Google’s Consistent, Global Authorization System - Part 2](/blog/zanzibar-2)
+Continue reading about Zanzibar Architecture and Implementation in the next Part [Zanzibar - Google’s Consistent, Global Authorization System - Part 2](/blog/Zanzibar-2)
 
 # References
 [^1]: https://research.google/pubs/zanzibar-googles-consistent-global-authorization-system/
