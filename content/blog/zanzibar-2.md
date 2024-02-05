@@ -1,7 +1,7 @@
 ---
 title: "Zanzibar - Google’s Consistent, Global Authorization System - Part 2"
 date: 2024-02-04T13:32:20-08:00
-draft: true
+draft: false
 subtitle: "My notes on Zanzibar Google’s Consistent, Global Authorization System - Part 2"
 categories:
 - concepts
