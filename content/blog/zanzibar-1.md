@@ -185,7 +185,7 @@ To authorize application content modifications, our clients send a special check
 ### Expand
 Unlike the Read API, Expand follows indirect references expressed through userset rewrite rules. The result is represented by a userset tree whose leaf nodes are user IDs or usersets pointing to other object relation pairs, and intermediate nodes represent union, intersection, or exclusion operators. Expand is crucial for our clients to reason about the complete set of users and groups with access to their objects, allowing them to build efficient search indices for access-controlled content.
 
-Continue reading about Zanzibar Architecture and Implementation in the next Part [Zanzibar - Google’s Consistent, Global Authorization System - Part 2](/blog/Zanzibar-2)
+Continue reading about Zanzibar Architecture and Implementation in the next Part [Zanzibar - Google’s Consistent, Global Authorization System - Part 2](/blog/zanzibar-2)
 
 # References
 [^1]: https://research.google/pubs/zanzibar-googles-consistent-global-authorization-system/
