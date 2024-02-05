@@ -156,7 +156,7 @@ relation: "viewer" }}}
 
 - `_this` returns all the policies of the current role.
 - `computed_userset` computes the policies based on the relation defined within it.
-- `tupe_to_userset` computes a tupleset from the input object, fetches relation tuples matching the tupleset (a set of tuples with a given object_id which can be used to look up ACLs for a given object), and computes a userset from every fetched relation tuple.
+- `tuple_to_userset` computes a tupleset from the input object, fetches relation tuples matching the tupleset (a set of tuples with a given object_id which can be used to look up ACLs for a given object), and computes a userset from every fetched relation tuple.
 
 ## API
 Zanzibar provides APIs for clients to read, write, modify, watch, check, and expand operations. 
