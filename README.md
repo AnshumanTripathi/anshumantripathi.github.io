@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/61f73034-dffc-4bf5-97a3-7b04301ed68e/deploy-status)](https://app.netlify.com/sites/anshumantripathi/deploys)
+
 # Github repo for Anshuman Tripathi's personal blog
 
 This is the Github repo for Anshuman Tripathi's personal blog. It is created using [Hugo](https://gohugo.io/) and deployed with Github Pages.
