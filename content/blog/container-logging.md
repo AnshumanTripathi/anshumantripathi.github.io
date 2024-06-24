@@ -94,7 +94,7 @@ In Kubernetes, a [DaemonSet](https://kubernetes.io/docs/concepts/workloads/contr
 
 Node-level logging creates only one agent per node and doesn't require any changes to the applications running on the node.
 
-Some examples of log collectors include [Datadog](https://docs.datadoghq.com/containers/kubernetes/log/?tab=datadogoperator),  [Grafana](https://grafana.com/docs/loki/latest/send-data/) and [Filebeat](https://www.elastic.co/guide/en/beats/filebeat/current/running-on-kubernetes.html).
+Some examples of log collectors include [Datadog](https://docs.datadoghq.com/containers/kubernetes/log/?tab=datadogoperator), [Grafana](https://grafana.com/docs/loki/latest/send-data/), [Fluentd](https://www.fluentd.org/) and [Filebeat](https://www.elastic.co/guide/en/beats/filebeat/current/running-on-kubernetes.html).
 
 ## Using a sidecar container with a logging agent
 
