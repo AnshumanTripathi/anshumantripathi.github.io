@@ -1,6 +1,6 @@
 ---
 title: "Moving to VSCode from IntelliJ"
-date: 2024-03-14T14:24:07-08:00
+date: 2024-05-14T14:24:07-08:00
 draft: false
 subtitle: "My expereince and guide for moving to VSCode from IntelliJ"
 categories:
