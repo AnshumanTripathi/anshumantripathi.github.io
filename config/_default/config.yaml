@@ -28,6 +28,9 @@ menu:
     - name: "About"
       weight: 5
       url: "about/"
+    - name: "Search"
+      weight: 6
+      url: "search/"
 
 taxonomies:
   category: "categories"
