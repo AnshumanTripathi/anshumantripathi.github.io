@@ -7,6 +7,8 @@ categories:
 - concepts
 series:
 - samyak
+tags:
+- kubernetes
 featuredImage: "images/container-logs.png"
 featuredImageCaption: Logging in containers
 ---
