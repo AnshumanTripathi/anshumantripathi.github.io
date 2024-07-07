@@ -8,23 +8,30 @@ categories:
 series:
 - samyak
 - devops
+featuredImage: "diagrams/DNS.png"
+featuredImageCaption: "DNS IP resolution flow"
 ---
 
 <!-- TOC -->
-* [What is DNS?](#what-is-dns)
-* [How does DNS actually work?](#how-does-dns-actually-work)
-* [Some important terms associated with DNS](#some-important-terms-associated-with-dns)
-  * [CNAME](#cname)
-  * [A Record](#a-record)
-  * [AAAA Record](#aaaa-record)
-  * [PTR record](#ptr-record)
-  * [SOA](#soa)
-  * [Name servers](#name-servers)
-  * [DNSSEC](#dnssec)
-  * [NSEC](#nsec)
-* [Troubleshooting DNS](#troubleshooting-dns)
-  * [nslookup](#nslookup)
-  * [dig](#dig)
+- [What is DNS?](#what-is-dns)
+- [How does DNS actually work?](#how-does-dns-actually-work)
+- [Some important terms associated with DNS](#some-important-terms-associated-with-dns)
+  - [CNAME](#cname)
+  - [A Record](#a-record)
+  - [AAAA Record](#aaaa-record)
+  - [DNS Zones](#dns-zones)
+  - [PTR record](#ptr-record)
+  - [SOA](#soa)
+  - [Name servers](#name-servers)
+    - [Authoritative nameserves](#authoritative-nameserves)
+    - [Recursive nameservers](#recursive-nameservers)
+    - [TLD nameservers](#tld-nameservers)
+    - [Forwarding nameservers](#forwarding-nameservers)
+  - [DNSSEC](#dnssec)
+  - [NSEC](#nsec)
+- [Troubleshooting DNS](#troubleshooting-dns)
+  - [nslookup](#nslookup)
+  - [dig](#dig)
 <!-- TOC -->
 
 # What is DNS?
@@ -36,70 +43,19 @@ Domain Name System or DNS is a lookup functionality for the internet. DNS transl
 # How does DNS actually work?
 The address resolution happens through the following steps:
 
-1. Request: A client device, such as a computer or smartphone, sends a request to resolve a domain name to an IP address.
-2. Caching: The local DNS cache receives the request. The local cache stores previous DNS lookups to speed up subsequent requests.
-3. Recursive query: If the local cache doesn't have the IP address, the request is sent to a recursive DNS resolver, typically provided by the user's Internet Service Provider (ISP).
-4. Root server: The recursive resolver queries the root DNS servers for the address of the top-level domain (e.g., .com, .org, .net).
-5. Top-level domain server: After the root server responds with the IP address of a top-level domain (TLD), the request is sent to a TLD which has records for all the domains under the required TLD. 
-6. Top-level domain server: The root server responds with the IP address of a top-level domain (TLD) server responsible for the desired TLD (e.g., .com).
-7. Authority server: The TLD server responds with the IP address of the authoritative name server for the desired domain (e.g., example.com).
-8. Record lookup: The authoritative name server returns the IP address associated with the domain name requested.
-9. Response: The recursive resolver returns the IP address to the client device, which can then use to connect to the desired website or service.
-10. Caching: The IP address is stored in the local DNS cache for a specified time, known as the Time-To-Live (TTL), to speed up subsequent requests for the same domain name.
+
+0. The client makes a request to resolve a domain name to an IP address to the [recursive servers](#recursive-nameservers) (DNS resolvers) in the client.
+1. The DNS resolver checks for the IP address in its local cache. If the IP address. If the IP address is found in the local cache, the address is returned resolver.
+2. If the IP address is not found the local cache, the client side DNS resolver forwards the request to the ISP's DNS resolver.
+3. The ISP's DNS resolver queries the [Top Level Domain (TLD) nameservers](#tld-nameservers) to find the the [DNS zones](#dns-zones).The TLD servers return the details of the [authoritative nameserver](#authoritative-nameserves) where the request can be resolved.
+4. If the TLD servers return the infomation of the ISPs authoritative nameserver, then the request if forwarded to the ISPs authoritative nameserver. ISP's nameservers are generally not very reliable. 
+5. If the DNS record is not found in the the ISPs authoritative nameserver, then the request is sent to a [forwarding nameserver](#forwarding-nameservers) which send the request to third party authority nameservers such as `1.1.1.1` (Cloudfare) or `8.8.8.8` (Google) to resolve the IP address.
+6. The [authoritative nameserver](#authoritative-nameserves) query for the appropraite DNS records by looking up the [A record](#a-record) or [AAAA record](#aaaa-record). If there's a [CNAME record](#cname), the authoritative server also returns the canonical name. If no matching record is found, the server responds with an NXDOMAIN (non-existent domain) message. IP address is resolved from the respective record and returned to the ISP's recursive nameserver.
+7. The ISP's recursive server then returns the response to the client's DNS resolver. The DNS resolver returns the response to the client.
+8. At the end, the local cache is updated the IP address with a ttl from the DNS record returned from the authoritative server.
 
 This process happens quickly and transparently to the end user, allowing them to access websites and services using human-readable domain names.
 
-```diagon
-          ┌────────────────────┐                                  
-          │USER ENTERS THE HOST│                                  
-          │NAME IN THE BROWSER.│                                  
-          └──────────┬─────────┘                                  
-           __________▽__________           ┌─────────────────────┐
-          ╱                     ╲          │RETURN THE IP ADDRESS│
-         ╱ ADDRESS MAPPING FOUND ╲_________│TO THE CLIENT.       │
-         ╲ IN LOCAL CACHE.       ╱  yes    └─────────────────────┘
-          ╲_____________________╱                                 
-                     │no                                          
-       ┌─────────────▽────────────┐                               
-       │TRY TO RECURSIVELY RESOLVE│                               
-       │USING A DNS RESOLVER      │                               
-       │PROVIDED BY THE ISP.      │                               
-       └─────────────┬────────────┘                               
-    ┌────────────────▽───────────────┐                            
-    │THE DNS PROVIDER QUERIES THE    │                            
-    │ADDRESS FOR THE TOP LEVEL DOMAIN│                            
-    │(TLD) SERVER EXTENSION OF THE   │                            
-    │DOMAIN (.com, .org, .net, etc). │                            
-    └────────────────┬───────────────┘                            
-┌────────────────────▽────────────────────┐                       
-│THE TLD SERVER WILL HAVE DOMAIN ADDRESSES│                       
-│OF THE AUTHORITY SERVERS FOR THE DOMAINS │                       
-│UNDER THE TOP LEVEL DOMAIN (EXTENSION).  │                       
-└────────────────────┬────────────────────┘                       
-         ┌───────────▽───────────┐                                
-         │THE TLD SERVER RESPONDS│                                
-         │WITH THE ADDRESS OF THE│                                
-         │AUTHORITY SERVER.      │                                
-         └───────────┬───────────┘                                
- ┌───────────────────▽───────────────────┐                        
- │THE AUTHORITY SERVER DOES THE IP       │                        
- │ADDRESS LOOKUP FOR THE GIVEN DOMAIN AND│                        
- │RESPONDS WITH THE REQUIRED IP ADDRESS. │                        
- └───────────────────┬───────────────────┘                        
-     ┌───────────────▽──────────────┐                             
-     │THE IP ADDRESS IS SENT BACK TO│                             
-     │THE ISP's RECURSIVE RESOLVER. │                             
-     └───────────────┬──────────────┘                             
-       ┌─────────────▽────────────┐                               
-       │THE IP ADDRESS IS RETURNED│                               
-       │TO THE CLIENT DEVICE.     │                               
-       └─────────────┬────────────┘                               
-       ┌─────────────▽────────────┐                               
-       │LOCAL CACHE IS UPDATED THE│                               
-       │IP ADDRESS FOR THE DOMAIN │                               
-       └──────────────────────────┘                               
-                    
-```
 
 # Some important terms associated with DNS
 
@@ -120,6 +76,9 @@ It is important to note that each domain name can have multiple A records, each 
 A Quad A (AAAA) record is similar to [A record](#a-record). An A record is used for IP v4 addresses, while a Quad A record is used for IP v6 addresses. If a domain has both A and AAAA records, then DNS will first try to resolve the domain using the AAAA record, and if that fails, it will fall back to using an A record.
 
 
+## DNS Zones
+DNS zone is a part of the DNS domain name which is used by a TLD nameserver to recursivly fetch the authoritative nameservers that might contain the IP address of the domain. For example, for `www.example.com`, `mail.example.com`, the zone would be `example.com`
+
 ## PTR record
 PTR record is the inverse of A record i.e. a PTR record is used to query a domain name from an IP address.  
 
@@ -132,12 +91,21 @@ The information in the SOA record is crucial for the proper functioning of the D
 ## Name servers
 Name servers in DNS are the servers that store information about a specific domain and respond to queries about the domain's DNS records. They act as a central repository for information about a domain, including its IP address, mail servers, and other information required to route and deliver requests to the correct destination.
 
-There are two types of name servers in the DNS system: authoritative and recursive.
+There are different type of nameservers:
 
-1. Authoritative name servers are responsible for storing the actual DNS records for a domain. They are the ultimate source of truth for information about the domain and respond to queries about the domain's records.
-2. Recursive name servers are used by client devices to resolve domain names to IP addresses. They receive a request to resolve a domain name and forward the request to the appropriate authoritative name server, returning the response to the client device.
+### Authoritative nameserves
+Authoritative name servers are responsible for storing the actual DNS records for a domain. They are the ultimate source of truth for information about the domain and respond to queries about the domain's records.
+
+### Recursive nameservers 
+Recursive nameservers are also called the DNS resolvers. Recursive name servers are used by client devices to resolve domain names to IP addresses. They receive a request to resolve a domain name and forward the request to the appropriate authoritative name server, returning the response to the client device.
 
 The domain owner can configure the name servers for a domain specified in the domain's SOA (Start of Authority) record. Other parts of the DNS system use the information provided by the name servers to route and deliver requests to the correct destination.
+
+### TLD nameservers
+TLD nameservers are used to store and query the information of authoritative nameserves based on [DNS zones](#dns-zones)
+
+### Forwarding nameservers
+Forwarding nameservers forwards DNS queries to different nameservers to instead of resolving the address themselves.
 
 ## DNSSEC
 DNSSEC (Domain Name System Security Extensions) records are a set of security extensions to the DNS (Domain Name System) that provide authentication and data integrity for DNS information.
