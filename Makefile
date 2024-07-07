@@ -44,15 +44,18 @@ serve-production:
 serve-local:
 	@$(MAKE) serve HUGO_ENVIRONMENT=local
 
+.PHONY: deploy-preview
+deploy-preview:
+	@echo "Building site for Netlify preview deployment..."
+	HUGO_ENVIRONMENT=$(HUGO_ENVIRONMENT) hugo --gc --minify -b $(DEPLOY_PRIME_URL)
+	@echo "Running Pagefind..."
+	$(PAGEFIND)
+
 .PHONY: clean
 clean:
 	@echo "Cleaning up generated files..."
 	rm -rf public
 	rm -rf resources
-
-.PHONY: deploy-preview
-deploy-preview: ## Deploy preview site via netlify
-	GOMAXPROCS=1 hugo --enableGitInfo --buildFuture --environment production -b $(DEPLOY_PRIME_URL)
 
 .PHONY: help
 help:
@@ -64,7 +67,7 @@ help:
 	@echo "  build-local        : Build site in local environment"
 	@echo "  serve-production   : Build and serve site in production environment"
 	@echo "  serve-local        : Build and serve site in local environment"
-	@echo "  deploy-preview     : Deploy production website to a specified DEPLOY_PRIME_URL"
+	@echo "  deploy-preview     : Build site for Netlify preview deployment"
 	@echo "  clean              : Remove generated files"
 	@echo ""
 	@echo "You can also set the environment directly:"
@@ -72,3 +75,4 @@ help:
 	@echo "  make serve HUGO_ENVIRONMENT=local"
 	@echo ""
 	@echo "After cloning the repository, run 'make init' to set up git submodules."
+	@echo "For Netlify preview deployments, use 'make deploy-preview'."
