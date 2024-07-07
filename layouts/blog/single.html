@@ -37,7 +37,7 @@
       </div>
     </header>
 
-    <div class="post-content" data-pagefind-body>
+    <div class="post-content">
       {{ if .Params.featuredImage }}
       <div style="text-align: center;">
         <figure>
@@ -48,16 +48,15 @@
         </figure>
       </div>
       {{ end }}
-      {{ .Content }}
+      <div data-pagefind-body data-pagefind-weight="{{ .Params.pagefindWeight }}">
+        {{ .Content }}
+      </div>
     </div>
 
 
     <footer>
       {{ partial "posts/series.html" . }}
-      {{ partial "posts/disqus.html" . }}
-      {{ partial "posts/commento.html" . }}
       {{ partial "posts/utterances.html" . }}
-      {{ partial "posts/giscus.html" . }}
       <!--  Diffblog integration. Can be moved to posts/partials later  -->
       {{ if and (hugo.IsProduction) (not .Params.disableDiffblog) }}
       <script id="diffblog-plugin-script" async="false"

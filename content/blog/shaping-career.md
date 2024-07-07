@@ -7,6 +7,7 @@ series:
 - career-advice
 categories:
 - My story
+pagefindWeight: "0.1"
 ---
 
 > How I shaped my career through High School and Undergraduate studies
@@ -14,12 +15,12 @@ categories:
 <br/>
 
 <!-- TOC -->
-* [Choosing the sciences](#choosing-the-sciences)
-* [Realizing my calling](#realizing-my-calling)
-* [The SAT](#the-sat)
-  * [I was not prepared](#i-was-not-prepared)
-  * [Undergraduate is expensive](#undergraduate-is-expensive)
-* [Undergraduate (Bachelor's degree)](#undergraduate--bachelors-degree-)
+- [Choosing the sciences](#choosing-the-sciences)
+- [Realizing my calling](#realizing-my-calling)
+- [The SAT](#the-sat)
+  - [I was not prepared](#i-was-not-prepared)
+  - [Undergraduate is expensive](#undergraduate-is-expensive)
+- [Undergraduate (Bachelor's degree)](#undergraduate-bachelors-degree)
 <!-- TOC -->
 
 

@@ -13,9 +13,9 @@ disableDiffblog: true
 ---
 
 <!-- TOC -->
-* [Pre-requisites](#pre-requisites)
-* [Terraform Cloud](#terraform-cloud)
-* [Setting up a Terraform workspace for Google Cloud](#setting-up-a-terraform-workspace-for-google-cloud)
+- [Pre-requisites](#pre-requisites)
+- [Terraform Cloud](#terraform-cloud)
+- [Setting up a Terraform workspace for Google Cloud](#setting-up-a-terraform-workspace-for-google-cloud)
 <!-- TOC -->
 
 This tutorial walks you through the complete steps of setting up a Terraform workspace in Github for provisioning infrastructure in Google Cloud using Terraform cloud.

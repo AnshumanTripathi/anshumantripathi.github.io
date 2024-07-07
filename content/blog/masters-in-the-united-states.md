@@ -7,20 +7,21 @@ categories:
 - My story
 series:
 - career advice
+pagefindWeight: "0.1"
 ---
 
 > [How I came to decision of doing masters in the United States 🇺🇸](/blog/shaping-career/)
 
 <!-- TOC -->
-* [Going to the United States for a Master's Degree](#going-to-the-united-states-for-a-masters-degree)
-* [Challenges faced by an Indian Student pursuing a Master's Degree in the United States](#challenges-faced-by-an-indian-student-pursuing-a-masters-degree-in-the-united-states)
-  * [Difference in Education systems](#difference-in-education-systems)
-  * [Cultural differences](#cultural-differences)
-  * [Personal Finances](#personal-finances)
-  * [Sudden increase in paperwork](#sudden-increase-in-paperwork)
-  * [Medical Assistance](#medical-assistance)
-  * [Returning home whenever you want is not possible anymore](#returning-home-whenever-you-want-is-not-possible-anymore)
-* [What does this all mean?](#what-does-this-all-mean)
+- [Going to the United States for a Master's Degree](#going-to-the-united-states-for-a-masters-degree)
+- [Challenges faced by an Indian Student pursuing a Master's Degree in the United States](#challenges-faced-by-an-indian-student-pursuing-a-masters-degree-in-the-united-states)
+  - [Difference in Education systems](#difference-in-education-systems)
+  - [Cultural differences](#cultural-differences)
+  - [Personal Finances](#personal-finances)
+  - [Sudden increase in paperwork](#sudden-increase-in-paperwork)
+  - [Medical Assistance](#medical-assistance)
+  - [Returning home whenever you want is not possible anymore](#returning-home-whenever-you-want-is-not-possible-anymore)
+- [What does this all mean?](#what-does-this-all-mean)
 <!-- TOC -->
 
 # Going to the United States for a Master's Degree
