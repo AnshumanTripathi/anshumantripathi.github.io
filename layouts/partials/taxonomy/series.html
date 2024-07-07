@@ -1,11 +1,11 @@
-<div class="tags">
-  <i class="fa fa-tag" aria-hidden="true"></i>
+<div class="series">
+  <i class="fa fa-book" aria-hidden="true"></i>
   {{- range $index, $el := . -}}
     {{- if gt $index 0 }}
       <span class="separator">•</span>
     {{- end }}
     <span class="tag">
-      <a href="{{ .RelPermalink }}" data-pagefind-filter="Tags">{{ humanize .LinkTitle }}</a>
+      <a href="{{ .RelPermalink }}" data-pagefind-filter="Series">{{ humanize .LinkTitle }}</a>
     </span>
   {{- end -}}
 </div>

@@ -1,0 +1,64 @@
+@mixin content_dark {
+  .content {
+    .post {
+      .tags {
+        .tag {
+          background-color: $alt-bg-color-dark;
+
+          a {
+            color: $fg-color-dark;
+          }
+          a:active {
+            color: $fg-color-dark;
+          }
+        }
+      }
+    }
+    .list {
+      ul {
+        li {
+          .title {
+            color: $fg-color-dark;
+
+            &:hover,
+            &:focus {
+              color: $link-color-dark;
+            }
+          }
+        }
+      }
+    }
+
+    .centered {
+      .about {
+        ul {
+          li {
+            a {
+              color: $fg-color-dark;
+
+              &:hover,
+              &:focus {
+                color: $link-color-dark;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+body.colorscheme-dark {
+  @include content_dark();
+  --pagefind-ui-primary: #eeeeee;
+  --pagefind-ui-text: #eeeeee;
+  --pagefind-ui-background: #152028;
+  --pagefind-ui-border: #152028;
+  --pagefind-ui-tag: #152028;
+}
+
+body.colorscheme-auto {
+  @media (prefers-color-scheme: dark) {
+    @include content_dark();
+  }
+}
