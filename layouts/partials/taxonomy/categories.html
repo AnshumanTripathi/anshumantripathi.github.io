@@ -4,6 +4,6 @@
     {{- if gt $index 0 }}
       <span class="separator">•</span>
     {{- end }}
-    <a href="{{ .RelPermalink }}">{{humanize .LinkTitle }}</a>
+    <a href="{{ .RelPermalink }}" data-pagefind-filter="Categories">{{ humanize .LinkTitle }}</a>
   {{- end -}}
 </div>
