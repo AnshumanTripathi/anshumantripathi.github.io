@@ -5,7 +5,7 @@ HUGO_ENVIRONMENT ?= production
 HUGO_BUILD = HUGO_ENVIRONMENT=$(HUGO_ENVIRONMENT) hugo --gc --minify
 
 # Hugo serve command
-HUGO_SERVE = HUGO_ENVIRONMENT=$(HUGO_ENVIRONMENT) hugo server
+HUGO_SERVE = HUGO_ENVIRONMENT=$(HUGO_ENVIRONMENT) hugo server --enableGitInfo
 
 # Pagefind command
 PAGEFIND = npx pagefind --source "public"
@@ -14,7 +14,7 @@ PAGEFIND = npx pagefind --source "public"
 init:
 	@echo "Initializing git submodules..."
 	git submodule init
-	git submodule update
+	git submodule update --init --recursive --depth 1
 
 .PHONY: build
 build:
