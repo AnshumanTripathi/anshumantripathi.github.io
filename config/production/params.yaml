@@ -3,9 +3,9 @@ info: "Platform and DevOps Engineering"
 description: "Hi, I am Anshuman Tripathi"
 keywords: "blog,developer,personal"
 colorScheme: "auto"
-avatarurl: "images/avatar.png"
-favicon_16: "images/avatar.png"
-favicon_32: "images/avatar.png"
+avatarurl: "images/me.jpeg"
+favicon_16: "images/favicon-face.png"
+favicon_32: "images/favicon-face.png"
 since: 2023
 commit: "https://github.com/AnshumanTripathi/anshumantripathi.github.io/commits/"
 license: apache
