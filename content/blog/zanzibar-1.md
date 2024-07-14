@@ -104,7 +104,7 @@ In this example we define the relationship on the userId `11` as a `member` of `
 {{< img src="images/zanzibar/group-to-user.png" caption="User `11` is `member` of Group `group:eng`" loading="lazy" decoding="async" width="100%">}}
 
 
-This a complex example defining a chained relation. Notice how two usersets are linked to one another with `@`.
+This is a complex example defining a chained relation. Notice how two usersets are linked to one another with `@`.
 
 {{< img src="images/zanzibar/userset-to-userset.png" caption="Members of `group:eng` have `viewer` access to `doc:readme`" loading="lazy" decoding="async" width="100%">}}
 
