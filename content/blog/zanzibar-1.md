@@ -165,7 +165,7 @@ Let’s take a closer look at each of these APIs
 
 ### Read
 For a read API, the client sends one or more tuplesets and an optional zookie containing a timestamp and a snapshot version.
-With the zookie clients can request a read snapshot no earlier than the pervious write operation. If the request does not contain the zookie, Zanzibar will choose a reasonably recent snapshot, which generally offers a lower latency response than if a zookie was provided.
+With the zookie clients can request a read snapshot no earlier than the previous write operation. If the request does not contain the zookie, Zanzibar will choose a reasonably recent snapshot, which generally offers a lower latency response than if a zookie was provided.
 
 It should be noted that read requests only depend on the content of the relation tuples and do not reflect userset rewrite rules. For example, even if the viewer userset always includes the owner userset, reading tuples with the viewer relation will not return tuples with the owner relation. Clients that need to understand the effective userset can use the [Expand API.](#expand)
 
