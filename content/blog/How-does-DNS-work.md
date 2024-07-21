@@ -1,5 +1,6 @@
 ---
-title: "How does DNS work?"
+title: "How Does DNS Work? A Comprehensive Guide to Domain Name Systems"
+description: "Learn how DNS works, from basic concepts to advanced troubleshooting. Explore DNS records, nameservers, DNSSEC, and essential tools like nslookup and dig."
 date: 2023-01-30T11:44:59+05:30
 draft: false
 categories:
@@ -7,132 +8,159 @@ categories:
 - Concepts
 series:
 - samyak
-- devops
-featuredImage: "diagrams/DNS.png"
-featuredImageCaption: "DNS IP resolution flow"
+slug: "/how-dns-works-guide"
 ---
 
 <!-- TOC -->
 - [What is DNS?](#what-is-dns)
 - [How does DNS actually work?](#how-does-dns-actually-work)
-- [Some important terms associated with DNS](#some-important-terms-associated-with-dns)
-  - [CNAME](#cname)
-  - [A Record](#a-record)
-  - [AAAA Record](#aaaa-record)
-  - [DNS Zones](#dns-zones)
-  - [PTR record](#ptr-record)
-  - [SOA](#soa)
-  - [Name servers](#name-servers)
-    - [Authoritative nameserves](#authoritative-nameserves)
-    - [Recursive nameservers](#recursive-nameservers)
-    - [TLD nameservers](#tld-nameservers)
-    - [Forwarding nameservers](#forwarding-nameservers)
+- [DNS Records: CNAME, A, AAAA, PTR](#dns-records-cname-a-aaaa-ptr)
+    - [CNAME](#cname)
+    - [A Record](#a-record)
+    - [AAAA Record](#aaaa-record)
+    - [PTR record](#ptr-record)
+- [DNS Zones](#dns-zones)
+  - [DNS Zone transfer](#dns-zone-transfer)
+- [SOA](#soa)
+  - [DNS Servers: Root, Authoritative, and Recursive](#dns-servers-root-authoritative-and-recursive)
+    - [Root Servers](#root-servers)
+    - [Authoritative servers](#authoritative-servers)
+    - [Recursive servers](#recursive-servers)
+    - [TLD servers](#tld-servers)
+    - [Forwarding servers](#forwarding-servers)
   - [DNSSEC](#dnssec)
   - [NSEC](#nsec)
 - [Troubleshooting DNS](#troubleshooting-dns)
   - [nslookup](#nslookup)
   - [dig](#dig)
+- [Conclusion](#conclusion)
+- [References](#references)
 <!-- TOC -->
 
 # What is DNS?
 The internet is a vast interconnection of systems across the world. Each host connected to the internet is assigned an IP (Internet Protocol) address, uniquely identifying each connected host.
 Imagine a world where you go to your browser and put in `207.241.224.2` to see the internet archives or `20.207.73.82` to code collaboratively. Soon everybody would require a phone book to use the internet.
 
-Domain Name System or DNS is a lookup functionality for the internet. DNS translates human-readable internet addresses like `github.com` or `archive.org` to their respective IP address like `20.207.73.82` and `207.241.224.2`.
+Domain Name System or DNS is a lookup functionality for the internet, translating human-readable addresses like github.com to their corresponding IP addresses (e.g., 20.207.73.82).
 
 # How does DNS actually work?
 The address resolution happens through the following steps:
 
+{{< img src="images/DNS.png" caption="DNS IP resolution flow" loading="lazy" decoding="async" width="100%">}}
 
 0. The client makes a request to resolve a domain name to an IP address to the [recursive servers](#recursive-nameservers) (DNS resolvers) in the client.
-1. The DNS resolver checks for the IP address in its local cache. If the IP address. If the IP address is found in the local cache, the address is returned resolver.
-2. If the IP address is not found the local cache, the client side DNS resolver forwards the request to the ISP's DNS resolver.
-3. The ISP's DNS resolver queries the [Top Level Domain (TLD) nameservers](#tld-nameservers) to find the the [DNS zones](#dns-zones).The TLD servers return the details of the [authoritative nameserver](#authoritative-nameserves) where the request can be resolved.
-4. If the TLD servers return the infomation of the ISPs authoritative nameserver, then the request if forwarded to the ISPs authoritative nameserver. ISP's nameservers are generally not very reliable. 
-5. If the DNS record is not found in the the ISPs authoritative nameserver, then the request is sent to a [forwarding nameserver](#forwarding-nameservers) which send the request to third party authority nameservers such as `1.1.1.1` (Cloudfare) or `8.8.8.8` (Google) to resolve the IP address.
-6. The [authoritative nameserver](#authoritative-nameserves) query for the appropraite DNS records by looking up the [A record](#a-record) or [AAAA record](#aaaa-record). If there's a [CNAME record](#cname), the authoritative server also returns the canonical name. If no matching record is found, the server responds with an NXDOMAIN (non-existent domain) message. IP address is resolved from the respective record and returned to the ISP's recursive nameserver.
-7. The ISP's recursive server then returns the response to the client's DNS resolver. The DNS resolver returns the response to the client.
-8. At the end, the local cache is updated the IP address with a ttl from the DNS record returned from the authoritative server.
+1. The DNS resolver checks for the IP address in its local cache. If found, the address is returned. If not, the request is forwarded to the ISP's DNS resolver.
+2. The ISP's DNS resolver queries the [Top Level Domain (TLD) nameservers](#tld-nameservers) to find the [DNS zones](#dns-zones).The TLD servers return the details of the [authoritative nameserver](#authoritative-nameserves) where the request can be resolved.
+3. If the TLD servers return the information of the ISPs authoritative nameserver, then the request is forwarded to the ISPs authoritative nameserver. ISP's nameservers are generally not very reliable. 
+4. If the DNS record is not found in the ISPs authoritative nameserver, then the request is sent to a [forwarding nameserver](#forwarding-nameservers) which send the request to third party authority nameservers such as `1.1.1.1` (Cloudfare) or `8.8.8.8` (Google) to resolve the IP address.
+5. The [authoritative nameserver](#authoritative-nameserves) queries for the appropriate DNS records by looking up the [A record](#a-record) or [AAAA record](#aaaa-record). If there's a [CNAME record](#cname), the authoritative server also returns the canonical name. If no matching record is found, the server responds with an NXDOMAIN (non-existent domain) message. IP address is resolved from the respective record and returned to the ISP's recursive nameserver.
+6. The ISP's recursive server then returns the response to the client's DNS resolver. The DNS resolver returns the response to the client.
+7. At the end, the local cache updated with the IP address with a TTL (Time-To-Live) from the DNS record returned from the authoritative server.
 
 This process happens quickly and transparently to the end user, allowing them to access websites and services using human-readable domain names.
 
 
-# Some important terms associated with DNS
+# DNS Records: CNAME, A, AAAA, PTR
 
-## CNAME
+### CNAME
 CNAME or a Canonical Name is used to set an alias to a different domain while keeping the same IP address allowing multiple domains to share the same IP address and web content while still having separate domain names.
 
 For example, if you have a website with the domain name `example.com`, you can create a CNAME record for blog.example.com that points to example.com, allowing users to access the same website with two different domains, `example.com` and `blog.example.com`.
 
 When a user uses an alias domain name, DNS will use the CNAME record associated with the alias domain to look up the correct canonical domain name. For example, when a user enters `blog.example.com` in their browser, DNS will check the CNAME record, which would point to `example.com` and then use the `example.com` domain name to find the IP address.
 
-## A Record
-An A record or an Address record is a type of DNS record used to map a canonical domain name to an IP address. When a user types in a domain name, The browser uses the DNS system to look up the corresponding IP address for that domain name.
+### A Record
+An A record or an Address record is a type of DNS record used to map a canonical domain name to an IP address. An A record maps a domain name to an IPv4 address, allowing browsers to locate the correct server for a website.
 
-It is important to note that each domain name can have multiple A records, each with a different IP address to support highly available load-balanced systems having redundant servers to handle failovers.
-
-
-## AAAA Record
-A Quad A (AAAA) record is similar to [A record](#a-record). An A record is used for IP v4 addresses, while a Quad A record is used for IP v6 addresses. If a domain has both A and AAAA records, then DNS will first try to resolve the domain using the AAAA record, and if that fails, it will fall back to using an A record.
+It is important to note that a domain name can have multiple A records, each with a different IP address to support highly available load-balanced systems having redundant servers to handle failovers.
 
 
-## DNS Zones
-DNS zone is a part of the DNS domain name which is used by a TLD nameserver to recursivly fetch the authoritative nameservers that might contain the IP address of the domain. For example, for `www.example.com`, `mail.example.com`, the zone would be `example.com`
+### AAAA Record
+The Quad A (AAAA) record is similar to an A record, but it's used for IPv6 addresses instead of IPv4. If a domain has both A and AAAA records, then DNS will first try to resolve the domain using the AAAA record, and if that fails, it will fall back to using an A record.
 
-## PTR record
-PTR record is the inverse of A record i.e. a PTR record is used to query a domain name from an IP address.  
+### PTR record
+PTR record is the inverse of A record i.e. a PTR record is used to query a domain name from an IP address.  When a user attempts to reach a domain name in their browser, a DNS lookup occurs, matching the domain name to the IP address. A reverse DNS lookup is the opposite of this process: it is a query that starts with the IP address and looks up the domain name [^1]. 
 
-## SOA
+PTR records are used in reverse DNS lookups; common uses for reverse DNS include:
+
+1. **Anti-spam**: Some email anti-spam filters use reverse DNS to check the domain names of email addresses and see if the associated IP addresses are likely to be used by legitimate email servers.
+2. **Troubleshooting email delivery issues**: Because anti-spam filters perform these checks, email delivery problems can result from a misconfigured or missing PTR record. If a domain has no PTR record, or if the PTR record contains the wrong domain, email services may block all emails from that domain.
+3. **Logging**: System logs typically record only IP addresses; a reverse DNS lookup can convert these into domain names for logs that are more human-readable [^1]. 
+
+# DNS Zones
+DNS zone is a part of the DNS domain name which is used by a TLD nameserver to recursively fetch the authoritative nameservers that might contain the IP address of the domain. For example, for `www.example.com`, `mail.example.com`, the zone would be `example.com`
+
+## DNS Zone transfer
+
+DNS servers in a zone are configured with a _zone file_. A zone file is configured with the complete description of a zone. A DNS server loads all the data of a zone through zone file.
+
+Generally a DNS zone has a primary server, which has the zone file, resolves the DNS entries and updates the DNS records. To build redundancy, Secondary DNS servers are created which to add redundancy with the DNS servers. In this case, a zone file is loaded in the secondary server from the primary server. This process is called a zone transfer. [Providers like Cloudflare provide setting up secondary DNS for improved resiliency and performance.](https://blog.cloudflare.com/secondary-dns-a-faster-more-resilient-way-to-serve-your-dns-records/)
+
+# SOA
 SOA or Start of Authority is a record in the DNS system that specifies the authoritative information about a domain, including the domain's primary name server, the domain administrator's email address, and various other parameters that determine the behavior of the domain's DNS server.
 The SOA record is the first record in a DNS zone file and is used by other DNS servers to determine the authoritative source of information for a particular domain. It also defines the refresh interval, which is the time a secondary [name server](#name-servers) waits before checking for updates from the primary name server, and the retry interval, which is the time a secondary server waits before trying to contact the primary server again if it fails to respond.
 
-The information in the SOA record is crucial for the proper functioning of the DNS system and for ensuring that the correct information is for a given domain.
+The information in the SOA record is crucial for the proper functioning of the DNS system and for ensuring that the correct information is available for a given domain.
 
-## Name servers
-Name servers in DNS are the servers that store information about a specific domain and respond to queries about the domain's DNS records. They act as a central repository for information about a domain, including its IP address, mail servers, and other information required to route and deliver requests to the correct destination.
+## DNS Servers: Root, Authoritative, and Recursive
+DNS servers or name servers in DNS store and provide information about specific domains, responding to queries about the domain's DNS records. They act as a central repository for information about a domain, including its IP address, mail servers, and other information required to route and deliver requests to the correct destination.
 
-There are different type of nameservers:
+When a nameserver does not have the required record, it sends a _hint_ also known as a _referral_ to a different querying DNS server
 
-### Authoritative nameserves
+There are different types of nameservers:
+
+### Root Servers
+DNS root servers are the starting point of the DNS hierarchy. They are at the top of the DNS tree structure. The root servers contain information about the [TLD Servers](#tld-servers). A root server never resolves a domain, rather it helps the [DNS recursive servers](#recursive-servers) reach the correct TLD server.
+
+There are [13 root servers](https://www.iana.org/domains/root/servers), which are a network of hundreds of servers running in different countries around the world.
+
+### Authoritative servers
 Authoritative name servers are responsible for storing the actual DNS records for a domain. They are the ultimate source of truth for information about the domain and respond to queries about the domain's records.
 
-### Recursive nameservers 
+### Recursive servers 
 Recursive nameservers are also called the DNS resolvers. Recursive name servers are used by client devices to resolve domain names to IP addresses. They receive a request to resolve a domain name and forward the request to the appropriate authoritative name server, returning the response to the client device.
 
 The domain owner can configure the name servers for a domain specified in the domain's SOA (Start of Authority) record. Other parts of the DNS system use the information provided by the name servers to route and deliver requests to the correct destination.
 
-### TLD nameservers
-TLD nameservers are used to store and query the information of authoritative nameserves based on [DNS zones](#dns-zones)
+A DNS resolver generally sends a query to a recursive DNS nameserver. A recursive nameserver is responsible to follow up on every referral that the root and authoritative nameservers send. Servers that return a referral do not perform recursive lookups.
 
-### Forwarding nameservers
-Forwarding nameservers forwards DNS queries to different nameservers to instead of resolving the address themselves.
+{{< img src="images/dns-resolver.png" caption="Recursive DNS resolution" loading="lazy" decoding="async" width="100%">}}
+
+### TLD servers
+TLD nameservers are used to store and query the information of authoritative nameserves based on [DNS zones](#dns-zones). 
+For example, there would be different TLD servers for zones like `.com`, `.net`, etc.
+
+### Forwarding servers
+Forwarding nameservers forward DNS queries to different nameservers instead of resolving the addresses themselves. A DNS server sends an iterative query to a forwarding server. If the forwarding server is configured to be a forwarder, the forwarding server can send a recursive query to upstream DNS servers to get an answer.
 
 ## DNSSEC
-DNSSEC (Domain Name System Security Extensions) records are a set of security extensions to the DNS (Domain Name System) that provide authentication and data integrity for DNS information.
+DNSSEC is a set of security extensions to DNS that provide authentication and data integrity for DNS information. It uses public-key cryptography and digital signatures to secure DNS information and prevent tampering and malicious attacks, such as cache poisoning and DNS spoofing.
 
-DNSSEC uses public-key cryptography and digital signatures to secure the DNS information and prevent tamperings and malicious attacks, such as cache poisoning and DNS spoofing.
-
-There are several types of DNSSEC records, including:
+DNSSEC introduces several new types of DNS records:
 
 1. DS (Delegation Signer) record: Used to link a child domain to its parent domain and establish the chain of trust.
 2. DNSKEY record: Contains the public key used to verify the digital signature of the RRSIG record.
 3. RRSIG (DNSSEC Signature) record: Contains the digital signature for a specific DNS record.
 4. NSEC (Next Secure) record: Provides proof of the non-existence of a DNS record.
-   Together, these DNSSEC records ensure the authenticity and integrity of the DNS information and provide a secure chain of trust for DNS queries. By using DNSSEC, organizations, and users can be confident that the information returned by the DNS system is accurate and has not been tampered with.
 
 ## NSEC
-NSEC (Next Secure) is a type of DNS record used in Domain Name System Security Extensions (DNSSEC) to prove the non-existence of a DNS record.
+NSEC is a specific type of DNSSEC record used to prove the non-existence of a DNS record. It helps prevent cache poisoning attacks by providing cryptographic proof that a queried name or type does not exist in a zone.
 
-DNSSEC is a security extension to the DNS that provides authentication and data integrity for DNS records. It uses public-key cryptography and digital signatures to provide a secure chain of trust from the domain name system's root down to individual records.
+When a DNS query is made for a non-existent domain or record type, instead of simply returning a "not found" message, an NSEC-enabled server will return:
 
-The NSEC record provides proof that a specific record does not exist in the domain name system, thus helping to prevent cache poisoning attacks, where an attacker tries to insert false information into the DNS cache to redirect users to a fake website. By providing proof of the non-existence of a record, DNSSEC can help to prevent these types of attacks and ensure that users receive accurate information from the DNS system.
+1. The name of the previous existing domain in canonical order.
+2. The name of the next existing domain in canonical order.
+3. A list of record types that exist for the previous domain name.
 
-NSEC records are used in conjunction with other DNSSEC records, such as the DS (Delegation Signer) record and the RRSIG (DNSSEC Signature) record, to provide a secure chain of trust for DNS information.
+This response allows the resolver to verify that the queried name truly doesn't exist between these two existing names, thus providing "authenticated denial of existence."
+By using DNSSEC with NSEC records, the DNS system can ensure that users receive accurate information, whether that information is positive (the record exists) or negative (the record does not exist). This comprehensive approach to security helps maintain the integrity and trustworthiness of the DNS system as a whole.
 
 # Troubleshooting DNS
 
+Lets take a look at how to use different tools like [nslookup](#nslookup) and [dig](#dig) for troubleshooting DNS.
+
 ## nslookup
-`nslookup` is useful command to for quick lookups of dns records. Following is the description of `nslookup` from its man page.
+`nslookup`'s description from its man page:
 
 > Nslookup is a program to query Internet domain name servers.  Nslookup has two modes: interactive and non-interactive. Interactive mode allows the user to query name servers for information about various hosts and domains or to print a list of hosts in a domain. Non-interactive mode is used to print just the name and requested information for a host or domain.
 
@@ -236,7 +264,7 @@ Authoritative answers can be found from
 ```
 
 ## dig
-Like `nslookup` dig also provides information on DNS records, however, `dig` much more information than `nslookup`. Following is the description from dig's man page
+The `dig` command provides more detailed information than nslookup. Here's the description from `dig`'s man page:
 
 > dig (domain information groper) is a flexible tool for interrogating DNS name servers. It performs DNS lookups and displays the answers that are returned from the name server(s) that were queried. Most DNS administrators use dig to troubleshoot DNS problems because of its flexibility, ease of use and clarity of output. Other lookup tools tend to have less functionality than dig.
 
@@ -299,3 +327,20 @@ github.com.		60	IN	A	20.207.73.82
 ```
 
 The above output shows DNS lookup information for `github.com` domain. The output shows [A record](#a-record), [SOA Record](#soa), [DNSEC](#dnssec), root servers used for lookup, and other relevant information associated with this domain.
+
+# Conclusion
+
+The Domain Name System (DNS) is a crucial component of the internet, acting as a translator between human-readable domain names and machine-readable IP addresses. Throughout this article, we've explored:
+
+1. The basic function of DNS and its importance in internet communication
+2. The step-by-step process of DNS resolution
+3. Key DNS record types such as A, AAAA, CNAME, and PTR
+4. The roles of different types of nameservers
+5. Security enhancements like DNSSEC and NSEC
+6. Troubleshooting tools including nslookup and dig
+
+Understanding DNS is essential for anyone working with web technologies. By grasping these concepts and utilizing the tools discussed, you'll be better equipped to navigate, manage, and troubleshoot internet-based systems and services.
+
+
+# References
+[^1]: https://www.cloudflare.com/learning/dns/dns-records/dns-ptr-record/
