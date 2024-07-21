@@ -48,12 +48,12 @@ The address resolution happens through the following steps:
 
 {{< img src="images/DNS.png" caption="DNS IP resolution flow" loading="lazy" decoding="async" width="100%">}}
 
-0. The client makes a request to resolve a domain name to an IP address to the [recursive servers](#recursive-nameservers) (DNS resolvers) in the client.
+0. The client makes a request to resolve a domain name to an IP address to the [recursive servers](#recursive-servers) (DNS resolvers) in the client.
 1. The DNS resolver checks for the IP address in its local cache. If found, the address is returned. If not, the request is forwarded to the ISP's DNS resolver.
-2. The ISP's DNS resolver queries the [Top Level Domain (TLD) nameservers](#tld-nameservers) to find the [DNS zones](#dns-zones).The TLD servers return the details of the [authoritative nameserver](#authoritative-nameserves) where the request can be resolved.
+2. The ISP's DNS resolver queries the [Top Level Domain (TLD) nameservers](#tld-servers) to find the [DNS zones](#dns-zones).The TLD servers return the details of the [authoritative nameserver](#authoritative-servers) where the request can be resolved.
 3. If the TLD servers return the information of the ISPs authoritative nameserver, then the request is forwarded to the ISPs authoritative nameserver. ISP's nameservers are generally not very reliable. 
-4. If the DNS record is not found in the ISPs authoritative nameserver, then the request is sent to a [forwarding nameserver](#forwarding-nameservers) which send the request to third party authority nameservers such as `1.1.1.1` (Cloudfare) or `8.8.8.8` (Google) to resolve the IP address.
-5. The [authoritative nameserver](#authoritative-nameserves) queries for the appropriate DNS records by looking up the [A record](#a-record) or [AAAA record](#aaaa-record). If there's a [CNAME record](#cname), the authoritative server also returns the canonical name. If no matching record is found, the server responds with an NXDOMAIN (non-existent domain) message. IP address is resolved from the respective record and returned to the ISP's recursive nameserver.
+4. If the DNS record is not found in the ISPs authoritative nameserver, then the request is sent to a [forwarding nameserver](#forwarding-servers) which send the request to third party authority nameservers such as `1.1.1.1` (Cloudfare) or `8.8.8.8` (Google) to resolve the IP address.
+5. The [authoritative nameserver](#authoritative-servers) queries for the appropriate DNS records by looking up the [A record](#a-record) or [AAAA record](#aaaa-record). If there's a [CNAME record](#cname), the authoritative server also returns the canonical name. If no matching record is found, the server responds with an NXDOMAIN (non-existent domain) message. IP address is resolved from the respective record and returned to the ISP's recursive nameserver.
 6. The ISP's recursive server then returns the response to the client's DNS resolver. The DNS resolver returns the response to the client.
 7. At the end, the local cache updated with the IP address with a TTL (Time-To-Live) from the DNS record returned from the authoritative server.
 
