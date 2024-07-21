@@ -1,8 +1,8 @@
 ---
-title: "Container Logging"
+title: "Container Logging: Best Practices for Docker and Kubernetes"
 date: 2024-06-23T21:57:48-07:00
 draft: false
-subtitle: "Exploring specialized logging architecture for containers"
+subtitle: "Explore container logging best practices for Docker and Kubernetes. Learn about logging drivers, architectures, and strategies to enhance your application observability."
 categories:
 - concepts
 series:
@@ -11,6 +11,7 @@ tags:
 - kubernetes
 featuredImage: "images/container-logs.png"
 featuredImageCaption: Logging in containers
+slug: "container-logging"
 ---
 
 - [Logging in Docker](#logging-in-docker)
@@ -20,19 +21,20 @@ featuredImageCaption: Logging in containers
   - [Log Rotation](#log-rotation)
 - [Logging in Kubernetes](#logging-in-kubernetes)
   - [Log Rotation in Kubernetes](#log-rotation-in-kubernetes)
-- [Logging Architectures](#logging-architectures)
+- [Logging Architectures in Containerized Environments](#logging-architectures-in-containerized-environments)
   - [Using a node-level logging agent](#using-a-node-level-logging-agent)
   - [Using a sidecar container with a logging agent](#using-a-sidecar-container-with-a-logging-agent)
   - [Push logs directly from the container to the logging backend](#push-logs-directly-from-the-container-to-the-logging-backend)
+- [Conclusion](#conclusion)
 - [References](#references)
 
 
 Logs are essential for the development and troubleshooting of containers. Containers utilize a specialized logging framework for various reasons, such as isolation, standardization, and managing scalability.
-When a container starts, the container runtime (containerd, runc, cri-o, docker, etc.) intercepts the stdout and stderr streams and pushes the logs to a file (default: `/var/log/<docker/containerd/pod>`). The directory location can be mounted on the host to persist the logs for further use and analysis. Different command line tools like `docker` and `nerdctl` tap into the log file in the container to show the logs.
+When a container starts, the container runtime (such as containerd, runc, cri-o, or docker) captures the standard output (stdout) and standard error (stderr) streams from the application running in the container. These logs are then written to a file, typically located at `/var/log/<docker/containerd/pod>`. This log directory can be mounted on the host system, allowing logs to be persisted and accessed even after the container stops. Various command-line tools, such as docker and nerdctl, can then read these log files to display the container's logs to users.
 
 # Logging in Docker
 
-Docker uses [logging drivers](https://docs.docker.com/config/containers/logging/configure/#supported-logging-drivers) to manage specialized logging for containers [^1]. The default [json-file](https://docs.docker.com/config/containers/logging/json-file/) logging drivers capture the standard output and standard error streams and write each log into a JSON format with the following structure:
+Docker includes multiple logging mechanisms to help you get information from running containers and services. These mechanisms are called logging drivers. Docker uses logging drivers to manage specialized logging for containers [^1]. The default [json-file](https://docs.docker.com/config/containers/logging/json-file/) logging drivers capture the standard output and standard error streams and write each log into a JSON format with the following structure:
 
 ```json
 {
@@ -54,7 +56,7 @@ The potential effect of blocking mode on the performance of your application dep
 
 In non-blocking mode, a container first writes its logs to an in-memory [ring buffer](https://embedjournal.com/implementing-circular-buffer-embedded-c/#what-is-a-circular-buffer), where they're stored until the logging driver is available to process them. Even if the driver is busy, the container can immediately hand off the application output to the ring buffer and resume executing the application. This ensures that a high volume of logging activity won't affect the application's performance running in the container [^2].
 
-In contrast to the delivery mode, the non-blocking delivery mode does not guarantee that the logging driver will pick up all logs. _If the application emits logs faster than the driver can process, the ring buffer can overflow, leading to missing logs._ The `max-buffer-size` can be used to increase the ring buffer's size to handle the logs' parsing. The default value of `max-buffer-size` is 1 megabyte.
+In contrast to the blocking delivery mode, the non-blocking delivery mode does not guarantee that the logging driver will pick up all logs. _If the application emits logs faster than the driver can process, the ring buffer can overflow, leading to missing logs._ The `max-buffer-size` can be used to increase the ring buffer's size to handle the logs' parsing. The default value of `max-buffer-size` is 1 megabyte.
 
 ## Log Rotation
 
@@ -62,7 +64,7 @@ By default, the support logging drivers do not support log rotation. This can in
 
 In such cases, it can be helpful to switch to [the `local` logging driver](https://docs.docker.com/config/containers/logging/local/), which is optimized for performance and disk usage by support log rotation by default.
 
-By default, the local driver preserves 100MB of log messages per container and uses automatic compression to reduce the disk size. The 100MB default value is based on a 20M default size for each file and a default count 5 for the number of such files (to account for log rotation) [^3]. 
+The local logging driver, unlike some other drivers, is optimized for performance and disk usage by supporting log rotation by default. When using the local driver, its default configuration preserves 100MB of log messages per container and uses automatic compression to reduce disk size. The default size of each log file is 20 MB. Once a log file reaches the 20 MB limit, a new file is created. By default, the local driver maintains 5 such files per container to handle log rotation [^3].
 
 # Logging in Kubernetes
 When containers are deployed to a Kubernetes cluster, they run inside a pod on a node. The container runtime is installed on the node, and the Kubelet process is responsible for managing all the containers on the node.
@@ -78,7 +80,7 @@ The Kubelet's `containerLogMaxSize` (default 10Mi) and `containerLogMaxFiles` (d
 
 To perform an efficient log rotation in clusters where the volume of the logs generated by the workload is large, kubelet also provides a mechanism to tune how the logs are rotated in terms of how many concurrent log rotations can be performed and the interval at which the logs are monitored and rotated as required. You can configure two kubelet configuration settings, containerLogMaxWorkers and containerLogMonitorInterval, using the kubelet configuration file [^4].
 
-# Logging Architectures
+# Logging Architectures in Containerized Environments
 
 The following are the common logging patterns considered for collecting container logs:
 
@@ -101,8 +103,9 @@ Some examples of log collectors include [Datadog](https://docs.datadoghq.com/con
 ## Using a sidecar container with a logging agent
 
 You can use a sidecar container that can be configured to run with the application container, which can do one of the following:
-1. The sidecar can stream the application logs to its stdout
-2. The sidecar container can run a logging agent to scrape logs from the application container and push them to a log aggregator.
+
+- The sidecar can stream the application logs to its stdout
+- The sidecar container can run a logging agent to scrape logs from the application container and push them to a log aggregator.
 
 [Details about these approaches are explained excellently in the Kubernetes official documentation.](https://kubernetes.io/docs/concepts/cluster-administration/logging/#sidecar-container-with-logging-agent).
 
@@ -115,6 +118,16 @@ Using the sidecar-based approach has certain disadvantages.
 ## Push logs directly from the container to the logging backend
 
 The containers can be configured to collect their logs and push them directly to the logging aggregator. This approach allows the application to control how the logs are moved to the logging aggregator. However, this approach comes with the caveat that the application needs to be integrated with a log scraping and pushing mechanism. This can make the application more complex and challenging to troubleshoot. Furthermore, fetching logs with `kubectl logs` will not work since logs are not managed by the kubelet.
+
+Pushing logs directly from the container shifts the responsibility of log aggregation to the application itself. This approach can be beneficial in scenarios where an application requires custom log handling or needs to aggregate logs independently from the cluster-wide logging system. However, it's important to consider the added complexity this method introduces to the application and its potential impact on maintainability.
+
+# Conclusion
+
+Container logging is a crucial aspect of modern application development and management. We've explored various logging mechanisms in Docker and Kubernetes, from basic log capture to advanced architectures like node-level agents and sidecars. Each approach offers unique benefits and trade-offs in terms of performance, scalability, and ease of implementation.
+
+As container environments continue to evolve, effective logging strategies become increasingly important for debugging, monitoring, and maintaining applications. Whether you choose to use node-level logging agents, sidecar containers, or direct log pushing, the key is to implement a solution that best fits your specific use case and infrastructure requirements.
+
+By understanding these logging concepts and architectures, developers and operations teams can make informed decisions to enhance their container observability and streamline their troubleshooting processes.
 
 # References
 [^1]: https://docs.docker.com/config/containers/logging/configure/
