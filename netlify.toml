@@ -1,6 +1,6 @@
 [build]
     publish = "public"
-    command = "make serve-production"
+    command = "make build-production"
 
     [build.environment]
         HUGO_VERSION = "0.122.0"
