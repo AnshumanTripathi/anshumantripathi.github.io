@@ -10,4 +10,4 @@
   HUGO_ENABLEGITINFO = "true"
 
 [context.deploy-preview]
-  command = "make serve-production"
+  command = "make build-production"
