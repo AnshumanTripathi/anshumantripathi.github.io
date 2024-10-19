@@ -9,7 +9,7 @@ series:
 - samyak
 tags:
 - kubernetes
-featuredImage: "images/container-logs.png"
+featuredImage: "diagrams/container-logs.excalidraw.png"
 featuredImageCaption: Logging in containers
 slug: "container-logging"
 ---
