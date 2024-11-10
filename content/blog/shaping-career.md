@@ -1,5 +1,6 @@
 ---
 title: "Choosing the road less taken for my career"
+subtitle: "How I shaped my career through High School and Undergraduate studies"
 date: 2023-02-08T11:15:15+05:30
 draft: false
 featuredImage: "images/career.jpeg"
@@ -10,21 +11,8 @@ categories:
 pagefindWeight: "0.1"
 ---
 
-> How I shaped my career through High School and Undergraduate studies
-
-<br/>
-
-<!-- TOC -->
-- [Choosing the sciences](#choosing-the-sciences)
-- [Realizing my calling](#realizing-my-calling)
-- [The SAT](#the-sat)
-  - [I was not prepared](#i-was-not-prepared)
-  - [Undergraduate is expensive](#undergraduate-is-expensive)
-- [Undergraduate (Bachelor's degree)](#undergraduate-bachelors-degree)
-<!-- TOC -->
-
-
 # Choosing the sciences
+
 When I was in high school, teachers used to ask me what I wanted to do when I grew up. Since I had never considered this topic, I would mimic my friends and say something like I wanted to be a Doctor or an Engineer. In the 10th grade, we realized that we were at a turning point when we were given a choice of streams like arts, commerce, and sciences. Since my inclination had always been towards science, I took the path of choosing the sciences. This was the first fork in the road every Indian student faced in their career.
 
 Even with the science stream, there are three options:
@@ -42,6 +30,7 @@ Regardless I ended up on a route to become an engineer, but I soon realized it h
 
 
 # Realizing my calling
+
 Soon after I started 11th grade, I realized that the sciences were demanding. My father had a business selling computers when I was a kid, and I used to fiddle with computers a lot. On the other hand, Computer Science, an elective subject, was the only subject that came to me naturally. It was when I started learning the basics of programming with C and C++ and realized that I was instinctively good at programming. It was not a complete surprise for me. I had always been good at computers, and it was the one subject where I was the best in class. It was only a short time before I realized I could have a future in computer engineering.
 It was clear to me that if I wanted to get an education in computer engineering at a good college, I would have to take competitive exams like the JEE or AIEEE (now JEE main), which required a good aptitude for PCM subjects in which I was not particularly good. I could quickly get a passing grade, but excelling in them was a completely different question.
 
@@ -50,16 +39,20 @@ I needed to find another way to get a good education in computer engineering wit
 One day I had an epiphany that I could go out of the country to learn computer engineering. I started researching the SAT exam and what doors will open for me. The more I read about SATs, the more confident I got that this was the future I wanted to pursue.
 
 # The SAT
+
 Even though I was confident that I could score well on the SAT exams, I realized there were other things I should have noticed.
 
 ## I was not prepared
+
 From my childhood, I have always remained at home and in my city. I had never traveled outside alone or lived alone. My parents needed to be more confident that I could travel to a new country and navigate the new system alone. Initially, I rebelled, but after giving a calm thought, I realized they were right.
 I knew nothing about cooking, setting up a bank account, or taking loans.
 
 ## Undergraduate is expensive
+
 I aimed to go to the United States for my education, **but the tuition fees for undergraduate are a lot**. Taking such an enormous debt was not wise and would have become a significant burden on my parents and me.
 
 # Undergraduate (Bachelor's degree)
+
 I made peace with the decision of not giving the SATs right after high school and preparing myself to enter a college within my city. Although at that time it seemed like settling up, **this was the best decision I took**.
 The idea was not to give the SATs now but to give GRE after I complete my undergraduate and go to the United States for my Masters. It gave me enough time to explore and learn my missing skills. In my undergraduate classes, I took training in programming, robotics, and core computer engineering, like algorithms and operating systems. I participated in inter-college programming competitions and even traveled to places like Mumbai, Jaipur, Pilani, and Bhopal to participate in robotics completions in different college fests.
 The lessons I learned here and the friends I made during this time have helped me through thick and thin in my life. Once I was nearing the completion of my bachelor's degree, I started preparing for GRE.

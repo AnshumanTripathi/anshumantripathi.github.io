@@ -1,0 +1,53 @@
+<script>
+    // Wait for the DOM to be fully loaded
+    window.addEventListener('load', function () {
+        // First, get all the TOC links and headers
+        const tocLinks = document.querySelectorAll('.post-toc nav a');
+        const headers = document.querySelectorAll('.post-content h1[id], .post-content h2[id], .post-content h3[id], .post-content h4[id], .post-content h5[id], .post-content h6[id]');
+
+        // Create an IntersectionObserver
+        const headerObserver = new IntersectionObserver(
+            (entries) => {
+                // Get all entries that are intersecting
+                const visibleHeaders = entries
+                    .filter(entry => entry.isIntersecting)
+                    .map(entry => entry.target);
+
+                // If we have visible headers
+                if (visibleHeaders.length > 0) {
+                    // Get the first visible header
+                    const visibleHeader = visibleHeaders[0];
+
+                    // Remove active class from all links
+                    tocLinks.forEach(link => link.classList.remove('active'));
+
+                    // Find and highlight the corresponding TOC link
+                    const correspondingLink = document.querySelector(`.post-toc nav a[href="#${visibleHeader.id}"]`);
+                    if (correspondingLink) {
+                        correspondingLink.classList.add('active');
+                    }
+                }
+            },
+            {
+                // Adjust these values to control when headers are considered "visible"
+                rootMargin: '-10% 0px -85% 0px',
+                threshold: 0
+            }
+        );
+
+        // Observe all headers
+        headers.forEach(header => headerObserver.observe(header));
+
+        // Add smooth scrolling to TOC links
+        tocLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    });
+</script>

@@ -13,14 +13,6 @@ series:
 - devops
 ---
 
-<!-- TOC -->
-* [Issues with static configuration files](#issues-with-static-configuration-files)
-* [How I approached it](#how-i-approached-it)
-  * [Tools](#tools)
-  * [Strategy](#strategy)
-* [Alfred](#alfred)
-<!-- TOC -->
-
 An application uses a set configuration for different use cases like database connection, caches, messaging queues, addresses to other applications and services, etc. During the development process, applications are also deployed to different environments like development, staging, UAT, load testing, and production.
 In each environment, a set of configurations might change for the application. Managing these changes in a scalable manner, i.e., for a large number of applications deployed on a large number of environments, is called configuration management.
 
@@ -40,6 +32,7 @@ The core of this problem is the ability to have multiple overridable configurati
 Hiera natively supports JSON and YAML formats which is also a benefit as these formats are most used with configurations. My preference is **YAML over JSON** because of YAML's conciseness with the lack of angular braces `{}` and commas `,`.
 
 ## Strategy
+
 1. The idea is to create a centralized repository for configurations. The repository should have modules for applications and override configurations at different levels.
     * module level configuration
     * node/deployment level configuration

@@ -13,28 +13,6 @@ math: True
 slug: google-zanzibar-global-authorization-system-part-1
 ---
 
-<!-- TOC -->
-- [Introduction](#introduction)
-  - [Why Zanzibar: The Need for Scalable Authorization Systems](#why-zanzibar-the-need-for-scalable-authorization-systems)
-  - [Principles of Zanzibar](#principles-of-zanzibar)
-    - [Correctness](#correctness)
-    - [Flexibility](#flexibility)
-    - [Low Latency](#low-latency)
-    - [High Availability](#high-availability)
-    - [Large Scale](#large-scale)
-- [Zanzibar Data modeling](#zanzibar-data-modeling)
-  - [Understanding Zanzibar's Relational Tuple Model](#understanding-zanzibars-relational-tuple-model)
-  - [Consistency Model](#consistency-model)
-  - [Namespace Configuration](#namespace-configuration)
-  - [API](#api)
-    - [Read](#read)
-    - [Write](#write)
-    - [Watch](#watch)
-    - [Check](#check)
-    - [Expand](#expand)
-- [References](#references)
-<!-- TOC -->
-
 # Introduction
 
 Google's Zanzibar is a groundbreaking global authorization system designed to handle billions of objects and users. As described in [Google's research paper](https://research.google/pubs/zanzibar-googles-consistent-global-authorization-system/), Zanzibar is capable of processing 10 million client queries per second with a latency of less than 10 milliseconds while maintaining 99.999% availability. This article explores the core principles and data modeling techniques that make Zanzibar a leader in access control solutions. We'll delve into its unique approach to consistency, flexibility, and scalability, providing insights into how Google manages permissions at an unprecedented scale in this first part of our exploration of Zanzibar.

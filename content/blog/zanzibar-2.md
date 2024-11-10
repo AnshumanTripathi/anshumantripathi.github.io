@@ -17,67 +17,52 @@ In this post, we deep dive into Zanzibar's architecture and implementation. We w
 
 To understand the design principles of Zanzibar read the [part 1 of this article](/blog/google-zanzibar-global-authorization-system-part-1).
 
-<!-- TOC -->
-- [Architecture and Implementation](#architecture-and-implementation)
-  - [ACL Servers](#acl-servers)
-  - [Watch Servers](#watch-servers)
-  - [Databases](#databases)
-    - [Relation Tuple storage](#relation-tuple-storage)
-    - [Changelog storage](#changelog-storage)
-    - [Namespace configuration storage](#namespace-configuration-storage)
-  - [Request Handling](#request-handling)
-    - [Evaluation Timestamp](#evaluation-timestamp)
-    - [Configuration Consistency](#configuration-consistency)
-    - [Check Evaluation](#check-evaluation)
-    - [Leopard Indexing](#leopard-indexing)
-    - [Handling hotspots](#handling-hotspots)
-    - [Performance Isolation](#performance-isolation)
-    - [Tail Latency Mitigation](#tail-latency-mitigation)
-  - [Conclusion](#conclusion)
-  - [Implementation examples](#implementation-examples)
-    - [Authzed](#authzed)
-    - [Warrant.dev](#warrantdev)
-    - [Keto](#keto)
-- [References](#references)
-<!-- TOC -->
 
 # Architecture and Implementation
 
 {{< img src="images/zanzibar/architecture.png" caption="Architecture of Zanzibar" loading="lazy" decoding="async" width="100%">}}
 
 ## ACL Servers
+
 ACL servers are the main server types organized in clusters to handle Read, Write, Check, and Expand requests. Requests in each cluster are fanned out to other servers as necessary to compute the response. 
 
 ## Watch Servers
+
 The watch server cluster is a separate cluster to handle watch requests. These servers communicate with the changelog database to serve a stream of namespace changes to clients in near real-time.
 
 ## Databases
+
 Zanzibar setup in Google uses Spanner databases to store ACLs and their metadata. Relation tuples for each client namespace are stored in one database and another database to store the changelog. Every Zanzibar write is committed to the tuple storage and the changelog shard in a single transaction. 
 Zanzibar periodically runs data pipelines to perform different offline functions in Spanner; for example, one function takes dumps of relational tuples in each namespace at known snapshot timestamps and another function for garbage collection of old tuple versions than a configured threshold per namespace.
 
 ### Relation Tuple storage
+
 - The primary key (shard ID, object ID, relation, user, commit timestamp) uniquely identifies each row.
 - Multiple tuple versions are stored in different rows so checks and reads can be evaluated for any given timestamp.
 - Clients configure the sharding of the databases using the `shard ID`, which is generally determined by `object ID`.
 - When the namespace holds too many objects, the sharding can be done by a combination of `object ID` and `user`.
 
 ### Changelog storage
+
 - The watch server clusters use the change log storage to tail the change log on watch requests.
 - The primary keys are (changelog shard ID, timestamp, unique update ID). (Changelog shard ID is randomly selected per read.)
 - In Google, Spanner is given the changelog shard, which acts as a transaction coordinator to minimize blocking changelog reads on pending transactions.
 
 ### Namespace configuration storage
+
 - Namespace configuration, i.e., the namespace metadata is stored in a database with two tables, one for configuration, which is keyed by `namespace ID`, while the other stores the metadata changelog, which is keyed by commit timestamp.
 - This allows the Zanzibar server to load all configurations upon startup and continuously monitor the changelog to refresh the configuration.
 
 ## Request Handling
 
 ### Evaluation Timestamp
+
 Zanzibar APIs support sending an optional zookie in the request with the encoded timestamp to process the ACL request. When this zookie is not provided, Zanzibar uses a default staleness to ensure all transactions are evaluated at a timestamp that is as recent as possible.
 Since all ACL policies can be randomly sharded, the shards can be located in a different zone than the ACL servers, which can incur latency. To avoid such out-of-zone reads for data at default staleness, each ACL server tracks the frequency of each zone read at the current default staleness timestamp and uses these frequencies to compute a binomial proportion confidence interval of the probability that any piece of data is available locally at each staleness. Upon collecting enough data, the server checks to see if each staleness value has a sufficiently low chance of incurring out-of-zone. If no known staleness values are safe, then Zanzibar uses a [two proportion z-test](https://www.statology.org/two-proportion-z-test/) to see if increasing the staleness value would significantly reduce the out-of-zone read probability then the default staleness value is increased to improve the latency. 
 It should be noted that default staleness value adjustment is only a performance improvement and does not affect Zanzibar's consistency.
 
 ### Configuration Consistency
+
 Changes to a namespace configuration can change ACL evaluations; therefore, the correctness of the namespace configuration can affect Zanzibar's consistency.
 To maintain the correctness of the Zanzibar, choose a single snapshot timestamp for namespace configuration metadata when evaluating each request. All ACL servers in the cluster use that same timestamp for the same request, including any subrequests that fan out of the original client request.
 A monitoring job tracks the timestamp range available to every server to ensure that all ACL servers in a cluster use the correct timestamp snapshot. It aggregates them, reporting a globally available range to every other server. The server picks a time from this range on each incoming request, ensuring that all servers can continue serving even if they can no longer read from the config storage.
@@ -88,6 +73,7 @@ Zanzibar check evaluation checks if a user, U, is allowed in the relation recurs
 All leaf nodes of the boolean expression tree are evaluated to minimize the check latency of this recursive operation. When the outcome of one node determines the result of the subtree, the evaluation of the other nodes in the subtree is canceled. (This has a side effect of causing a "cache stampede," which is explained in [the caching details in how the hotspots are handled.](#handling-hotspots))
 
 ### Leopard Indexing
+
 Maintaining low latency in a recursive "pointer chasing" operation can be complex with deeply nested with many child groups. To solve this problem, Zanzibar handles checks using Leopard Indexing, a specialized index that supports efficient set computations using a skip list.
 To index and evaluate group membership, Zanzibar represents group membership with two set types:
 
@@ -114,6 +100,7 @@ To maintain the incremental layer, the Leopard incremental indexer calls Zanziba
 In practice, a single Zanzibar tuple addition or deletion may yield tens of thousands of discrete Leop- ard tuple events. Each Leopard serving instance receives the complete stream of these Zanzibar tuple changes through the Watch API. The Leopard serving system is designed to continuously ingest this stream and update its various posting lists with minimal impact on query serving[^1].
 
 ### Handling hotspots
+
 When Zanzibar receives a read/expand request, it can fan out over multiple servers and have many common groups and indirect ACLs. To facilitate consistency, Zanzibar stores data in a normalized way (apart from the case described in [Leopard Indexing](#leopard-indexing)). Hotspots on common groups can arise when the data is normalized, overloading the database. Handling these hotspots is critical to scale the Zanzibar system.
 Each ACL server cluster in Zanzibar has a distributed cache used for both read and check evaluations. The cache entries are distributed across these servers using consistent hashing so that recursive pointer chasing does not fan out to many ACL servers. 
 Since a namespace configuration can result in forwarding a request to evaluate indirect ACLs, a forwarding key is evaluated with {object#relation} values and is cached at the caller and the callee servers. This reduces the number of internal RPCs happening within the ACL server cluster.
@@ -123,6 +110,7 @@ Distributed caches and lock tables handle a vast majority of hotspots. There are
 2. Indirect ACL checks are frequently canceled when the result of the parent ACL check is determined (as discussed in [Cache Evaluation](#check-evaluation)), which can leave the cache key unpopulated. At the same time, this eager cancellation improves performance, but it negatively impacts caching and can even reduce caching performance by either causing a cache stampede or read operations getting stuck on lock tables. As a workaround, the eager cancellation of check evaluations is delayed when requests are waiting on lock table reads.
 
 ### Performance Isolation
+
 In a distributed system like Zanzibar, performance isolation is critical to preventing a slow ACL server and reducing the system's latency. To isolate performance, the following practices have to be followed:
 1. Ensure proper CPU capacity is allocated to each ACL server. To monitor the CPU capacity, RPC execution is measured in CPU seconds, which is a hardware-agnostic metric. Each Zanzibar client has a global limit on CPU usage per second, and RPCs are throttled if the CPU limit is exceeded and there are no spare CPU cycles available to the overall system.
 2. Zanzibar also limits the number of RPC calls to contain the system's memory usage. The number of outstanding RPCs is also limited to improve memory. 
@@ -130,6 +118,7 @@ In a distributed system like Zanzibar, performance isolation is critical to prev
 4. Different lock table keys are used for different requests to prevent any throttling that the database applies to one client from affecting the other.
 
 ### Tail Latency Mitigation
+
 Tail latency is the small percentage of response times from a system, out of all of the responses to the input/output (I/O) requests it serves, that takes the longest compared to the bulk of its response times.[^2]
 
 To avoid tail latency, Zanzibar uses [request hedging](https://grpc.io/docs/guides/request-hedging/), a gRPC retry policy to send the same requests requests to multiple servers. When a server receives a response for one of the requests, the other request is canceled.
@@ -159,19 +148,24 @@ The evolution of such systems will likely continue, with potential improvements 
 
 
 ## Implementation examples
+
 After going through this I would highly recommend going through some tools that impliment the concepts of Zanzibar.
 
 ### Authzed
+
 Authzed provides an entrprise authorization tool using a proprietary spiceDB which provides a highly efficient backend for the authorization system. [Read Authzed documentation for more details.](https://authzed.com/docs/spicedb/getting-started/discovering-spicedb)
 
 ### Warrant.dev
+
 [Warrant.dev](https://github.com/warrant-dev/warrant) is inspired by zanzibar which provides a highly scalable and finr grained authorization service for defining, storing, querying, checking, and auditing application authorization models and access rules [^3]. Warrant also provides differnt sdks and frontends to setup the authorization system yourself.
 
 ### Keto
+
 Open Source (Go) implementation of "Zanzibar: Google's Consistent, Global Authorization System". Ships gRPC, REST APIs, newSQL, and an easy and granular permission language. Supports ACL, RBAC, and other access models [^4].
 
 
 # References
+
 [^1]: https://research.google/pubs/zanzibar-googles-consistent-global-authorization-system/
 [^2]: https://www.computerweekly.com/opinion/Storage-How-tail-latency-impacts-customer-facing-applications
 [^3]: https://github.com/warrant-dev/warrant
