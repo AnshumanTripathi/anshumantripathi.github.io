@@ -9,32 +9,6 @@ tags:
 - kubernetes
 ---
 
-<!-- TOC -->
-* [Persistent Volumes (PV)](#persistent-volumes--pv-)
-* [Persistent Volume Claims (PVCs)](#persistent-volume-claims-pvcs)
-* [Access Modes](#access-modes)
-  * [ReadWriteOnce](#readwriteonce)
-  * [ReadWriteOncePod](#readwriteoncepod)
-  * [ReadOnlyMany](#readonlymany)
-  * [ReadWriteMany](#readwritemany)
-* [PV provisioning](#pv-provisioning)
-  * [Static](#static)
-  * [Dynamic](#dynamic)
-* [Storage Classes](#storage-classes)
-  * [Volume Binding Mode](#volume-binding-mode)
-    * [Immediate (default)](#immediate-default)
-    * [Wait For First Consumer (Recommended)](#wait-for-first-consumer-recommended)
-  * [ReclaimPolicy](#reclaimpolicy)
-    * [Retain](#retain)
-    * [Delete (Default)](#delete-default)
-  * [Provisioners](#provisioners)
-    * [Internal provisioners](#internal-provisioners)
-    * [External Provisoiners](#external-provisoiners)
-  * [Parameters](#parameters)
-  * [Mount options](#mount-options)
-* [References](#references)
-<!-- TOC -->
-
 > [It is highly recommended to read about volumes before learning about persistent volumes](https://kubernetes.io/docs/concepts/storage/volumes/)
 
 Kubernetes provides ephemeral and persistent storage options for an application. Ephemeral storage like an emptyDir lives and dies with the pod, i.e., if the pod is deleted, all the data in the emptyDir is deleted. On the other hand, persistent storage is not coupled with the pod's lifecycle. It requires understanding what kind of storage is needed and how to provision it (dynamically or statically).

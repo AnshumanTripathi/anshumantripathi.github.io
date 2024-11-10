@@ -13,14 +13,6 @@ series:
 - devops
 ---
 
-<!-- TOC -->
-* [Issues with static configuration files](#issues-with-static-configuration-files)
-* [How I approached it](#how-i-approached-it)
-  * [Tools](#tools)
-  * [Strategy](#strategy)
-* [Alfred](#alfred)
-<!-- TOC -->
-
 An application uses a set configuration for different use cases like database connection, caches, messaging queues, addresses to other applications and services, etc. During the development process, applications are also deployed to different environments like development, staging, UAT, load testing, and production.
 In each environment, a set of configurations might change for the application. Managing these changes in a scalable manner, i.e., for a large number of applications deployed on a large number of environments, is called configuration management.
 

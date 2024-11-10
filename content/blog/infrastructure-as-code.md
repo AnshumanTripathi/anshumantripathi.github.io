@@ -8,22 +8,8 @@ series:
 categories:
 - concepts
 featuredImage: "images/iac.png"
+featuredImageCaption: "Picture credit <a href='https://bluelight.co/blog/best-infrastructure-as-code-tools'>Bluelight</a>"
 ---
-
-Picture credit - https://bluelight.co/blog/best-infrastructure-as-code-tools
-
----
-<!-- TOC -->
-* [Infrastructure as Code](#infrastructure-as-code)
-  * [Terraform](#terraform)
-  * [Pulumi](#pulumi)
-* [Best practices](#best-practices)
-  * [Everything IaC or nothing IaC](#everything-iac-or-nothing-iac)
-  * [Do not take it too far](#do-not-take-it-too-far)
-  * [Modularized](#modularized)
-  * [Documentation is key](#documentation-is-key)
-  * [CI/CD](#cicd)
-<!-- TOC -->
 
 # Infrastructure as Code
 

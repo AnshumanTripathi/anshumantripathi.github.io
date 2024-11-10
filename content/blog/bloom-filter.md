@@ -10,14 +10,6 @@ series:
 math: True
 ---
 
-<!-- TOC -->
-- [What is a Bloom Filter](#what-is-a-bloom-filter)
-- [How to use effectively use Bloom filters](#how-to-use-effectively-use-bloom-filters)
-- [Other considerations for using a bloom filter](#other-considerations-for-using-a-bloom-filter)
-- [Implementing a bloom filter](#implementing-a-bloom-filter)
-- [References](#references)
-<!-- TOC -->
-
 # What is a Bloom Filter
 A bloom filter is a _space efficient_ probabilistic data structure that can be used to determine the membership of an element in a given set. In other words, **a bloom filter in itself does not store the elements but only keeps a probabilistic record of the existence of an element in the set.** A bloom filter uses an array of bits to determine a value's membership, making it far more space efficient than other data structures like trees.
 Space efficiency is a trade-off when using bloom filters because a bloom filter is probabilistic, i.e., a bloom filter can give some amount of false positives. In other words, a bloom filter can return true for a value that might not belong to the given set. However, a bloom filter does not have false negatives, i.e., it never returns false for a value that exists because it only allows read and writes but not deletes.

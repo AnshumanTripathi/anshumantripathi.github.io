@@ -14,24 +14,6 @@ Photo by <a href="https://unsplash.com/@guibolduc?utm_source=unsplash&utm_medium
 
 ---
 
-<!-- TOC -->
-* [What are containers?](#what-are-containers)
-* [Linux Namespaces](#linux-namespaces)
-  * [Types of Namespaces](#types-of-namespaces)
-    * [User ID namespace](#user-id-namespace)
-    * [Control Group namespace](#control-group-namespace)
-    * [Network namespaces](#network-namespaces)
-    * [Mount namespaces](#mount-namespaces)
-    * [Process ID (PID) namespace](#process-id--pid--namespace)
-    * [Interprocess communication (IPC) namespaces](#interprocess-communication--ipc--namespaces)
-    * [Unix Time Sharing (UTS) namespace](#unix-time-sharing--uts--namespace)
-    * [Listing all Linux Namespaces](#listing-all-linux-namespaces)
-  * [Creating a Linux namespace](#creating-a-linux-namespace)
-* [Linux Cgroup](#linux-cgroup)
-* [CGroups in action](#cgroups-in-action)
-* [References](#references)
-<!-- TOC -->
-
 # What are containers?
 
 Containers is a term used to define a process or a set of processes isolated from the system in the Linux Kernel. From this point of view, containers can look like Virtual machines, but they have an important distinction. While Virtual Machines virtualize at an Operating System level, Linux containers virtualize at the process level, making containers much lighter than Virtual Machines.

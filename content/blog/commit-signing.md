@@ -11,21 +11,6 @@ tags:
 - git
 ---
 
-<!-- TOC -->
-* [What is commit signing](#what-is-commit-signing)
-* [Why you should sign a git commit](#why-you-should-sign-a-git-commit)
-  * [Avoid impersonations](#avoid-impersonations)
-  * [Secure repository against malicious changes](#secure-repository-against-malicious-changes)
-  * [Safety against supply chain attacks](#safety-against-supply-chain-attacks)
-  * [The verification badge](#the-verification-badge)
-* [How to sign commits with Github](#how-to-sign-commits-with-github)
-  * [Setup your GPG key](#setup-your-gpg-key)
-  * [Setup Git CLI to sign commits by default](#setup-git-cli-to-sign-commits-by-default)
-  * [Add GPG key to your Github account [^2]](#add-gpg-key-to-your-github-account-2)
-  * [Enforce signed commits](#enforce-signed-commits)
-* [References](#references)
-<!-- TOC -->
-
 # What is commit signing
 Signing a commit means adding a cryptographic hash which can be only generated through the author's private key (called "signature"), thus verifying the identity of the author of the commit. To sign a commit, a developer uses a [GPG (GNU Privacy Guard) key](https://gnupg.org). GPG allows you to encrypt and sign your data and communications; it features a versatile key management system and access modules for all kinds of public key directories [^1].
 When an author creates a GPG signature, it is generated as a combination of a private key and a public key, the private key is saved on the author's computer, and the public key is shared with the version control system, which uses the public key to verify the commits which contain a hash generated using the private key.

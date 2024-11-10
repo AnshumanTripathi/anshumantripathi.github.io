@@ -11,24 +11,6 @@ featuredImageCaption: Photo by <a href="https://unsplash.com/@wocintechchat?utm_
 pagefindWeight: "0.1"
 ---
 
-<!-- TOC -->
-- [Yet another post for programming career.](#yet-another-post-for-programming-career)
-    - [Software engineering interviews are broken.](#software-engineering-interviews-are-broken)
-    - [Cracking the interview does not mean you are a good engineer](#cracking-the-interview-does-not-mean-you-are-a-good-engineer)
-- [How to start](#how-to-start)
-  - [Generalize and not specialize!](#generalize-and-not-specialize)
-    - [Networking](#networking)
-    - [Lower level Systems](#lower-level-systems)
-    - [System design](#system-design)
-    - [Databases](#databases)
-- [Deciding on a programming language](#deciding-on-a-programming-language)
-  - [Programming paradigm](#programming-paradigm)
-  - [Object-oriented programming](#object-oriented-programming)
-  - [Functional programming](#functional-programming)
-  - [Verdict](#verdict)
-- [Practice](#practice)
-<!-- TOC -->
-
 Learning to build software is something that anyone can pick up at any point in their career. This is one of the fields that can be easy to understand, i.e., you don't need to start learning and honing your skills from childhood. Programming and building software can be learned in months and is a career path people choose from all walks of life. But taking that first step can be challenging, especially now because of the recent turmoil in the world economy and job market. Let's look at what it takes for someone new to programming to get a job as a software engineer.
 
 # Yet another post for programming career.

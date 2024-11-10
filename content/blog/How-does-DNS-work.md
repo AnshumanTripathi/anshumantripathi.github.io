@@ -11,32 +11,6 @@ series:
 slug: "/how-dns-works-guide"
 ---
 
-<!-- TOC -->
-- [What is DNS?](#what-is-dns)
-- [How does DNS actually work?](#how-does-dns-actually-work)
-- [DNS Records: CNAME, A, AAAA, PTR](#dns-records-cname-a-aaaa-ptr)
-    - [CNAME](#cname)
-    - [A Record](#a-record)
-    - [AAAA Record](#aaaa-record)
-    - [PTR record](#ptr-record)
-- [DNS Zones](#dns-zones)
-  - [DNS Zone transfer](#dns-zone-transfer)
-- [SOA](#soa)
-  - [DNS Servers: Root, Authoritative, and Recursive](#dns-servers-root-authoritative-and-recursive)
-    - [Root Servers](#root-servers)
-    - [Authoritative servers](#authoritative-servers)
-    - [Recursive servers](#recursive-servers)
-    - [TLD servers](#tld-servers)
-    - [Forwarding servers](#forwarding-servers)
-  - [DNSSEC](#dnssec)
-  - [NSEC](#nsec)
-- [Troubleshooting DNS](#troubleshooting-dns)
-  - [nslookup](#nslookup)
-  - [dig](#dig)
-- [Conclusion](#conclusion)
-- [References](#references)
-<!-- TOC -->
-
 # What is DNS?
 The internet is a vast interconnection of systems across the world. Each host connected to the internet is assigned an IP (Internet Protocol) address, uniquely identifying each connected host.
 Imagine a world where you go to your browser and put in `207.241.224.2` to see the internet archives or `20.207.73.82` to code collaboratively. Soon everybody would require a phone book to use the internet.

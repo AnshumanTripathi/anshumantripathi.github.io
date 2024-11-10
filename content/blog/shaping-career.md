@@ -1,5 +1,6 @@
 ---
 title: "Choosing the road less taken for my career"
+subtitle: "How I shaped my career through High School and Undergraduate studies"
 date: 2023-02-08T11:15:15+05:30
 draft: false
 featuredImage: "images/career.jpeg"
@@ -8,21 +9,8 @@ series:
 categories:
 - My story
 pagefindWeight: "0.1"
+
 ---
-
-> How I shaped my career through High School and Undergraduate studies
-
-<br/>
-
-<!-- TOC -->
-- [Choosing the sciences](#choosing-the-sciences)
-- [Realizing my calling](#realizing-my-calling)
-- [The SAT](#the-sat)
-  - [I was not prepared](#i-was-not-prepared)
-  - [Undergraduate is expensive](#undergraduate-is-expensive)
-- [Undergraduate (Bachelor's degree)](#undergraduate-bachelors-degree)
-<!-- TOC -->
-
 
 # Choosing the sciences
 When I was in high school, teachers used to ask me what I wanted to do when I grew up. Since I had never considered this topic, I would mimic my friends and say something like I wanted to be a Doctor or an Engineer. In the 10th grade, we realized that we were at a turning point when we were given a choice of streams like arts, commerce, and sciences. Since my inclination had always been towards science, I took the path of choosing the sciences. This was the first fork in the road every Indian student faced in their career.

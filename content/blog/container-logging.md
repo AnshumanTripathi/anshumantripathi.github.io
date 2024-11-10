@@ -14,25 +14,10 @@ featuredImageCaption: Logging in containers
 slug: "container-logging"
 ---
 
-- [Logging in Docker](#logging-in-docker)
-  - [Delivery Modes](#delivery-modes)
-    - [Blocking Delivery](#blocking-delivery)
-    - [Non-Blocking Delivery Mode](#non-blocking-delivery-mode)
-  - [Log Rotation](#log-rotation)
-- [Logging in Kubernetes](#logging-in-kubernetes)
-  - [Log Rotation in Kubernetes](#log-rotation-in-kubernetes)
-- [Logging Architectures in Containerized Environments](#logging-architectures-in-containerized-environments)
-  - [Using a node-level logging agent](#using-a-node-level-logging-agent)
-  - [Using a sidecar container with a logging agent](#using-a-sidecar-container-with-a-logging-agent)
-  - [Push logs directly from the container to the logging backend](#push-logs-directly-from-the-container-to-the-logging-backend)
-- [Conclusion](#conclusion)
-- [References](#references)
-
-
 Logs are essential for the development and troubleshooting of containers. Containers utilize a specialized logging framework for various reasons, such as isolation, standardization, and managing scalability.
 When a container starts, the container runtime (such as containerd, runc, cri-o, or docker) captures the standard output (stdout) and standard error (stderr) streams from the application running in the container. These logs are then written to a file, typically located at `/var/log/<docker/containerd/pod>`. This log directory can be mounted on the host system, allowing logs to be persisted and accessed even after the container stops. Various command-line tools, such as docker and nerdctl, can then read these log files to display the container's logs to users.
 
-# Logging in Docker
+# Logging in Docker {#docker-logging}
 
 Docker includes multiple logging mechanisms to help you get information from running containers and services. These mechanisms are called logging drivers. Docker uses logging drivers to manage specialized logging for containers [^1]. The default [json-file](https://docs.docker.com/config/containers/logging/json-file/) logging drivers capture the standard output and standard error streams and write each log into a JSON format with the following structure:
 

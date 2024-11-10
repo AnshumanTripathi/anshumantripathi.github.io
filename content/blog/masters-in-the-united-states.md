@@ -12,18 +12,6 @@ pagefindWeight: "0.1"
 
 > [How I came to decision of doing masters in the United States 🇺🇸](/blog/shaping-career/)
 
-<!-- TOC -->
-- [Going to the United States for a Master's Degree](#going-to-the-united-states-for-a-masters-degree)
-- [Challenges faced by an Indian Student pursuing a Master's Degree in the United States](#challenges-faced-by-an-indian-student-pursuing-a-masters-degree-in-the-united-states)
-  - [Difference in Education systems](#difference-in-education-systems)
-  - [Cultural differences](#cultural-differences)
-  - [Personal Finances](#personal-finances)
-  - [Sudden increase in paperwork](#sudden-increase-in-paperwork)
-  - [Medical Assistance](#medical-assistance)
-  - [Returning home whenever you want is not possible anymore](#returning-home-whenever-you-want-is-not-possible-anymore)
-- [What does this all mean?](#what-does-this-all-mean)
-<!-- TOC -->
-
 # Going to the United States for a Master's Degree
 1. A valid Passport. Depending on where you are, getting a passport might take some time, so it's better to start the process as soon as possible.
 2. Decide which session you want to start your Master's degree course. Most universities accept students during either Spring (January) or Fall(August) sessions. Based on when you are planning to start your Master's session, you need to give your final GRE attempt at least six months before.
