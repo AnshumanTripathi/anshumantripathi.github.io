@@ -21,6 +21,7 @@ Containers is a term used to define a process or a set of processes isolated fro
 Although there has been quite the buzz about containers in the last decade, Linux containers have been around for quite a while; actually, since 2008 [LXC (Linux Containers)](https://linuxcontainers.org) was introduced. At that time, they were implemented using namespaces and cgroups.
 
 # Linux Namespaces
+
 Namespaces have been part of the Linux operating system since 2002. Namespaces were created so that a process (or a set of processes) can only see a definite set of resources. In this way, the resources were isolated to the process, and other processes could not access the resources of a process running a different namespace.
 
 ## Types of Namespaces
@@ -28,21 +29,27 @@ Namespaces have been part of the Linux operating system since 2002. Namespaces w
 There are 8 kinds of namespaces in Linux [^1]
 
 ### User ID namespace
+
 A user ID namespace has its own set of user IDs and group IDs for assignment to processes. These users can have root privileges to process running within the namespace while not having any elevated access in other namespaces.
 
 ### Control Group namespace
+
 A control group in Linux controls the access of the user accounts and can isolate the resource usage CPU, memory, disk I/O, network, etc.) of a collection of processes [^2]. A cgroup namespace hides the identity of the cgroups in the namespace. A cgroup in the namespace would only see the relative path of the cgroup and the creation time, and the actual control group identity is hidden.
 
 ### Network namespaces
+
 A network namespace isolates the network stack (IP tables, socket connections, firewalls, etc.) in the namespace
 
 ### Mount namespaces
+
 A mount namespace has an independent list of mount points that can be seen by a process within the namespace. This means you can mount and unmount filesystems in a mount namespace without affecting the host filesystem. [^3]
 
 ### Process ID (PID) namespace
+
 A PID namespace isolates the process IDs of the process running within this namespace. The PIDs in a PID namespace are independent of the process in the host or other namespaces. If a child process is created with its own PID namespace, it has PID 1 and its PID in the parent process' namespace.
 
 ### Interprocess communication (IPC) namespaces
+
 A process can use different mechanisms to talk to other processes in the namespaces. These can range from
 - Shared files
 - Shared memory
@@ -53,6 +60,7 @@ A process can use different mechanisms to talk to other processes in the namespa
 An IPC namespace isolates processes in such a way that their IPC mechanisms can only see the process mechanism in their own IPC namespace.
 
 ### Unix Time Sharing (UTS) namespace
+
 A UNIX Time‑Sharing (UTS) namespace allows a single system to appear to have different host and domain names for other processes [^3].
 
 ### Listing all Linux Namespaces
@@ -71,9 +79,11 @@ NS TYPE   NPROCS   PID USER            COMMAND
 ```
 
 ## Creating a Linux namespace
+
 Let's try creating some namespaces in the following sections
 
 Create three users `ns-user`, `app-user`, and `db-user`.
+
 ```shell
 useradd --create-home ns-user
 useradd --create-home app-user
@@ -122,9 +132,11 @@ As it can be seen here the users running the `bash` and `ps -ef` processes are `
 This way, any processes running within the new namespace will be isolated from the host or other namespaces created in the system.
 
 # Linux Cgroup
+
 Linux control groups or groups are mechanisms used to provide resource quotas so that the processes' resources, like CPU, memory, etc., can be controlled.
 
 # CGroups in action
+
 Let's create a cgroup. 
 
 ```shell
@@ -153,6 +165,7 @@ done
 ```
 
 Let's add this process to the newly created cgroup
+
 ```shell
 echo $(pidof -x test.sh) > /sys/fs/cgroup/memory/myapp/cgroup.procs
 ```
@@ -192,6 +205,7 @@ cgroup.events	    cgroup.procs	    cgroup.type     memory.current	 memory.low   
 cgroup.freeze	    cgroup.stat		    cpu.pressure    memory.events	 memory.max   memory.pressure	memory.swap.high     pids.events
 cgroup.max.depth    cgroup.subtree_control  cpu.stat	    memory.events.local  memory.min   memory.stat	memory.swap.max      pids.max
 ```
+
 These can be used to set the quotas of the cgroup.
 
 

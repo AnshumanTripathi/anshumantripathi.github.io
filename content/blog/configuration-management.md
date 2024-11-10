@@ -32,6 +32,7 @@ The core of this problem is the ability to have multiple overridable configurati
 Hiera natively supports JSON and YAML formats which is also a benefit as these formats are most used with configurations. My preference is **YAML over JSON** because of YAML's conciseness with the lack of angular braces `{}` and commas `,`.
 
 ## Strategy
+
 1. The idea is to create a centralized repository for configurations. The repository should have modules for applications and override configurations at different levels.
     * module level configuration
     * node/deployment level configuration

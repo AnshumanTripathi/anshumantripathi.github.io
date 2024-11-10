@@ -13,7 +13,7 @@
         </h1>
         {{ if .Page.Params.subtitle }}
         <h4>
-          <blockquote>{{ .Page.Params.subtitle }}</blockquote>
+          <blockquote>{{ .Page.Params.subtitle | safeHTML }}</blockquote>
         </h4>
         {{ end }}
       </div>
