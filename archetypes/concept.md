@@ -4,7 +4,7 @@ date: {{ .Date }}
 draft: true
 story: []
 categories:
-- My story
+- concepts
 tags: []
 featuredImage: ""
 featuredImageCaption: ""
