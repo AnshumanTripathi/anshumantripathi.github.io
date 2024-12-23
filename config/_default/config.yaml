@@ -4,7 +4,6 @@ languageCode: 'en-us'
 title: 'Anshuman Tripathi'
 theme: 'hugo-coder'
 defaultcontentlanguage: "en"
-# paginate: 20
 pygmentsstyle: "bw"
 pygmentscodefences: true
 pygmentscodefencesguesssyntax: true

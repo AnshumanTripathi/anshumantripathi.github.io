@@ -8,7 +8,7 @@ HUGO_BUILD = HUGO_ENVIRONMENT=$(HUGO_ENVIRONMENT) hugo --gc --minify
 HUGO_SERVE = HUGO_ENVIRONMENT=$(HUGO_ENVIRONMENT) hugo server --enableGitInfo
 
 # Pagefind command
-PAGEFIND = npx pagefind --source "public"
+PAGEFIND = npx pagefind --site "public"
 
 .PHONY: init
 init:
