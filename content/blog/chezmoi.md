@@ -112,7 +112,7 @@ $ exit
 
 Chezmoi supports running scripts by creating executable scripts with a specific prefix which can be used to run different operations. Chezmoi user guide provides great examples on how to do this, for example - [Installing Packages with Scripts](https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/#install-packages-with-scripts).
 
-Creating `run_onchange_install-packages.sh` looks at the `packages.yaml` file which includes all the packages that the script installs. To ensure that the script only runs when the list of packages is updated we need to ensure a change is detected only when the hash of the packages file changes. To do that we can convert the script to a template and add a hash to the file
+The `run_onchange_install-packages.sh` script looks at the `packages.yaml` file which includes all the packages that the script installs. To ensure that the script only runs when the list of packages is updated we need to ensure a change is detected only when the hash of the packages file changes. To do that we can convert the script to a template and add a hash to the file
 
 ```yaml
 # packages.yaml hash: {{ .packages | toString | sha256sum }}
