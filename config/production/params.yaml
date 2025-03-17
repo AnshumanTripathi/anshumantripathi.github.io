@@ -41,6 +41,36 @@ goatCounter:
 
 utterances:
   repo: "AnshumanTripathi/anshumantripathi.github.io" # https://utteranc.es/#heading-repository
-  issueTerm: "pathname" # https://utteranc.es/#heading-mapping
+  issueTerm: "og:title" # https://utteranc.es/#heading-mapping
   label: "blog-comments" # https://utteranc.es/#heading-issue-label
   theme: "preferred-color-scheme" # https://utteranc.es/#heading-theme
+  crossorigin: "anonymous"
+
+csp:
+  childsrc:
+    - "self"
+  fontsrc:
+    - "self"
+    - "https://fonts.gstatic.com"
+    - "https://cdn.jsdelivr.net/"
+  formaction:
+    - "self"
+  framesrc:
+    - "self"
+  imgsrc:
+    - "self"
+  objectsrc:
+    - "none"
+  stylesrc:
+    - "self"
+    - "unsafe-inline"
+    - "https://fonts.googleapis.com/"
+    - "https://cdn.jsdelivr.net/"
+    - 
+  scriptsrc:
+    - "self"
+    - "unsafe-inline"
+    - "https://www.google-analytics.com"
+    - "https://utteranc.es"
+  connectsrc:
+    - "self"

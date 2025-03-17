@@ -84,3 +84,11 @@ markup:
 
 pagination:
   pagerSize: 20
+
+# For config.yaml
+security:
+  enableInlineShortcodes: false
+  
+# Ensure .well-known directory is copied
+staticDir:
+  - static

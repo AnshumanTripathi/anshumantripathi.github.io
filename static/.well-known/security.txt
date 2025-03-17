@@ -1,0 +1,13 @@
+# Security.txt file for anshumantripathi.com
+# https://securitytxt.org/
+
+# Contact information
+Contact: mailto:anshuman.tripathi305@gmail.com
+# Alternative contact methods
+Contact: https://github.com/AnshumanTripathi/anshumantripathi.github.io/issues
+# Optional: Encryption key
+Encryption: https://keys.openpgp.org/vks/v1/by-fingerprint/A34CD3B1605EC39CD8EF4C88A4960A4B9C60827D
+# When this data expires
+Expires: 2030-03-16
+# Preferred language
+Preferred-Languages: en
