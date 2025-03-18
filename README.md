@@ -18,7 +18,11 @@ Please feel free to explore the code and ask any questions by raising an issue i
    ```shell
    make init
    ```
-3. Run the website
+3. Run the website with local config run
    ```shell
-   make serve
+   make serve-local
+   ```
+   Run the website with production config, run
+   ```shell
+   make serve-production
    ```
