@@ -46,31 +46,31 @@ utterances:
   theme: "preferred-color-scheme" # https://utteranc.es/#heading-theme
   crossorigin: "anonymous"
 
-csp:
-  childsrc:
-    - "self"
-  fontsrc:
-    - "self"
-    - "https://fonts.gstatic.com"
-    - "https://cdn.jsdelivr.net/"
-  formaction:
-    - "self"
-  framesrc:
-    - "self"
-  imgsrc:
-    - "self"
-  objectsrc:
-    - "none"
-  stylesrc:
-    - "self"
-    - "unsafe-inline"
-    - "https://fonts.googleapis.com/"
-    - "https://cdn.jsdelivr.net/"
-    - 
-  scriptsrc:
-    - "self"
-    - "unsafe-inline"
-    - "https://www.google-analytics.com"
-    - "https://utteranc.es"
-  connectsrc:
-    - "self"
+# csp:
+#   childsrc:
+#     - "self"
+#   fontsrc:
+#     - "self"
+#     - "https://fonts.gstatic.com"
+#     - "https://cdn.jsdelivr.net/"
+#   formaction:
+#     - "self"
+#   framesrc:
+#     - "self"
+#   imgsrc:
+#     - "self"
+#   objectsrc:
+#     - "none"
+#   stylesrc:
+#     - "self"
+#     - "unsafe-inline"
+#     - "https://fonts.googleapis.com/"
+#     - "https://cdn.jsdelivr.net/"
+#     - 
+#   scriptsrc:
+#     - "self"
+#     - "unsafe-inline"
+#     - "https://www.google-analytics.com"
+#     - "https://utteranc.es"
+#   connectsrc:
+#     - "self"
