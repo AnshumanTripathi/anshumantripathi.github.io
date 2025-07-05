@@ -6,7 +6,9 @@ draft: false
 story: []
 categories:
 - concepts
-tags: []
+tags:
+- kubernetes
+- opensource-contributions
 featuredImage: ""
 featuredImageCaption: ""
 pagefindWeight: "0.1"

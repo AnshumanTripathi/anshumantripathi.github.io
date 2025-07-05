@@ -21,14 +21,17 @@ menu:
     - name: "Series"
       weight: 3
       url: "series/"
-    - name: "Projects"
+    - name: "Tags"
       weight: 4
+      url: "tags/"
+    - name: "Projects"
+      weight: 5
       url: "projects/"
     - name: "About"
-      weight: 5
+      weight: 6
       url: "about/"
     - name: "Search"
-      weight: 6
+      weight: 7
       url: "search/"
 
 taxonomies:
