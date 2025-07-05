@@ -11,5 +11,5 @@ featuredImage: ""
 featuredImageCaption: ""
 pagefindWeight: "0.1"
 slug: kubernetes-app-security-checklist
-extrnalLink: https://kubernetes.io/docs/concepts/security/application-security-checklist/
+externalLink: https://kubernetes.io/docs/concepts/security/application-security-checklist/
 ---
