@@ -21,9 +21,9 @@ menu:
     - name: "Series"
       weight: 3
       url: "series/"
-    - name: "Projects"
+    - name: "Tags"
       weight: 4
-      url: "projects/"
+      url: "tags/"
     - name: "About"
       weight: 5
       url: "about/"

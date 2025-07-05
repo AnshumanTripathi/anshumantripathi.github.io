@@ -8,6 +8,8 @@ featuredImage: "images/containers.jpeg"
 series:
 - samyak
 - devops
+tags:
+- kubernetes
 ---
 
 Photo by <a href="https://unsplash.com/@guibolduc?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Guillaume Bolduc</a> on <a href="https://unsplash.com/photos/uBe2mknURG4?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>

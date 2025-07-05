@@ -7,6 +7,8 @@ series:
 - samyak
 categories:
 - concepts
+tags:
+- theory
 featuredImage: "images/monolith.jpg"
 featuredImageCaption: "Photo by <a href=https://unsplash.com/ko/@diesektion?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText>Robert Anasch</a> on <a href=https://unsplash.com/photos/SPHz3KKquKk?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText>Unsplash</a>"
 ---

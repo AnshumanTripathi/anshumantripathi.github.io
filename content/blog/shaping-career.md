@@ -8,6 +8,8 @@ series:
 - career-advice
 categories:
 - My story
+tags:
+- advise
 pagefindWeight: "0.1"
 ---
 

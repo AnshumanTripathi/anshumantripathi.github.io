@@ -7,6 +7,9 @@ categories:
 - tutorials
 series:
 - samyak
+tags:
+- theory
+- tools
 math: True
 ---
 

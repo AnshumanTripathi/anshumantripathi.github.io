@@ -7,6 +7,8 @@ series:
 - samyak
 categories:
 - concepts
+tags:
+- infrastructure-as-code
 featuredImage: "images/iac.png"
 featuredImageCaption: "Picture credit <a href='https://bluelight.co/blog/best-infrastructure-as-code-tools'>Bluelight</a>"
 ---

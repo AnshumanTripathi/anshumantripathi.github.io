@@ -6,6 +6,8 @@ draft: false
 categories:
 - Networking
 - Concepts
+tags:
+- networking
 series:
 - samyak
 slug: "/how-dns-works-guide"
