@@ -1,0 +1,91 @@
+.title-and-tags {
+  flex: 2;
+  
+  .title {
+    font-size: 1.8rem;
+    color: $fg-color;
+    font-family: $font-family;
+    font-weight: 700;
+
+    &:hover,
+    &:focus {
+      color: $link-color;
+    }
+  }
+}
+
+.tags {
+  display: block;
+  margin-top: 0.3rem;
+  
+  .tag {
+    display: inline-block;
+    background-color: transparent;
+    color: $fg-color;
+    padding: 0.1rem 0.3rem;
+    margin: 0.1rem 0.4rem 0.1rem 0;
+    border-radius: 0.2rem;
+    font-size: 1.1rem;
+    text-decoration: none;
+    border: 1px solid $darker-alt-bg-color;
+    opacity: 0.8;
+    
+    i {
+      font-size: 0.8rem;
+      margin-right: 0.3rem;
+      opacity: 0.7;
+    }
+    
+    &:hover {
+      background-color: $link-color;
+      color: $bg-color;
+      border-color: $link-color;
+      opacity: 1;
+      
+      i {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+// Dark theme styles
+body.colorscheme-dark .tags .tag {
+  color: white !important;
+  border-color: #4f4f4f !important;
+  
+  i {
+    color: white !important;
+  }
+  
+  &:hover {
+    background-color: #42a5f5 !important;
+    color: #212121 !important;
+    border-color: #42a5f5 !important;
+    
+    i {
+      color: #212121 !important;
+    }
+  }
+}
+
+body.colorscheme-auto .tags .tag {
+  @media (prefers-color-scheme: dark) {
+    color: white !important;
+    border-color: #4f4f4f !important;
+    
+    i {
+      color: white !important;
+    }
+    
+    &:hover {
+      background-color: #42a5f5 !important;
+      color: #212121 !important;
+      border-color: #42a5f5 !important;
+      
+      i {
+        color: #212121 !important;
+      }
+    }
+  }
+}
