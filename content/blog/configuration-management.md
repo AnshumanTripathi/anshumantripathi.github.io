@@ -11,6 +11,8 @@ featuredImage: "images/config-management.jpeg"
 series:
 - samyak
 - devops
+tags:
+- infrastructure-as-code
 ---
 
 An application uses a set configuration for different use cases like database connection, caches, messaging queues, addresses to other applications and services, etc. During the development process, applications are also deployed to different environments like development, staging, UAT, load testing, and production.

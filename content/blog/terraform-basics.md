@@ -8,6 +8,7 @@ categories:
 - concepts
 tags:
 - tools
+- infrastructure-as-code
 ---
 
 # Hashicorp Configuration Language (HCL)

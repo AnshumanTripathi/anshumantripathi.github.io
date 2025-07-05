@@ -6,6 +6,8 @@ draft: false
 series:
 - career advice
 - Samyak
+tags:
+- advise
 featuredImage: images/software-engineering.jpg
 featuredImageCaption: Photo by <a href="https://unsplash.com/@wocintechchat?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Christina @ wocintechchat.com</a> on <a href="https://unsplash.com/photos/8S6BkMGaLyQ?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
 pagefindWeight: "0.1"

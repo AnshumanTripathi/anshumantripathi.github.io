@@ -1,4 +1,13 @@
 <li>
   <span class="date">{{ .Date | time.Format (.Site.Params.dateFormat | default "January 2, 2006" ) }}</span>
-  <a class="title" href="{{ .Params.externalLink | default .RelPermalink }}">{{ .Title }}</a>
+  <div class="title-and-tags">
+    <a class="title" href="{{ .Params.externalLink | default .RelPermalink }}">{{ .Title }}</a>
+    {{- if .Params.tags }}
+      <div class="tags">
+        {{- range .Params.tags }}
+          <a class="tag" href="{{ "/tags/" | relURL }}{{ . | urlize }}"><i class="fas fa-tag"></i> {{ . }}</a>
+        {{- end }}
+      </div>
+    {{- end }}
+  </div>
 </li>

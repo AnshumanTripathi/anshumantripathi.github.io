@@ -9,6 +9,7 @@ series:
 - samyak
 tags:
 - git
+- tools
 ---
 
 # What is commit signing

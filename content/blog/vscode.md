@@ -5,6 +5,8 @@ draft: false
 subtitle: "My expereince and guide for moving to VSCode from IntelliJ"
 categories:
 - tutorials
+tags:
+- tools
 featuredImage: "images/intellij_vscode.jpeg"
 featuredImageCaption: Moving to VSCode from IntelliJ
 ---
