@@ -14,17 +14,17 @@ slug: invisible-pods
 
 I am a huge fan of [Ivan Velichko](https://iximiuz.com/en/). His platform https://iximiuz.com/en/, provides great materials and practical lab exercises to learn more about concepts like Containers, Networking, Linux, Kubernetes, Dagger, etc. Ivan covers the core fundamentals behind all these concepts which makes all posted materials an exceptional resource for learning new things.
 
-I recently attempted an exercise posted on this platform about [Invisible Pods](https://labs.iximiuz.com/challenges/kubernetes-invisible-pod-0bf2109b). Its based on [a talk from Rory Mcune](https://www.youtube.com/watch?v=GtrkIuq5T3M&t=923s) about container security where he breifly mentions how pods can be come invisible. This is a great exercise which touches on some Kubernetes concepts that are not very well known.
+I recently attempted an exercise posted on this platform about [Invisible Pods](https://labs.iximiuz.com/challenges/kubernetes-invisible-pod-0bf2109b). It is based on [a talk from Rory Mcune](https://www.youtube.com/watch?v=GtrkIuq5T3M) about container security where he briefly mentions how pods can become invisible. This is a great exercise which touches on some Kubernetes concepts that are not very well known.
 
 > Before moving forward I would recommend to attempt the exercise and try finding the solution.
 
 ## Concepts
 
-Before we dig into solving the exercise lets touch on some important concepts in Kubernetes. At this point I assume the reader has a working understanding of Kubernetes. If needed I would recommend going through my previous post about [Kubernetes Concepts](/blog/understanding-kubernetes).
+Before we dig into solving the exercise let's touch on some important concepts in Kubernetes. At this point I assume the reader has a working understanding of Kubernetes. If needed I would recommend going through my previous post about [Kubernetes Concepts](/blog/understanding-kubernetes).
 
 ### Kubelet
 
-The Kubelet in Kubernetes runs outside the jurisdiction of the Kubernetes cluster. It runs as a systemd service on a Kubernetes node. This is because an external service is needed to manage and orchestrate a containers which itself is a not a container.
+The Kubelet in Kubernetes runs outside the jurisdiction of the Kubernetes cluster. It runs as a systemd service on a Kubernetes node. This is because an external service is needed to manage and orchestrate containers which themselves are not containers.
 
 This allows the Kubelet to bootstrap key control plane components on control plane nodes like the api-server, etcd, scheduler and controller-manager as [static pods](#static-pods). Once these critical components are up and running _the kubelet registers the static pods as [mirror pods](#mirror-pods) on the api-server_.
 
@@ -35,5 +35,99 @@ Static pods are pods managed by the kubelet which are created from manifests add
 
 ### Mirror Pods
 
-Mirror pods are entries of a static pod in the api-server. These are references to the actual static pods. 
+Mirror pods are entries of a static pod in the api-server. These are only references to the actual static pods. This means doing kubectl operations like edit, delete, etc. would not affect the pod because the Kubelet treats the manifest present on the node as the source of truth. The kubectl commands on the other hand go the api-server and try to update the mirror pod. After the saved update, the kubelet detects changes, applies the changes from its manifest and sends the updated information to the api-server.
 
+{{< img src="diagrams/static-pods.excalidraw.png" caption="static pods and mirror pods" loading="lazy" decoding="async" width="100%">}}
+
+## Invisible Pods
+
+Now that we understand about static pods and mirror pods, let's see how we can make a pod invisible. You can find all following examples in this git repo - https://github.com/AnshumanTripathi/invisible-pods.
+
+
+Let's create a [KinD](https://kind.sigs.k8s.io/) cluster for our exercise
+
+```yaml
+kind: Cluster
+name: test-cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+  - role: worker
+    extraMounts:
+      - hostPath: ./static-pod.yaml
+        containerPath: /etc/kubernetes/manifests/static-pod.yaml
+        readOnly: false
+  - role: worker
+```
+
+This sets up a Kubernetes cluster with a control plane node and worker node running a static pod. Following is the manifest of the static pod
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: podinfo
+  labels:
+    app: podinfo
+spec:
+  containers:
+  - name: podinfo
+    image: stefanprodan/podinfo:latest
+    ports:
+    - containerPort: 9898
+      protocol: TCP
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "100m"
+      limits:
+        memory: "128Mi"
+        cpu: "200m"
+```
+
+This sets up a pod in the _default_ namespace running a [podinfo container](https://github.com/stefanprodan/podinfo).
+We can see the pod is a static pod since it is managed by the Node (Kubelet).
+
+```
+❯ kubectl get pod podinfo-test-cluster-worker -o jsonpath="{.metadata.ownerReferences[0].kind}"
+Node%
+```
+
+Now let's change the namespace of the static pod. We can change the static-pod.yaml, delete the kind cluster with `kind delete cluster --name test-cluster` and recreate the cluster.
+The other way to do it is to use `kubectl debug` as follows:
+
+```
+❯ kubectl debug node/test-cluster-worker -it --image ubuntu --profile sysadmin -- chroot /host bash
+Creating debugging pod node-debugger-test-cluster-worker-4brfr with container debugger on node test-cluster-worker.
+All commands and output from this session will be recorded in container logs, including credentials and sensitive information passed through the command prompt.
+If you don't see a command prompt, try pressing enter.
+root@test-cluster-worker:/# whoami
+root
+```
+
+Now edit and save the manifest at `/etc/kubernetes/manifests/static-pod.yaml` and add `metadata.namespace: podinfo`.
+Once we add the namespace and try to get pods `kubectl get pods` we do not see the pod anymore! What does this mean?
+The pod is still running on the node, but since the `podinfo` namespace does not exist, the kubelet cannot create a mirror pod in the api-server.
+This causes the pod to be invisible to `kubectl get pods` (which queries the api-server), even though the container is still running on the node.
+
+Now let's create the namespace
+
+```
+❯ kubectl create ns podinfo
+namespace/podinfo created
+```
+
+And now when we check for pod in the namespace
+
+```
+❯ kubectl -n podinfo get pods
+NAME                          READY   STATUS    RESTARTS   AGE
+podinfo-test-cluster-worker   1/1     Running   0          58s
+```
+It becomes visible again because the mirror pod was successfully created.
+
+
+## Conclusion
+
+Static pods are a core concept used in Kubernetes with nuances. As we have seen, these nuances can be exploited by attackers to run invisible pods in a cluster. This makes them particularly dangerous from a security standpoint. [For more details see Rory's presentation on attacker persistence strategies](https://youtu.be/GtrkIuq5T3M).
+One way to detect and catch these scenarios is to have auditing enabled on the Kubernetes cluster so that the administrator can quickly catch anomalous scenarios like these.
