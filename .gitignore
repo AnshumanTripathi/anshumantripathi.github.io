@@ -15,3 +15,7 @@ hugo.linux
 *.iml
 .idea
 *.DS_Store
+
+
+# LLM plugins
+.claude/
