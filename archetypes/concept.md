@@ -3,7 +3,6 @@ title: "{{ replace .Name "-" " " | title }}"
 subtitle: ""
 date: {{ .Date }}
 draft: true
-story: []
 categories:
 - concepts
 tags: []

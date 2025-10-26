@@ -3,7 +3,6 @@ title: "Kubernetes App Security Checklist"
 subtitle: ""
 date: 2025-07-05T00:24:24-07:00
 draft: false
-story: []
 categories:
 - concepts
 tags:

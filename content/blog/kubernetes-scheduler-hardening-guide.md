@@ -3,7 +3,6 @@ title: "Kubernetes Scheduler Hardening Guide"
 subtitle: ""
 date: 2025-07-05T01:54:23-07:00
 draft: false
-story: []
 categories:
 - concepts
 tags:
