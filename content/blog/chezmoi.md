@@ -4,7 +4,6 @@ subtitle: "Managing dotfiles made easier with Chezmoi"
 date: 2024-12-01T15:37:07-08:00
 draft: false
 description: "Learn how to efficiently manage your dotfiles across multiple machines using Chezmoi. A practical guide covering templates, encryption, automation, and machine-specific configurations."
-story: []
 series:
 - devops
 - samyak
