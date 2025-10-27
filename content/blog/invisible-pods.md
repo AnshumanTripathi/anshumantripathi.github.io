@@ -1,6 +1,6 @@
 ---
 title: "Pods can go invisible in Kubernetes. Let's find them"
-subtitle: "Kubernetes pods can become invisible to kubectl, creating security risks. A hands on tutorial explaining how this can happen and its consequences"
+subtitle: "Kubernetes pods can become invisible to kubectl, creating security risks. A hands-on tutorial explaining how this can happen and its consequences"
 date: 2025-10-25T12:35:25-07:00
 draft: false
 categories:
@@ -13,11 +13,11 @@ pagefindWeight: "0.1"
 slug: invisible-pods
 ---
 
-In Kubernetes, pods can become completely invisible to `kubectl get pods -A` while still running containers on the nodes. This behavior can allow attackers can use it for persistence on exploited Kubernetes clusters.
+In Kubernetes, pods can become completely invisible to `kubectl get pods -A` while still running containers on the nodes. This behavior allows attackers to use it for persistence on exploited Kubernetes clusters.
 
-I discovered this scenario through [an exercise on Ivan Velichko's platform](https://labs.iximiuz.com/challenges/kubernetes-invisible-pod-0bf2109b) which is actually based on [a talk by Rory McCune](https://www.youtube.com/watch?v=GtrkIuq5T3M) about Kubernetes security. Both are excellent resources for learning about concepts that are not widely known. Ivan's platform https://iximiuz.com/en/ provides great hands-on labs covering fundamentals of Containers, Networking, Linux, Kubernetes and more.
+I discovered this scenario through [an exercise on Ivan Velichko's platform](https://labs.iximiuz.com/challenges/kubernetes-invisible-pod-0bf2109b) which is based on [a talk by Rory McCune](https://www.youtube.com/watch?v=GtrkIuq5T3M) about Kubernetes security. Both are excellent resources for learning about concepts that are not widely known. Ivan's platform https://iximiuz.com/en/ provides great hands-on labs covering fundamentals of Containers, Networking, Linux, Kubernetes and more.
 
-> Before moving forward I would recommend attempting the exercise and try finding the solution.
+> Before moving forward I would recommend attempting the exercise and trying to find the solution.
 
 ## Concepts
 
@@ -37,7 +37,8 @@ Static pods are pods managed by the kubelet which are created from manifests add
 ### Mirror Pods
 
 Mirror pods are entries of a static pod in the api-server. These are only references to the actual static pods. 
-This means doing kubectl operations like edit, delete, etc. would not affect the pod because the Kubelet treats the manifest present on the node as the source of truth. The kubectl commands on the other hand go the api-server and try to update the mirror pod. After the saved update, the kubelet detects changes, applies the changes from its manifest and sends the updated information to the api-server.
+This means doing kubectl operations like edit, delete, etc. would not affect the pod because the Kubelet treats the manifest present on the node as the source of truth. 
+The kubectl commands on the other hand send requests to the api-server and try to update the mirror pod. After the saved update, the kubelet detects changes, applies the changes from its manifest and sends the updated information to the api-server.
 
 {{< img src="diagrams/static-pods.excalidraw.png" caption="static pods and mirror pods" loading="lazy" decoding="async" width="100%">}}
 
@@ -62,7 +63,7 @@ nodes:
   - role: worker
 ```
 
-This sets up a Kubernetes cluster with a control plane node and a worker node running a static pod. Following is the manifest of the static pod
+This sets up a Kubernetes cluster with a control plane node and a worker node running a static pod. Here is the manifest of the static pod
 
 ```yaml
 apiVersion: v1
@@ -95,7 +96,7 @@ We can see the pod is a static pod since it is managed by the Node (Kubelet).
 Node%
 ```
 
-Now let's change the namespace of the static pod. We can change the static-pod.yaml, delete the kind cluster with `kind delete cluster --name test-cluster` and recreate the cluster.
+Now let's change the namespace of the static pod. To update the static pod, either change the static-pod.yaml, delete the kind cluster with `kind delete cluster --name test-cluster` and recreate the cluster.
 The other way to do it is to use `kubectl debug` as follows:
 
 ```
@@ -119,7 +120,7 @@ Now let's create the namespace
 namespace/podinfo created
 ```
 
-And now when we check for pod in the namespace
+And now we check for pod in the namespace
 
 ```
 ❯ kubectl -n podinfo get pods
@@ -131,8 +132,8 @@ It becomes visible again because the mirror pod was successfully created.
 
 ## Conclusion
 
-Static pods are a core concept in Kubernetes clusters but they have the potential to create security risks. They can cause pods to become invisible to `kubectl`, by referencing non-existent namespaces allowing attackers to remain hidden in the compromised Kubernetes cluster.
+Static pods are a core concept in Kubernetes clusters but they have the potential to create security risks. They can cause pods to become invisible to `kubectl` by referencing non-existent namespaces allowing attackers to remain hidden in the compromised Kubernetes cluster.
 
-To detect this and other anomalies always have auditing enabled on the Kubernetes cluster so that the administrators can track Kubelet and API Server activities. Additionally, regularly inspect Kubernetes node processes using `kubectl debug node` to catch an unknown or unexpected process running on a node.
+To detect this and other anomalies, always have auditing enabled on the Kubernetes cluster so that the administrators can track Kubelet and API Server activities. Additionally, regularly inspect Kubernetes node processes using `kubectl debug node` to catch unknown processes running on a node.
 
 For more on attacker persistence strategies, see [Rory McCune's presentation](https://youtu.be/GtrkIuq5T3M). To dive deeper into Kubernetes fundamentals, check out my [Kubernetes Concepts guide](/blog/understanding-kubernetes).
