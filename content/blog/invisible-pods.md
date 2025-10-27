@@ -15,7 +15,7 @@ slug: invisible-pods
 
 In Kubernetes, pods can become completely invisible to `kubectl get pods -A` while still running containers on the nodes. This behavior allows attackers to use it for persistence on exploited Kubernetes clusters.
 
-I discovered this scenario through [an exercise on Ivan Velichko's platform](https://labs.iximiuz.com/challenges/kubernetes-invisible-pod-0bf2109b) which is based on [a talk by Rory McCune](https://www.youtube.com/watch?v=GtrkIuq5T3M) about Kubernetes security. Both are excellent resources for learning about concepts that are not widely known. Ivan's platform https://iximiuz.com/en/ provides great hands-on labs covering fundamentals of Containers, Networking, Linux, Kubernetes and more.
+I discovered this scenario through [an exercise on Ivan Velichko's platform](https://labs.iximiuz.com/challenges/kubernetes-invisible-pod-0bf2109b) by [Mark Sagi-Kazar](https://sagikazarmark.com/) which is based on [a talk by Rory McCune](https://www.youtube.com/watch?v=GtrkIuq5T3M) about Kubernetes security. Both are excellent resources for learning about concepts that are not widely known. Ivan's platform https://iximiuz.com/en/ provides great hands-on labs covering fundamentals of Containers, Networking, Linux, Kubernetes and more.
 
 > Before moving forward I would recommend attempting the exercise and trying to find the solution.
 
