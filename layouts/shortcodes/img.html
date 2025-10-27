@@ -10,13 +10,7 @@
          {{- with .Get "height" }} height="{{ . }}"{{ end -}}
          style="display: block; margin-bottom: 0;"
     />{{- if .Get "link" }}</a>{{ end -}}
-    {{- if or (or (.Get "title") (.Get "caption")) (.Get "attr") -}}<figcaption>{{- if or (.Get "caption") (.Get "attr") -}}<small>{{- .Get "caption" | markdownify -}}</small>
-                {{- with .Get "attrlink" }}
-                    <a href="{{ . }}">
-                {{- end -}}
-                {{- .Get "attr" | markdownify -}}
-                {{- if .Get "attrlink" }}</a>{{ end }}</p>
-            {{- end }}
-        </figcaption>
+    {{- if or (.Get "title") (.Get "caption") -}}
+    <figcaption><small>{{- .Get "caption" | markdownify -}}</small></figcaption>
     {{- end }}
 </figure>
