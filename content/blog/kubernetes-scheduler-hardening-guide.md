@@ -8,6 +8,7 @@ categories:
 tags:
 - kubernetes
 - opensource-contributions
+- kubernetes-security
 featuredImage: ""
 featuredImageCaption: ""
 pagefindWeight: "0.1"
