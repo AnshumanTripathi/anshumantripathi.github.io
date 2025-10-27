@@ -44,14 +44,13 @@ jobs:
             REPO: ${{ github.repository }}
             PR NUMBER: ${{ github.event.pull_request.number }}
 
-            Please review this pull request and provide feedback on:
-            - Code quality and best practices
-            - Potential bugs or issues
-            - Performance considerations
-            - Security concerns
-            - Test coverage
+            Please review this pull request. Be concise and focus only on significant issues:
+            - Critical bugs or errors
+            - Security vulnerabilities
+            - Major performance problems
+            - Important best practice violations
 
-            Use the repository's CLAUDE.md for guidance on style and conventions. Be constructive and helpful in your feedback.
+            Keep your review brief and actionable. Skip minor style suggestions unless critical. Use the repository's CLAUDE.md for guidance.
 
             Use `gh pr comment` with your Bash tool to leave your review as a comment on the PR.
 
