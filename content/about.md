@@ -9,7 +9,7 @@ aliases:
 ---
 
 * Born and raised in India 🇮🇳. Working in San Francisco Bay Area. 
-* Staff Cloud Engineer with focus on platform and devops engineering. Read more about my journey in my blog post [Masters in the United States.](/blog/masters-in-the-united-states)
+* Senior Staff Software Engineer at Zscaler with focus on platform and devops engineering. Read more about my journey in my blog post [Masters in the United States](/blog/masters-in-the-united-states).
+* Open source contributor to Kubernetes in sig-security and sig-release (1.32 & 1.35).
 * The tech stack that I deal with day-to-day includes Kubernetes, Helm, Istio, Terraform, Puppet, Vault, etc.
-* Programming languages that I am most acquainted with includes Golang and Python
 * When I am not at my laptop, I am most likely playing video games or playing pool.
