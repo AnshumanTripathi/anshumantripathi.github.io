@@ -2,7 +2,7 @@
 title: "Master's degree in the United States 🇺🇸"
 subtitle: "<a href='/blog/shaping-career/'>How I came to decision of doing masters in the United States 🇺🇸</a>"
 date: 2023-02-09T20:17:24+05:30
-draft: false
+draft: true
 featuredImage: "images/united-states.jpeg"
 categories:
 - My story
