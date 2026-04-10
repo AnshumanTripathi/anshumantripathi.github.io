@@ -18,4 +18,4 @@ hugo.linux
 
 
 # LLM plugins
-.claude/
+.claude/settings.local.json

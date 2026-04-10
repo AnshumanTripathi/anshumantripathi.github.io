@@ -44,15 +44,9 @@ jobs:
             REPO: ${{ github.repository }}
             PR NUMBER: ${{ github.event.pull_request.number }}
 
-            Please review this pull request. Be concise and focus only on significant issues:
-            - Critical bugs or errors
-            - Security vulnerabilities
-            - Major performance problems
-            - Important best practice violations
+            Use `gh pr diff` to read the changed files in this PR, then follow the "Content Review Criteria" section in CLAUDE.md to review any content files changed (under content/). Non-content changes do not need a content review.
 
-            Keep your review brief and actionable. Skip minor style suggestions unless critical. Use the repository's CLAUDE.md for guidance.
-
-            Use `gh pr comment` with your Bash tool to leave your review as a comment on the PR.
+            Use `gh pr comment` with your Bash tool to post your review as a comment on the PR.
 
           # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
           # or https://docs.claude.com/en/docs/claude-code/cli-reference for available options
